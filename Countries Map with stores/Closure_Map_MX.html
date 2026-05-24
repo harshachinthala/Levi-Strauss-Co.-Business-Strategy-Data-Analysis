@@ -1,0 +1,2890 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_e2ef91c63c9c8d241aa3593867e6ff2b {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+</head>
+<body>
+    
+    
+    <div style="position: fixed; top: 10px; right: 10px; width: 280px;
+         background-color: white; border: 3px solid #333; z-index: 9999;
+         font-size: 13px; padding: 15px; border-radius: 8px;
+         box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+        <h3 style="margin: 0 0 12px 0; border-bottom: 2px solid #333; padding-bottom: 8px;">
+            🎯 Mexico - Closure Map
+        </h3>
+        
+        <div style="margin: 10px 0;">
+            <i class="fa fa-times" style="color: red; font-size: 16px;"></i>
+            <b style="color: red;">RED MARKERS</b> = Closure Candidates<br>
+            <span style="font-size: 11px; color: #666;">Rating < 4.2 + Multiple Conflicts</span>
+        </div>
+        
+        <div style="margin: 10px 0;">
+            <i class="fa fa-shopping-cart" style="color: blue; font-size: 16px;"></i>
+            <b>COLORED MARKERS</b> = Keep (Anchors)<br>
+            <span style="font-size: 11px; color: #666;">One color per city cluster</span>
+        </div>
+        
+        <hr style="margin: 10px 0;">
+        
+        <p style="margin: 5px 0; font-size: 12px;">
+            <b>🚫 Closure Candidates:</b> 4
+        </p>
+        <p style="margin: 5px 0; font-size: 12px;">
+            <b>📊 Total Conflicts:</b> 8
+        </p>
+        <p style="margin: 5px 0; font-size: 12px;">
+            <b>🏙️ Cities Affected:</b> 3
+        </p>
+        
+        <hr style="margin: 10px 0;">
+        
+        <p style="font-size: 11px; color: #666; margin: 5px 0;">
+            <b>Red lines</b> = Cannibalization conflicts<br>
+            Click markers for store details
+        </p>
+    </div>
+    
+    
+            <div class="folium-map" id="map_e2ef91c63c9c8d241aa3593867e6ff2b" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_e2ef91c63c9c8d241aa3593867e6ff2b = L.map(
+                "map_e2ef91c63c9c8d241aa3593867e6ff2b",
+                {
+                    center: [20.228886146249998, -99.87520032875],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 6,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_fd225eafd45dbd2ea4900356331d212b = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_fd225eafd45dbd2ea4900356331d212b.addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var rectangle_754928e892fe1a684becd908fe21492f = L.rectangle(
+                [[19.4157917, -99.1616515], [19.4598139, -99.12389809999999]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_754928e892fe1a684becd908fe21492f.bindTooltip(
+                `<div>
+                     Cluster: Cuauhtémoc, Mexico City
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_d7946753e052c6fe01c22c062f6da351 = L.rectangle(
+                [[25.657341799999998, -100.3640556], [25.691452, -100.3022317]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_d7946753e052c6fe01c22c062f6da351.bindTooltip(
+                `<div>
+                     Cluster: Monterrey
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_5ecd259a194e41202fd3dffd4e31e7a6 = L.rectangle(
+                [[20.6643996, -103.44239060000001], [20.7207067, -103.3949947]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_5ecd259a194e41202fd3dffd4e31e7a6.bindTooltip(
+                `<div>
+                     Cluster: Zapopan
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_c3d23a11aa8c73c90c489a0ff22bed9e = L.rectangle(
+                [[19.2945316, -99.2011815], [19.3556966, -99.1548152]],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_c3d23a11aa8c73c90c489a0ff22bed9e.bindTooltip(
+                `<div>
+                     Cluster: Coyoacán, Mexico City
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_dc5e56ace1d0a4ada03e8f65cc02e0d0 = L.rectangle(
+                [[19.3504777, -99.1801793], [19.4130073, -99.1452564]],
+                {"bubblingMouseEvents": true, "color": "cadetblue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "cadetblue", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_dc5e56ace1d0a4ada03e8f65cc02e0d0.bindTooltip(
+                `<div>
+                     Cluster: Benito Juarez, Mexico City
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_253e9733e6f189721486473ada8787b9 = L.rectangle(
+                [[19.2723189, -99.18470950000001], [19.3105383, -99.12748649999999]],
+                {"bubblingMouseEvents": true, "color": "darkgreen", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "darkgreen", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_253e9733e6f189721486473ada8787b9.bindTooltip(
+                `<div>
+                     Cluster: Tlalpan, Mexico City
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_b3bcdb6ba82018247a0343ed07f83809 = L.rectangle(
+                [[19.061832799999998, -98.28761250000001], [19.0834528, -98.26672099999999]],
+                {"bubblingMouseEvents": true, "color": "darkblue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "darkblue", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_b3bcdb6ba82018247a0343ed07f83809.bindTooltip(
+                `<div>
+                     Cluster: San Pedro Cholula
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_1bcb732881bf580b0cb3cd17893d817c = L.rectangle(
+                [[21.0777404, -101.6365761], [21.103082, -101.6053919]],
+                {"bubblingMouseEvents": true, "color": "pink", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "pink", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_1bcb732881bf580b0cb3cd17893d817c.bindTooltip(
+                `<div>
+                     Cluster: Leon
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_77be96266db882ed6a4c320680ff83ad = L.rectangle(
+                [[24.7370934, -107.45838830000001], [24.824720000000003, -107.39134229999999]],
+                {"bubblingMouseEvents": true, "color": "lightgreen", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "lightgreen", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_77be96266db882ed6a4c320680ff83ad.bindTooltip(
+                `<div>
+                     Cluster: Culiacán
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_ae02621422860fae58cc0b6553565480 = L.rectangle(
+                [[19.425315899999998, -99.21295830000001], [19.4503817, -99.19220179999999]],
+                {"bubblingMouseEvents": true, "color": "lightblue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "lightblue", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_ae02621422860fae58cc0b6553565480.bindTooltip(
+                `<div>
+                     Cluster: Miguel Hidalgo, Mexico City
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_66dd42a1779c6c0db444601d9ba7bef1 = L.rectangle(
+                [[19.5156106, -99.2379409], [19.548370900000002, -99.1958447]],
+                {"bubblingMouseEvents": true, "color": "beige", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "beige", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_66dd42a1779c6c0db444601d9ba7bef1.bindTooltip(
+                `<div>
+                     Cluster: Tlalnepantla de Baz
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_ce6b007df545e3886a8e7d11f70aa964 = L.rectangle(
+                [[19.084911599999998, -96.1145793], [19.1496524, -96.0925537]],
+                {"bubblingMouseEvents": true, "color": "lightred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "lightred", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_ce6b007df545e3886a8e7d11f70aa964.bindTooltip(
+                `<div>
+                     Cluster: Boca del Río
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_144e12c733a827483aaf955e9969d449 = L.rectangle(
+                [[19.411133799999998, -99.10662640000001], [19.449891700000002, -99.0842764]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_144e12c733a827483aaf955e9969d449.bindTooltip(
+                `<div>
+                     Cluster: Venustiano Carranza, Mexico City
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_01e6223e0a71cca79a27d8fd9d801e3d = L.rectangle(
+                [[20.0277049, -98.8061667], [20.107693, -98.7585221]],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "black", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_01e6223e0a71cca79a27d8fd9d801e3d.bindTooltip(
+                `<div>
+                     Cluster: Pachuca
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_b22abf34ed10ac1cd69d29c7c1d796d7 = L.rectangle(
+                [[20.6196104, -87.0811276], [20.640056700000002, -87.0604638]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_b22abf34ed10ac1cd69d29c7c1d796d7.bindTooltip(
+                `<div>
+                     Cluster: Playa del Carmen
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_e1ade7541961183a5a3b987c5e010601 = L.rectangle(
+                [[19.6211803, -99.13486610000001], [19.641957400000003, -99.08019739999999]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_e1ade7541961183a5a3b987c5e010601.bindTooltip(
+                `<div>
+                     Cluster: Coacalco
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_307cd4230f0c2657f0b68d0bd5275734 = L.rectangle(
+                [[19.5211683, -99.03770370000001], [19.587005, -99.0139073]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_307cd4230f0c2657f0b68d0bd5275734.bindTooltip(
+                `<div>
+                     Cluster: Ecatepec de Morelos
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_6ffdeb59f13b8bd7d7042844f36cc233 = L.rectangle(
+                [[18.9154584, -99.2081618], [18.9359061, -99.18735219999999]],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_6ffdeb59f13b8bd7d7042844f36cc233.bindTooltip(
+                `<div>
+                     Cluster: Cuernavaca
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_5d458cb6048cbabaffe5ff735f7cdb28 = L.rectangle(
+                [[25.641427, -100.38814830000001], [25.6628681, -100.3253208]],
+                {"bubblingMouseEvents": true, "color": "cadetblue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "cadetblue", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            rectangle_5d458cb6048cbabaffe5ff735f7cdb28.bindTooltip(
+                `<div>
+                     Cluster: San Pedro Garza García
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_6ba199b1f2a80fae7474d1d6679cdfb3 = L.marker(
+                [19.4498139, -99.1516515],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_1cc5e61c7a99b2ba17a0f95dad08378c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3d667edabb7354761e6f85f50e21cd69 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5397f9e09926af3bde4792007da6a9c1 = $(`<div id="html_5397f9e09926af3bde4792007da6a9c1" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi's® Buenavista                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Eje 1 Nte. 259, Buenavista, Cuauhtémoc, 06350 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 438<br>                     <b>📍 City:</b> Cuauhtémoc, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_3d667edabb7354761e6f85f50e21cd69.setContent(html_5397f9e09926af3bde4792007da6a9c1);
+            
+        
+
+        marker_6ba199b1f2a80fae7474d1d6679cdfb3.bindPopup(popup_3d667edabb7354761e6f85f50e21cd69)
+        ;
+
+        
+    
+    
+            marker_6ba199b1f2a80fae7474d1d6679cdfb3.bindTooltip(
+                `<div>
+                     Levi's® Buenavista - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6ba199b1f2a80fae7474d1d6679cdfb3.setIcon(icon_1cc5e61c7a99b2ba17a0f95dad08378c);
+            
+    
+            var marker_80f14d2b74a5df6697b48457fbe7667a = L.marker(
+                [19.4257917, -99.1365297],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_9c668ac57b95a06949269133adfc85f4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f59a4000fe33b8727636cd461e3b655b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_eec4219ad58b8fa0f48eaecf2befdf48 = $(`<div id="html_eec4219ad58b8fa0f48eaecf2befdf48" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>José María Izazaga 89-local 2, Centro, Cuauhtémoc, 06090 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.1/5.0<br>                     <b>💬 Reviews:</b> 1575<br>                     <b>📍 City:</b> Cuauhtémoc, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_f59a4000fe33b8727636cd461e3b655b.setContent(html_eec4219ad58b8fa0f48eaecf2befdf48);
+            
+        
+
+        marker_80f14d2b74a5df6697b48457fbe7667a.bindPopup(popup_f59a4000fe33b8727636cd461e3b655b)
+        ;
+
+        
+    
+    
+            marker_80f14d2b74a5df6697b48457fbe7667a.bindTooltip(
+                `<div>
+                     Levi's - 4.1⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_80f14d2b74a5df6697b48457fbe7667a.setIcon(icon_9c668ac57b95a06949269133adfc85f4);
+            
+    
+            var marker_dea963280ea8f321c948804b7e7d5621 = L.marker(
+                [19.4312228, -99.1338981],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_abf3a00c10d8542f4d2f8841971b7566 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0f4958d9b21be5b6bd7c666159a7b6fd = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_10fe98e8a837c2f63eead88f471d8a1c = $(`<div id="html_10fe98e8a837c2f63eead88f471d8a1c" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi's® Centro Histórico                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>20 de Noviembre 3, Centro Histórico de la Cdad. de México, Centro, Cuauhtémoc, 06060 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.7/5.0<br>                     <b>💬 Reviews:</b> 3<br>                     <b>📍 City:</b> Cuauhtémoc, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_0f4958d9b21be5b6bd7c666159a7b6fd.setContent(html_10fe98e8a837c2f63eead88f471d8a1c);
+            
+        
+
+        marker_dea963280ea8f321c948804b7e7d5621.bindPopup(popup_0f4958d9b21be5b6bd7c666159a7b6fd)
+        ;
+
+        
+    
+    
+            marker_dea963280ea8f321c948804b7e7d5621.bindTooltip(
+                `<div>
+                     Levi's® Centro Histórico - 4.7⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_dea963280ea8f321c948804b7e7d5621.setIcon(icon_abf3a00c10d8542f4d2f8841971b7566);
+            
+    
+            var marker_3ce19570cb0aff66bf4136750ae73fee = L.marker(
+                [19.4333205, -99.1347026],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_705355c29a5ddfa807189169d4debbd1 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f4e2c590b9c44f14c21e84e4bb3b1fc7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a7de519c9cda30e0c59d87a87b13622d = $(`<div id="html_a7de519c9cda30e0c59d87a87b13622d" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Av Francisco I. Madero 72, Centro Histórico de la Cdad. de México, Centro, Cuauhtémoc, 06000 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.5/5.0<br>                     <b>💬 Reviews:</b> 2228<br>                     <b>📍 City:</b> Cuauhtémoc, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_f4e2c590b9c44f14c21e84e4bb3b1fc7.setContent(html_a7de519c9cda30e0c59d87a87b13622d);
+            
+        
+
+        marker_3ce19570cb0aff66bf4136750ae73fee.bindPopup(popup_f4e2c590b9c44f14c21e84e4bb3b1fc7)
+        ;
+
+        
+    
+    
+            marker_3ce19570cb0aff66bf4136750ae73fee.bindTooltip(
+                `<div>
+                     Levi's - 4.5⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3ce19570cb0aff66bf4136750ae73fee.setIcon(icon_705355c29a5ddfa807189169d4debbd1);
+            
+    
+            var marker_94c4e20e435808300877e6c65c7477d1 = L.marker(
+                [25.6673418, -100.3122317],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_8991601c0ce2fa876322006917a29cfb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b1b402f77fe59bb9e0353c5781b72e3d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_64a7353bdf5adb0a46e9b3fcdd686689 = $(`<div id="html_64a7353bdf5adb0a46e9b3fcdd686689" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 Levis                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>José María Morelos 455, Barrio Antiguo, Centro, 64000 Monterrey, N.L., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.4/5.0<br>                     <b>💬 Reviews:</b> 130<br>                     <b>📍 City:</b> Monterrey, Nuevo Leon                 </div>             </div>             </div>`)[0];
+                popup_b1b402f77fe59bb9e0353c5781b72e3d.setContent(html_64a7353bdf5adb0a46e9b3fcdd686689);
+            
+        
+
+        marker_94c4e20e435808300877e6c65c7477d1.bindPopup(popup_b1b402f77fe59bb9e0353c5781b72e3d)
+        ;
+
+        
+    
+    
+            marker_94c4e20e435808300877e6c65c7477d1.bindTooltip(
+                `<div>
+                     Levis - 4.4⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_94c4e20e435808300877e6c65c7477d1.setIcon(icon_8991601c0ce2fa876322006917a29cfb);
+            
+    
+            var marker_c2c977e1099e4d7068e1f66ce288cfd2 = L.marker(
+                [25.681452, -100.3540556],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_8df7b28e88bca9263203bbb1c0d53173 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_89fd9ca48387689a8f125ea721a268b3 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e34491379a3faa88a8b0a044f8880248 = $(`<div id="html_e34491379a3faa88a8b0a044f8880248" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Av Insurgentes 2500-Local 119, Vista Hermosa, 64620 Monterrey, N.L., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.7/5.0<br>                     <b>💬 Reviews:</b> 138<br>                     <b>📍 City:</b> Monterrey, Nuevo Leon                 </div>             </div>             </div>`)[0];
+                popup_89fd9ca48387689a8f125ea721a268b3.setContent(html_e34491379a3faa88a8b0a044f8880248);
+            
+        
+
+        marker_c2c977e1099e4d7068e1f66ce288cfd2.bindPopup(popup_89fd9ca48387689a8f125ea721a268b3)
+        ;
+
+        
+    
+    
+            marker_c2c977e1099e4d7068e1f66ce288cfd2.bindTooltip(
+                `<div>
+                     Levi's - 4.7⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c2c977e1099e4d7068e1f66ce288cfd2.setIcon(icon_8df7b28e88bca9263203bbb1c0d53173);
+            
+    
+            var marker_93e8879cbb24e2299a8539766cce4fbd = L.marker(
+                [20.6771942, -103.4323906],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_73661d3dc48b19aa8d5032bb271a269e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1cc9e7de92f746581e222743e9e697a6 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_42165a2dda9be0223fd54f6915e4abf7 = $(`<div id="html_42165a2dda9be0223fd54f6915e4abf7" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Av Rafael Sanzio, Camichines Vallarta, 45030 Zapopan, Jal., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.0/5.0<br>                     <b>💬 Reviews:</b> 218<br>                     <b>📍 City:</b> Zapopan, Jalisco                 </div>             </div>             </div>`)[0];
+                popup_1cc9e7de92f746581e222743e9e697a6.setContent(html_42165a2dda9be0223fd54f6915e4abf7);
+            
+        
+
+        marker_93e8879cbb24e2299a8539766cce4fbd.bindPopup(popup_1cc9e7de92f746581e222743e9e697a6)
+        ;
+
+        
+    
+    
+            marker_93e8879cbb24e2299a8539766cce4fbd.bindTooltip(
+                `<div>
+                     Levi's - 4.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_93e8879cbb24e2299a8539766cce4fbd.setIcon(icon_73661d3dc48b19aa8d5032bb271a269e);
+            
+    
+            var marker_c0d047cfda0c094c25d9616a10dd6527 = L.marker(
+                [20.6743996, -103.4049947],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_88623b5e913f1c39047fc43fd348af0e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1cde6c96db7a44a8f7dc52d34ddca44a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a0b32bd39a3fabc212f890af954cb803 = $(`<div id="html_a0b32bd39a3fabc212f890af954cb803" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 Levi's® Gran Plaza                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Av. Vallarta #3959, Don Bosco Vallarta, Local C16, La Gran Plaza, 45049 Zapopan, Jal., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.4/5.0<br>                     <b>💬 Reviews:</b> 17<br>                     <b>📍 City:</b> Zapopan, Jalisco                 </div>             </div>             </div>`)[0];
+                popup_1cde6c96db7a44a8f7dc52d34ddca44a.setContent(html_a0b32bd39a3fabc212f890af954cb803);
+            
+        
+
+        marker_c0d047cfda0c094c25d9616a10dd6527.bindPopup(popup_1cde6c96db7a44a8f7dc52d34ddca44a)
+        ;
+
+        
+    
+    
+            marker_c0d047cfda0c094c25d9616a10dd6527.bindTooltip(
+                `<div>
+                     Levi's® Gran Plaza - 4.4⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c0d047cfda0c094c25d9616a10dd6527.setIcon(icon_88623b5e913f1c39047fc43fd348af0e);
+            
+    
+            var marker_8a78269acf1871f8c67c48675514d7ed = L.marker(
+                [20.7107067, -103.4123016],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_badfc990567a8264c48481ec2e4b778b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e2dfe8d46ea9ea9a98961aac5b5e18fe = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_396df8a8e318ba48a684ba91416ac645 = $(`<div id="html_396df8a8e318ba48a684ba91416ac645" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>007, Blvd. Puerta de Hierro 4965-007, Puerta de Hierro, 45116 Zapopan, Jal., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.5/5.0<br>                     <b>💬 Reviews:</b> 214<br>                     <b>📍 City:</b> Zapopan, Jalisco                 </div>             </div>             </div>`)[0];
+                popup_e2dfe8d46ea9ea9a98961aac5b5e18fe.setContent(html_396df8a8e318ba48a684ba91416ac645);
+            
+        
+
+        marker_8a78269acf1871f8c67c48675514d7ed.bindPopup(popup_e2dfe8d46ea9ea9a98961aac5b5e18fe)
+        ;
+
+        
+    
+    
+            marker_8a78269acf1871f8c67c48675514d7ed.bindTooltip(
+                `<div>
+                     Levi's - 4.5⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8a78269acf1871f8c67c48675514d7ed.setIcon(icon_badfc990567a8264c48481ec2e4b778b);
+            
+    
+            var marker_b30a658e421dc9fe321454ac34ad218d = L.marker(
+                [20.7099589, -103.4125174],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_1ba1a7764e454ba7758e496e98f5c970 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8fdbe89b9d22b5ca29a8ed629fe470c5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3d33e9da508931b0416759c91498ed7d = $(`<div id="html_3d33e9da508931b0416759c91498ed7d" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 Levi's® PH Corner Guadalajara                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Palacio de Hierro Guadalajara, Av. Patria 2085, Puerta de Hierro, 45116 Zapopan, Jal., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 28<br>                     <b>📍 City:</b> Zapopan, Jalisco                 </div>             </div>             </div>`)[0];
+                popup_8fdbe89b9d22b5ca29a8ed629fe470c5.setContent(html_3d33e9da508931b0416759c91498ed7d);
+            
+        
+
+        marker_b30a658e421dc9fe321454ac34ad218d.bindPopup(popup_8fdbe89b9d22b5ca29a8ed629fe470c5)
+        ;
+
+        
+    
+    
+            marker_b30a658e421dc9fe321454ac34ad218d.bindTooltip(
+                `<div>
+                     Levi's® PH Corner Guadalajara - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b30a658e421dc9fe321454ac34ad218d.setIcon(icon_1ba1a7764e454ba7758e496e98f5c970);
+            
+    
+            var marker_13b377f7fb83f432ccd97cbb4772a012 = L.marker(
+                [19.3071661, -99.1648152],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_d1b1841b0992b0eec1c95a4b8206af99 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "times",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a20f6e0a5d4cbd50fa1bfad340f95dac = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_49e1d581ffba465d1ba567b9c1a86425 = $(`<div id="html_49e1d581ffba465d1ba567b9c1a86425" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: red;                       border-bottom: 2px solid red; padding-bottom: 5px;'>                     🚫 CLOSURE CANDIDATE Outlet Levi's® Gran Sur                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Periférico Sur #5550, Blvd. Gran Sur A2-106, Pedregal de Carrasco, Coyoacán, 04700 CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.5/5.0<br>                     <b>💬 Reviews:</b> 11<br>                     <b>📍 City:</b> Coyoacán, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_a20f6e0a5d4cbd50fa1bfad340f95dac.setContent(html_49e1d581ffba465d1ba567b9c1a86425);
+            
+        
+
+        marker_13b377f7fb83f432ccd97cbb4772a012.bindPopup(popup_a20f6e0a5d4cbd50fa1bfad340f95dac)
+        ;
+
+        
+    
+    
+            marker_13b377f7fb83f432ccd97cbb4772a012.bindTooltip(
+                `<div>
+                     Outlet Levi's® Gran Sur - 3.5⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_13b377f7fb83f432ccd97cbb4772a012.setIcon(icon_d1b1841b0992b0eec1c95a4b8206af99);
+            
+    
+            var marker_a499a9da43ee6e07c2c194bc7fe59c49 = L.marker(
+                [19.3456966, -99.1788793],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_8d9d5aa779619e9f7a4727c7fa9bbcfd = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ea60c5da1746dda668e9c5d3112cee4d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b33c1555e1406a5f43fee2eb744459d9 = $(`<div id="html_b33c1555e1406a5f43fee2eb744459d9" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: orange;                       border-bottom: 2px solid orange; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Av Universidad 1770, Int Local Pa-04, Coyoacán, 04310 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.2/5.0<br>                     <b>💬 Reviews:</b> 166<br>                     <b>📍 City:</b> Coyoacán, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_ea60c5da1746dda668e9c5d3112cee4d.setContent(html_b33c1555e1406a5f43fee2eb744459d9);
+            
+        
+
+        marker_a499a9da43ee6e07c2c194bc7fe59c49.bindPopup(popup_ea60c5da1746dda668e9c5d3112cee4d)
+        ;
+
+        
+    
+    
+            marker_a499a9da43ee6e07c2c194bc7fe59c49.bindTooltip(
+                `<div>
+                     Levi's - 4.2⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a499a9da43ee6e07c2c194bc7fe59c49.setIcon(icon_8d9d5aa779619e9f7a4727c7fa9bbcfd);
+            
+    
+            var marker_fd3cbb564b18a9fdf3cc153453ef2674 = L.marker(
+                [19.3045316, -99.1911815],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_bfa072ec87f323772fc65c85a184719f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4c1f20dd79c1e211ada489b035c17d0b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_849d0975367c42ca3e85f5650cb75fe0 = $(`<div id="html_849d0975367c42ca3e85f5650cb75fe0" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: orange;                       border-bottom: 2px solid orange; padding-bottom: 5px;'>                     🛒 Levi's® PH Corner Perisur                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Palacio de Hierro Perisur, Periferico Sur 4690, Jardines del Pedregal de San Ángel, Coyoacán, 04500 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 28<br>                     <b>📍 City:</b> Coyoacán, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_4c1f20dd79c1e211ada489b035c17d0b.setContent(html_849d0975367c42ca3e85f5650cb75fe0);
+            
+        
+
+        marker_fd3cbb564b18a9fdf3cc153453ef2674.bindPopup(popup_4c1f20dd79c1e211ada489b035c17d0b)
+        ;
+
+        
+    
+    
+            marker_fd3cbb564b18a9fdf3cc153453ef2674.bindTooltip(
+                `<div>
+                     Levi's® PH Corner Perisur - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_fd3cbb564b18a9fdf3cc153453ef2674.setIcon(icon_bfa072ec87f323772fc65c85a184719f);
+            
+    
+            var marker_f5c8912663375568b2a8648cd7d6e0eb = L.marker(
+                [19.4030073, -99.1552564],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_5dd048d1ed8924769fab3ae4f269ba17 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "cadetblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_387f9bea0ce993ab20669b2cdeae5871 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_987b57dac83a6649193a9739248221a0 = $(`<div id="html_987b57dac83a6649193a9739248221a0" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: cadetblue;                       border-bottom: 2px solid cadetblue; padding-bottom: 5px;'>                     🛒 Levi's® Parque Delta                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Av. Cuauhtémoc 462-local 152, Piedad Narvarte, Benito Juárez, 03020 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.4/5.0<br>                     <b>💬 Reviews:</b> 278<br>                     <b>📍 City:</b> Benito Juarez, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_387f9bea0ce993ab20669b2cdeae5871.setContent(html_987b57dac83a6649193a9739248221a0);
+            
+        
+
+        marker_f5c8912663375568b2a8648cd7d6e0eb.bindPopup(popup_387f9bea0ce993ab20669b2cdeae5871)
+        ;
+
+        
+    
+    
+            marker_f5c8912663375568b2a8648cd7d6e0eb.bindTooltip(
+                `<div>
+                     Levi's® Parque Delta - 4.4⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f5c8912663375568b2a8648cd7d6e0eb.setIcon(icon_5dd048d1ed8924769fab3ae4f269ba17);
+            
+    
+            var marker_7de4d11ad2cb2baaa43ae39185618f71 = L.marker(
+                [19.3696381, -99.1657508],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_4e923c441683a21dd024935921b1a1f4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "cadetblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_da48a2ba53d787213aec0d7f493e26bf = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c70a93058a7dfcbf94f3bef1e6bc6b36 = $(`<div id="html_c70a93058a7dfcbf94f3bef1e6bc6b36" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: cadetblue;                       border-bottom: 2px solid cadetblue; padding-bottom: 5px;'>                     🛒 Levi's Outlet Universidad                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Av. Universidad 913, Col del Valle Centro, Benito Juárez, 03104 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 39<br>                     <b>📍 City:</b> Benito Juarez, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_da48a2ba53d787213aec0d7f493e26bf.setContent(html_c70a93058a7dfcbf94f3bef1e6bc6b36);
+            
+        
+
+        marker_7de4d11ad2cb2baaa43ae39185618f71.bindPopup(popup_da48a2ba53d787213aec0d7f493e26bf)
+        ;
+
+        
+    
+    
+            marker_7de4d11ad2cb2baaa43ae39185618f71.bindTooltip(
+                `<div>
+                     Levi's Outlet Universidad - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7de4d11ad2cb2baaa43ae39185618f71.setIcon(icon_4e923c441683a21dd024935921b1a1f4);
+            
+    
+            var marker_fc8a025701019c4c5392196a0bb206d3 = L.marker(
+                [19.3604777, -99.1701793],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_3e9b38b9142103d01aa3045f6312465a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "times",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_292905f21da66a529d2a59c1bee46c24 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_bf729da896cc51814f4649f869017abf = $(`<div id="html_bf729da896cc51814f4649f869017abf" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: red;                       border-bottom: 2px solid red; padding-bottom: 5px;'>                     🚫 CLOSURE CANDIDATE Levi's® PH Corner Coyoacán                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Palacio de Hierro Mitikah, Av. Coyoacán 2000, Xoco, Benito Juárez, 03330 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 1.0/5.0<br>                     <b>💬 Reviews:</b> 1<br>                     <b>📍 City:</b> Benito Juarez, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_292905f21da66a529d2a59c1bee46c24.setContent(html_bf729da896cc51814f4649f869017abf);
+            
+        
+
+        marker_fc8a025701019c4c5392196a0bb206d3.bindPopup(popup_292905f21da66a529d2a59c1bee46c24)
+        ;
+
+        
+    
+    
+            marker_fc8a025701019c4c5392196a0bb206d3.bindTooltip(
+                `<div>
+                     Levi's® PH Corner Coyoacán - 1.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_fc8a025701019c4c5392196a0bb206d3.setIcon(icon_3e9b38b9142103d01aa3045f6312465a);
+            
+    
+            var marker_96c59b8929f87d0d1ac406cd867ab058 = L.marker(
+                [19.3005383, -99.1374865],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_122a805e4b8935031df2e0baf3aedf96 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkgreen",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d509483b5c613f2e7ff988a6d3df02d4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_443aacb1e30a8d2996db091002751c9b = $(`<div id="html_443aacb1e30a8d2996db091002751c9b" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: darkgreen;                       border-bottom: 2px solid darkgreen; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Calz Acoxpa 550, Coapa, Prados Coapa 2da Secc, Tlalpan, 14350 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 84<br>                     <b>📍 City:</b> Tlalpan, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_d509483b5c613f2e7ff988a6d3df02d4.setContent(html_443aacb1e30a8d2996db091002751c9b);
+            
+        
+
+        marker_96c59b8929f87d0d1ac406cd867ab058.bindPopup(popup_d509483b5c613f2e7ff988a6d3df02d4)
+        ;
+
+        
+    
+    
+            marker_96c59b8929f87d0d1ac406cd867ab058.bindTooltip(
+                `<div>
+                     Levi's - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_96c59b8929f87d0d1ac406cd867ab058.setIcon(icon_122a805e4b8935031df2e0baf3aedf96);
+            
+    
+            var marker_e5769076ee3781f66b13bf1804849dbc = L.marker(
+                [19.2823189, -99.1747095],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_76db220407e0b059f1255b2f4ad3c71d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkgreen",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ebf499c6ff1d6332019224c2d4a0867a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d6cc753205763f6cea59c131ed348ed9 = $(`<div id="html_d6cc753205763f6cea59c131ed348ed9" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: darkgreen;                       border-bottom: 2px solid darkgreen; padding-bottom: 5px;'>                     🛒 Outlet Levi's® Factory Santa Úrsula                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Av. Insurgentes Sur 4221, Sta Úrsula Xitla, Tlalpan, 14420 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.1/5.0<br>                     <b>💬 Reviews:</b> 28<br>                     <b>📍 City:</b> Tlalpan, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_ebf499c6ff1d6332019224c2d4a0867a.setContent(html_d6cc753205763f6cea59c131ed348ed9);
+            
+        
+
+        marker_e5769076ee3781f66b13bf1804849dbc.bindPopup(popup_ebf499c6ff1d6332019224c2d4a0867a)
+        ;
+
+        
+    
+    
+            marker_e5769076ee3781f66b13bf1804849dbc.bindTooltip(
+                `<div>
+                     Outlet Levi's® Factory Santa Ú - 4.1⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e5769076ee3781f66b13bf1804849dbc.setIcon(icon_76db220407e0b059f1255b2f4ad3c71d);
+            
+    
+            var marker_25d29cbd367794e38f292c2f4977956f = L.marker(
+                [19.2980525, -99.1376166],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_8ad2275c5e939afad28ba9ae497b9452 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkgreen",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5c250b032205491dccf97b3438233a2b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ed50e2754075e6f7ccdadf674d531073 = $(`<div id="html_ed50e2754075e6f7ccdadf674d531073" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: darkgreen;                       border-bottom: 2px solid darkgreen; padding-bottom: 5px;'>                     🛒 Levi's® PH Corner Acoxpa                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Palacio de Hierro, Calz Acoxpa 430, Coapa, Vergel Sur, Tlalpan, 14340 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 28<br>                     <b>📍 City:</b> Tlalpan, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_5c250b032205491dccf97b3438233a2b.setContent(html_ed50e2754075e6f7ccdadf674d531073);
+            
+        
+
+        marker_25d29cbd367794e38f292c2f4977956f.bindPopup(popup_5c250b032205491dccf97b3438233a2b)
+        ;
+
+        
+    
+    
+            marker_25d29cbd367794e38f292c2f4977956f.bindTooltip(
+                `<div>
+                     Levi's® PH Corner Acoxpa - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_25d29cbd367794e38f292c2f4977956f.setIcon(icon_8ad2275c5e939afad28ba9ae497b9452);
+            
+    
+            var marker_5530135d889bdc8e4b945ac0ec2e8b8b = L.marker(
+                [19.0718328, -98.2776125],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_211e72abcdb0282343dcf8323d5a554d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c1ba0068d280bd4ee7ce1503c24c9e44 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c9d3b41e47af5df915eea4a033be6140 = $(`<div id="html_c9d3b41e47af5df915eea4a033be6140" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: darkblue;                       border-bottom: 2px solid darkblue; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Calle Alejandra 512, Junta Aux. Santiago Momoxpan Local No RO-36, 72774 Pue., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.5/5.0<br>                     <b>💬 Reviews:</b> 2<br>                     <b>📍 City:</b> San Pedro Cholula, Puebla                 </div>             </div>             </div>`)[0];
+                popup_c1ba0068d280bd4ee7ce1503c24c9e44.setContent(html_c9d3b41e47af5df915eea4a033be6140);
+            
+        
+
+        marker_5530135d889bdc8e4b945ac0ec2e8b8b.bindPopup(popup_c1ba0068d280bd4ee7ce1503c24c9e44)
+        ;
+
+        
+    
+    
+            marker_5530135d889bdc8e4b945ac0ec2e8b8b.bindTooltip(
+                `<div>
+                     Levi's - 4.5⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5530135d889bdc8e4b945ac0ec2e8b8b.setIcon(icon_211e72abcdb0282343dcf8323d5a554d);
+            
+    
+            var marker_b73c314fcc415a5d1c64060336e80564 = L.marker(
+                [19.0734528, -98.276721],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_b779e46e110a2f051c88ac4a71f30f9c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1ac1e07639585d58df7dc96add73382f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7cfa45c6433c228e3fb1060e41e3fe05 = $(`<div id="html_7cfa45c6433c228e3fb1060e41e3fe05" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: darkblue;                       border-bottom: 2px solid darkblue; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>71775, Santiago Momoxpan, 72775 San Pedro Cholula, Pue., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.7/5.0<br>                     <b>💬 Reviews:</b> 16<br>                     <b>📍 City:</b> San Pedro Cholula, Puebla                 </div>             </div>             </div>`)[0];
+                popup_1ac1e07639585d58df7dc96add73382f.setContent(html_7cfa45c6433c228e3fb1060e41e3fe05);
+            
+        
+
+        marker_b73c314fcc415a5d1c64060336e80564.bindPopup(popup_1ac1e07639585d58df7dc96add73382f)
+        ;
+
+        
+    
+    
+            marker_b73c314fcc415a5d1c64060336e80564.bindTooltip(
+                `<div>
+                     Levi's - 3.7⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b73c314fcc415a5d1c64060336e80564.setIcon(icon_b779e46e110a2f051c88ac4a71f30f9c);
+            
+    
+            var marker_1fa3e53790c65be009eba4f730a73e69 = L.marker(
+                [19.0722964, -98.2775101],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_1f75335100c889e4f9fc5a9ed0824457 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fee395154cc5314d4e1dc329cd845cd7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_10e6315584fa85ac7bfaf622792ecffb = $(`<div id="html_10e6315584fa85ac7bfaf622792ecffb" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: darkblue;                       border-bottom: 2px solid darkblue; padding-bottom: 5px;'>                     🛒 Dockers Explanada                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Santiago Momoxpan, Alvaro Obregón, 72774 San Pedro Cholula, Puebla, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 6<br>                     <b>📍 City:</b> San Pedro Cholula, Puebla                 </div>             </div>             </div>`)[0];
+                popup_fee395154cc5314d4e1dc329cd845cd7.setContent(html_10e6315584fa85ac7bfaf622792ecffb);
+            
+        
+
+        marker_1fa3e53790c65be009eba4f730a73e69.bindPopup(popup_fee395154cc5314d4e1dc329cd845cd7)
+        ;
+
+        
+    
+    
+            marker_1fa3e53790c65be009eba4f730a73e69.bindTooltip(
+                `<div>
+                     Dockers Explanada - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1fa3e53790c65be009eba4f730a73e69.setIcon(icon_1f75335100c889e4f9fc5a9ed0824457);
+            
+    
+            var marker_540d9671b089c381cfc22f89bb929e8f = L.marker(
+                [21.093082, -101.6265761],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_fc0bafa367be55a5bfc5de8bde0f2231 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "pink",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f6b529fab196a402d8e8143ef494c9a6 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9aadc045bcf47a2260fc0a1b9e3d3d23 = $(`<div id="html_9aadc045bcf47a2260fc0a1b9e3d3d23" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: pink;                       border-bottom: 2px solid pink; padding-bottom: 5px;'>                     🛒 Levi’s                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Blvd. Aeropuerto 104, Cerrito de Jerez Nte., 37545 León de los Aldama, Gto., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 5.0/5.0<br>                     <b>💬 Reviews:</b> 3<br>                     <b>📍 City:</b> Leon, Guanajuato                 </div>             </div>             </div>`)[0];
+                popup_f6b529fab196a402d8e8143ef494c9a6.setContent(html_9aadc045bcf47a2260fc0a1b9e3d3d23);
+            
+        
+
+        marker_540d9671b089c381cfc22f89bb929e8f.bindPopup(popup_f6b529fab196a402d8e8143ef494c9a6)
+        ;
+
+        
+    
+    
+            marker_540d9671b089c381cfc22f89bb929e8f.bindTooltip(
+                `<div>
+                     Levi’s - 5.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_540d9671b089c381cfc22f89bb929e8f.setIcon(icon_fc0bafa367be55a5bfc5de8bde0f2231);
+            
+    
+            var marker_ff5689f9e40a678385b672315f8291a2 = L.marker(
+                [21.0877404, -101.6153919],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_9f1434aa673cfdd2b9d43effc3000278 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "pink",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8148d66b644e298e4f4a720f998e4b50 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e62a75f09c3258cc4f5266cf45e2668a = $(`<div id="html_e62a75f09c3258cc4f5266cf45e2668a" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: pink;                       border-bottom: 2px solid pink; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Blvd. Aeropuerto 841, Fracciones de Sangre de Cristo, 37295 León de los Aldama, Gto., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.4/5.0<br>                     <b>💬 Reviews:</b> 164<br>                     <b>📍 City:</b> Leon, Guanajuato                 </div>             </div>             </div>`)[0];
+                popup_8148d66b644e298e4f4a720f998e4b50.setContent(html_e62a75f09c3258cc4f5266cf45e2668a);
+            
+        
+
+        marker_ff5689f9e40a678385b672315f8291a2.bindPopup(popup_8148d66b644e298e4f4a720f998e4b50)
+        ;
+
+        
+    
+    
+            marker_ff5689f9e40a678385b672315f8291a2.bindTooltip(
+                `<div>
+                     Levi's - 4.4⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ff5689f9e40a678385b672315f8291a2.setIcon(icon_9f1434aa673cfdd2b9d43effc3000278);
+            
+    
+            var marker_ea5e3ddc2250a95db9c3f45623d123e8 = L.marker(
+                [24.7470934, -107.4483883],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_ee23e77bbdbf8e155fe8a7d045e116ae = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgreen",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f9407ce19a62bb3f6563f6526a800b5d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_971a5285bd5ff6b823f43440c4d0794b = $(`<div id="html_971a5285bd5ff6b823f43440c4d0794b" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: lightgreen;                       border-bottom: 2px solid lightgreen; padding-bottom: 5px;'>                     🛒 Outlet Levi's® Culiacán                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Unnamed Road, Sin., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 9<br>                     <b>📍 City:</b> Culiacán, Sinaloa                 </div>             </div>             </div>`)[0];
+                popup_f9407ce19a62bb3f6563f6526a800b5d.setContent(html_971a5285bd5ff6b823f43440c4d0794b);
+            
+        
+
+        marker_ea5e3ddc2250a95db9c3f45623d123e8.bindPopup(popup_f9407ce19a62bb3f6563f6526a800b5d)
+        ;
+
+        
+    
+    
+            marker_ea5e3ddc2250a95db9c3f45623d123e8.bindTooltip(
+                `<div>
+                     Outlet Levi's® Culiacán - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ea5e3ddc2250a95db9c3f45623d123e8.setIcon(icon_ee23e77bbdbf8e155fe8a7d045e116ae);
+            
+    
+            var marker_0cc9eebc1c8106084f97bd9fae00d50e = L.marker(
+                [24.7959025, -107.4282664],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_0b1b538dcb41b68fe2cfb3285a978ba3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgreen",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_635783883d9a3d77bb4bc87a89035468 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1277dd43f1d6c9e644745442f6e01abf = $(`<div id="html_1277dd43f1d6c9e644745442f6e01abf" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: lightgreen;                       border-bottom: 2px solid lightgreen; padding-bottom: 5px;'>                     🛒 Levi's® La Ceiba                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>PLAZA LA CEIBA. BLVD. BLVD. PEDRO INFANTE LOCAL PB-R05 PLANTA BAJA #2550, Los Álamos, 80100 Culiacán Rosales, Sin., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.0/5.0<br>                     <b>💬 Reviews:</b> 1<br>                     <b>📍 City:</b> Culiacán, Sinaloa                 </div>             </div>             </div>`)[0];
+                popup_635783883d9a3d77bb4bc87a89035468.setContent(html_1277dd43f1d6c9e644745442f6e01abf);
+            
+        
+
+        marker_0cc9eebc1c8106084f97bd9fae00d50e.bindPopup(popup_635783883d9a3d77bb4bc87a89035468)
+        ;
+
+        
+    
+    
+            marker_0cc9eebc1c8106084f97bd9fae00d50e.bindTooltip(
+                `<div>
+                     Levi's® La Ceiba - 4.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0cc9eebc1c8106084f97bd9fae00d50e.setIcon(icon_0b1b538dcb41b68fe2cfb3285a978ba3);
+            
+    
+            var marker_b85964915a178ffc7f86564f36a1d737 = L.marker(
+                [24.81472, -107.4013423],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_e192ed9f7255205532eae2c15449c154 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgreen",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5c2c10b0f35b16c3ce59607fd3191253 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_204adbd1c6102dc681a87fa6ca7e0b3c = $(`<div id="html_204adbd1c6102dc681a87fa6ca7e0b3c" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: lightgreen;                       border-bottom: 2px solid lightgreen; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Plaza Forum Culiacán, Blvr. José Diego Valadez, Diego Valadés Ríos 1676-Local PB-22, Desarrollo Urbano Tres Ríos, 80027 Culiacán Rosales, Sin., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 42<br>                     <b>📍 City:</b> Culiacán, Sinaloa                 </div>             </div>             </div>`)[0];
+                popup_5c2c10b0f35b16c3ce59607fd3191253.setContent(html_204adbd1c6102dc681a87fa6ca7e0b3c);
+            
+        
+
+        marker_b85964915a178ffc7f86564f36a1d737.bindPopup(popup_5c2c10b0f35b16c3ce59607fd3191253)
+        ;
+
+        
+    
+    
+            marker_b85964915a178ffc7f86564f36a1d737.bindTooltip(
+                `<div>
+                     Levi's - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b85964915a178ffc7f86564f36a1d737.setIcon(icon_e192ed9f7255205532eae2c15449c154);
+            
+    
+            var marker_6682e9533c930ea7120649e5aa457104 = L.marker(
+                [19.4403817, -99.2025161],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_59854e363b59020534e0c323a24c760d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "times",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7fc8ff321d947af0ab3081755019af54 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_517d7d88ef2c927057f7f5542b3125e6 = $(`<div id="html_517d7d88ef2c927057f7f5542b3125e6" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: red;                       border-bottom: 2px solid red; padding-bottom: 5px;'>                     🚫 CLOSURE CANDIDATE Levis Mexico                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>C.P, Torre Norte, Blvd. Miguel de Cervantes Saavedra No. 301-piso 7, Amp Granada, Miguel Hidalgo, 11529 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.1/5.0<br>                     <b>💬 Reviews:</b> 20<br>                     <b>📍 City:</b> Miguel Hidalgo, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_7fc8ff321d947af0ab3081755019af54.setContent(html_517d7d88ef2c927057f7f5542b3125e6);
+            
+        
+
+        marker_6682e9533c930ea7120649e5aa457104.bindPopup(popup_7fc8ff321d947af0ab3081755019af54)
+        ;
+
+        
+    
+    
+            marker_6682e9533c930ea7120649e5aa457104.bindTooltip(
+                `<div>
+                     Levis Mexico - 3.1⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6682e9533c930ea7120649e5aa457104.setIcon(icon_59854e363b59020534e0c323a24c760d);
+            
+    
+            var marker_8befc21ce0b1aeee6443c35ed4f51645 = L.marker(
+                [19.4397061, -99.2022018],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_2d25e0969e51dbe470aca5e966ae1a84 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "times",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4e2bded43e6bf52ced2e38658543cd91 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_60c5211695efca3c50c57a464946062c = $(`<div id="html_60c5211695efca3c50c57a464946062c" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: red;                       border-bottom: 2px solid red; padding-bottom: 5px;'>                     🚫 CLOSURE CANDIDATE Levi's® Antara                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Plaza Antara, Av. Ejército Nacional Mexicano LOCAL 843-B PISO 1, Amp Granada, Miguel Hidalgo, 11529 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.9/5.0<br>                     <b>💬 Reviews:</b> 7<br>                     <b>📍 City:</b> Miguel Hidalgo, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_4e2bded43e6bf52ced2e38658543cd91.setContent(html_60c5211695efca3c50c57a464946062c);
+            
+        
+
+        marker_8befc21ce0b1aeee6443c35ed4f51645.bindPopup(popup_4e2bded43e6bf52ced2e38658543cd91)
+        ;
+
+        
+    
+    
+            marker_8befc21ce0b1aeee6443c35ed4f51645.bindTooltip(
+                `<div>
+                     Levi's® Antara - 3.9⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8befc21ce0b1aeee6443c35ed4f51645.setIcon(icon_2d25e0969e51dbe470aca5e966ae1a84);
+            
+    
+            var marker_cee634a85d8f66ac8933158da0627800 = L.marker(
+                [19.4353159, -99.2029583],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_e7f62d67a410e5748bdf768609ef1ad7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7eb8e92a8e83d76516ebf9e2d532bd73 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1a4febf3ac8b292a1842f965fe1849ac = $(`<div id="html_1a4febf3ac8b292a1842f965fe1849ac" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: lightblue;                       border-bottom: 2px solid lightblue; padding-bottom: 5px;'>                     🛒 Levi's® PH Corner Polanco                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Sección Palmas, Moliere, Palacio de Hierro 222, Polanco, Polanco I Secc, Miguel Hidalgo, 11570 CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 28<br>                     <b>📍 City:</b> Miguel Hidalgo, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_7eb8e92a8e83d76516ebf9e2d532bd73.setContent(html_1a4febf3ac8b292a1842f965fe1849ac);
+            
+        
+
+        marker_cee634a85d8f66ac8933158da0627800.bindPopup(popup_7eb8e92a8e83d76516ebf9e2d532bd73)
+        ;
+
+        
+    
+    
+            marker_cee634a85d8f66ac8933158da0627800.bindTooltip(
+                `<div>
+                     Levi's® PH Corner Polanco - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_cee634a85d8f66ac8933158da0627800.setIcon(icon_e7f62d67a410e5748bdf768609ef1ad7);
+            
+    
+            var marker_6fa4f0722e7d9be4feb011e24567db82 = L.marker(
+                [19.5383709, -99.2058447],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_84ad9c8c7c04c851cfb150a4ffc06758 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "beige",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c27ca512c4a2079bef8730ab33e0058c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_95b2a2a9dc8bd299fa87f93acb18f92f = $(`<div id="html_95b2a2a9dc8bd299fa87f93acb18f92f" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: beige;                       border-bottom: 2px solid beige; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Av Sor Juana Inés de La Cruz 280 Col, San Lorenzo, 54033 Tlalnepantla, Méx., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.2/5.0<br>                     <b>💬 Reviews:</b> 30<br>                     <b>📍 City:</b> Tlalnepantla de Baz, State of Mexico                 </div>             </div>             </div>`)[0];
+                popup_c27ca512c4a2079bef8730ab33e0058c.setContent(html_95b2a2a9dc8bd299fa87f93acb18f92f);
+            
+        
+
+        marker_6fa4f0722e7d9be4feb011e24567db82.bindPopup(popup_c27ca512c4a2079bef8730ab33e0058c)
+        ;
+
+        
+    
+    
+            marker_6fa4f0722e7d9be4feb011e24567db82.bindTooltip(
+                `<div>
+                     Levi's - 4.2⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6fa4f0722e7d9be4feb011e24567db82.setIcon(icon_84ad9c8c7c04c851cfb150a4ffc06758);
+            
+    
+            var marker_079fc8ac0788685855bc6c8b9ec6bfee = L.marker(
+                [19.5256106, -99.2279409],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_e860f9d259ba5003f322a35a6c64a637 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "beige",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_35e7630720d1193daa77733f107d4d33 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_cd99bc6a2ecfa12e81517d3ba2ec50a0 = $(`<div id="html_cd99bc6a2ecfa12e81517d3ba2ec50a0" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: beige;                       border-bottom: 2px solid beige; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Perif. Blvd. Manuel Ávila Camacho 1007, Hab Jardines de Santa Monica, 54050 Tlalnepantla, Méx., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.5/5.0<br>                     <b>💬 Reviews:</b> 273<br>                     <b>📍 City:</b> Tlalnepantla de Baz, State of Mexico                 </div>             </div>             </div>`)[0];
+                popup_35e7630720d1193daa77733f107d4d33.setContent(html_cd99bc6a2ecfa12e81517d3ba2ec50a0);
+            
+        
+
+        marker_079fc8ac0788685855bc6c8b9ec6bfee.bindPopup(popup_35e7630720d1193daa77733f107d4d33)
+        ;
+
+        
+    
+    
+            marker_079fc8ac0788685855bc6c8b9ec6bfee.bindTooltip(
+                `<div>
+                     Levi's - 4.5⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_079fc8ac0788685855bc6c8b9ec6bfee.setIcon(icon_e860f9d259ba5003f322a35a6c64a637);
+            
+    
+            var marker_df69ca83b2c1865f19c59a4004cd8794 = L.marker(
+                [19.0949116, -96.1045793],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_aab1b4f70d556fed81514c6ba1935d43 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightred",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a02c601022bf9b878f71eee34058d1c2 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f2674b074001f2ce839d03a3903b5095 = $(`<div id="html_f2674b074001f2ce839d03a3903b5095" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: lightred;                       border-bottom: 2px solid lightred; padding-bottom: 5px;'>                     🛒 Levi's® El Dorado                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Carretera Federal Paso del Todo, Antón Lizardo 4405-Local A16, Centro Comercial, El Dorado, 94290 Boca del Río, Ver., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 5.0/5.0<br>                     <b>💬 Reviews:</b> 1<br>                     <b>📍 City:</b> Boca del Río, Veracruz                 </div>             </div>             </div>`)[0];
+                popup_a02c601022bf9b878f71eee34058d1c2.setContent(html_f2674b074001f2ce839d03a3903b5095);
+            
+        
+
+        marker_df69ca83b2c1865f19c59a4004cd8794.bindPopup(popup_a02c601022bf9b878f71eee34058d1c2)
+        ;
+
+        
+    
+    
+            marker_df69ca83b2c1865f19c59a4004cd8794.bindTooltip(
+                `<div>
+                     Levi's® El Dorado - 5.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_df69ca83b2c1865f19c59a4004cd8794.setIcon(icon_aab1b4f70d556fed81514c6ba1935d43);
+            
+    
+            var marker_acfcfa045a986127f0b4edcdcf51db65 = L.marker(
+                [19.1396524, -96.1025537],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_5e55b21b55f3eb5657dd42c3db8d9e79 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightred",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c4c22ec6ee060fe45062db369c5195a6 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_78d623e09bb5644098c6cfc9a81b01a2 = $(`<div id="html_78d623e09bb5644098c6cfc9a81b01a2" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: lightred;                       border-bottom: 2px solid lightred; padding-bottom: 5px;'>                     🛒 Levi's® Andamar                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Bv. Adolfo Ruíz Cortines 4300, Palacio de Hierro, 94470 Boca del Río, Ver., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 28<br>                     <b>📍 City:</b> Boca del Río, Veracruz                 </div>             </div>             </div>`)[0];
+                popup_c4c22ec6ee060fe45062db369c5195a6.setContent(html_78d623e09bb5644098c6cfc9a81b01a2);
+            
+        
+
+        marker_acfcfa045a986127f0b4edcdcf51db65.bindPopup(popup_c4c22ec6ee060fe45062db369c5195a6)
+        ;
+
+        
+    
+    
+            marker_acfcfa045a986127f0b4edcdcf51db65.bindTooltip(
+                `<div>
+                     Levi's® Andamar - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_acfcfa045a986127f0b4edcdcf51db65.setIcon(icon_5e55b21b55f3eb5657dd42c3db8d9e79);
+            
+    
+            var marker_cce37caf42b3eab6df60604c7bbb60e6 = L.marker(
+                [19.4211338, -99.0966264],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_f56f9fd6fcd46c82b3bf50ff08ac4733 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "gray",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9ad5db8fcdcbfafea8cd3bc7cdb9f2f3 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2ab34c313d940d6db2f820d904458751 = $(`<div id="html_2ab34c313d940d6db2f820d904458751" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: gray;                       border-bottom: 2px solid gray; padding-bottom: 5px;'>                     🛒 Outlet Levi's® Aeropuerto                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Calz. Ignacio Zaragoza 270-PISO 1 Local 3, Santa Cruz Aviación, Venustiano Carranza, 15540 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.0/5.0<br>                     <b>💬 Reviews:</b> 21<br>                     <b>📍 City:</b> Venustiano Carranza, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_9ad5db8fcdcbfafea8cd3bc7cdb9f2f3.setContent(html_2ab34c313d940d6db2f820d904458751);
+            
+        
+
+        marker_cce37caf42b3eab6df60604c7bbb60e6.bindPopup(popup_9ad5db8fcdcbfafea8cd3bc7cdb9f2f3)
+        ;
+
+        
+    
+    
+            marker_cce37caf42b3eab6df60604c7bbb60e6.bindTooltip(
+                `<div>
+                     Outlet Levi's® Aeropuerto - 4.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_cce37caf42b3eab6df60604c7bbb60e6.setIcon(icon_f56f9fd6fcd46c82b3bf50ff08ac4733);
+            
+    
+            var marker_efae77ac82a56919808c2f567b6f5d8b = L.marker(
+                [19.4398917, -99.0942764],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_2323229e12d3aedf007a231109f25444 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "gray",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_456f77d2863e257dec817c81ae47fa9b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a2cd9068b180ee6a8ec5805f5b073b63 = $(`<div id="html_a2cd9068b180ee6a8ec5805f5b073b63" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: gray;                       border-bottom: 2px solid gray; padding-bottom: 5px;'>                     🛒 Levi's® Oceanía                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Encuentro Oceanía, Av. del Peñón 355-Local MB-11, Moctezuma 2da Secc, Venustiano Carranza, 15530 Ciudad de México, CDMX, Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.4/5.0<br>                     <b>💬 Reviews:</b> 18<br>                     <b>📍 City:</b> Venustiano Carranza, Mexico City, Mexico City                 </div>             </div>             </div>`)[0];
+                popup_456f77d2863e257dec817c81ae47fa9b.setContent(html_a2cd9068b180ee6a8ec5805f5b073b63);
+            
+        
+
+        marker_efae77ac82a56919808c2f567b6f5d8b.bindPopup(popup_456f77d2863e257dec817c81ae47fa9b)
+        ;
+
+        
+    
+    
+            marker_efae77ac82a56919808c2f567b6f5d8b.bindTooltip(
+                `<div>
+                     Levi's® Oceanía - 4.4⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_efae77ac82a56919808c2f567b6f5d8b.setIcon(icon_2323229e12d3aedf007a231109f25444);
+            
+    
+            var marker_90e9420ad0ab86d05da2d1c23b15fc3c = L.marker(
+                [20.097693, -98.7685221],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_7a6bca0da722b10cf10b8925bb7cd920 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6cb7fd8eeffcf280c010a0c5cdb7d3a7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_59973a0c416174a5a42db46ab5f56143 = $(`<div id="html_59973a0c416174a5a42db46ab5f56143" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: black;                       border-bottom: 2px solid black; padding-bottom: 5px;'>                     🛒 Levi's® Galerías Pachuca                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Camino Real de La Plata 100, Zona Plateada, 42084 Pachuca de Soto, Hgo., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.0/5.0<br>                     <b>💬 Reviews:</b> 57<br>                     <b>📍 City:</b> Pachuca, Hidalgo                 </div>             </div>             </div>`)[0];
+                popup_6cb7fd8eeffcf280c010a0c5cdb7d3a7.setContent(html_59973a0c416174a5a42db46ab5f56143);
+            
+        
+
+        marker_90e9420ad0ab86d05da2d1c23b15fc3c.bindPopup(popup_6cb7fd8eeffcf280c010a0c5cdb7d3a7)
+        ;
+
+        
+    
+    
+            marker_90e9420ad0ab86d05da2d1c23b15fc3c.bindTooltip(
+                `<div>
+                     Levi's® Galerías Pachuca - 4.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_90e9420ad0ab86d05da2d1c23b15fc3c.setIcon(icon_7a6bca0da722b10cf10b8925bb7cd920);
+            
+    
+            var marker_bac6fe7625a7220760f6566dd73398d6 = L.marker(
+                [20.0377049, -98.7961667],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_2d183ff3d4312ecf757488ac9c7e49b1 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_dfc9e7cbe6156020e993940779bf261c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_dee51deb8809c03a042785ff7f7c03bd = $(`<div id="html_dee51deb8809c03a042785ff7f7c03bd" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: black;                       border-bottom: 2px solid black; padding-bottom: 5px;'>                     🛒 Outlet Levi's® Explanada Pachuca                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Autopista México - Pachuca 6201 Fracciones De Las Parcelas 52 83 94 Y 95, San Antonio el Desmonte, 42083 Pachuca de Soto, Hgo., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.5/5.0<br>                     <b>💬 Reviews:</b> 12863<br>                     <b>📍 City:</b> Pachuca, Hidalgo                 </div>             </div>             </div>`)[0];
+                popup_dfc9e7cbe6156020e993940779bf261c.setContent(html_dee51deb8809c03a042785ff7f7c03bd);
+            
+        
+
+        marker_bac6fe7625a7220760f6566dd73398d6.bindPopup(popup_dfc9e7cbe6156020e993940779bf261c)
+        ;
+
+        
+    
+    
+            marker_bac6fe7625a7220760f6566dd73398d6.bindTooltip(
+                `<div>
+                     Outlet Levi's® Explanada Pachu - 4.5⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_bac6fe7625a7220760f6566dd73398d6.setIcon(icon_2d183ff3d4312ecf757488ac9c7e49b1);
+            
+    
+            var marker_1438f2073a30859176c3efe8f8068195 = L.marker(
+                [20.6296104, -87.0704638],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_19aebaf21994bac14f68a6f87da61f90 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_835013eb2d14ff7060fd14c0e01a1b6c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c0708dbfdeefa841e4993b9d5c7e1711 = $(`<div id="html_c0708dbfdeefa841e4993b9d5c7e1711" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Quinta Avenida 2, Centro, 77710 Playa del Carmen, Q.R., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.1/5.0<br>                     <b>💬 Reviews:</b> 38<br>                     <b>📍 City:</b> Playa del Carmen, Quintana Roo                 </div>             </div>             </div>`)[0];
+                popup_835013eb2d14ff7060fd14c0e01a1b6c.setContent(html_c0708dbfdeefa841e4993b9d5c7e1711);
+            
+        
+
+        marker_1438f2073a30859176c3efe8f8068195.bindPopup(popup_835013eb2d14ff7060fd14c0e01a1b6c)
+        ;
+
+        
+    
+    
+            marker_1438f2073a30859176c3efe8f8068195.bindTooltip(
+                `<div>
+                     Levi's - 4.1⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1438f2073a30859176c3efe8f8068195.setIcon(icon_19aebaf21994bac14f68a6f87da61f90);
+            
+    
+            var marker_c4f8a579c0278b92c9c7500d5aeb2323 = L.marker(
+                [20.6300567, -87.0711276],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_06ed6dc6625a3a16c70ec980262fc1f8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9ddedc98cbbd0dcd076639f441d3554d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_456e147d914d52125a79a493d421120e = $(`<div id="html_456e147d914d52125a79a493d421120e" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi's® Playa del Carmen                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>ESQUINA CON, PLAZA QUINTA ALEGRIA PISO 1 LOCAL C28 CENTRO, AV. CONSTITUYENTES Y CALLE 16 BIS, Quinta Avenida Supermanzana NORTE, NORTE, 77710 Playa del Carmen, Q.R., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.5/5.0<br>                     <b>💬 Reviews:</b> 11<br>                     <b>📍 City:</b> Playa del Carmen, Quintana Roo                 </div>             </div>             </div>`)[0];
+                popup_9ddedc98cbbd0dcd076639f441d3554d.setContent(html_456e147d914d52125a79a493d421120e);
+            
+        
+
+        marker_c4f8a579c0278b92c9c7500d5aeb2323.bindPopup(popup_9ddedc98cbbd0dcd076639f441d3554d)
+        ;
+
+        
+    
+    
+            marker_c4f8a579c0278b92c9c7500d5aeb2323.bindTooltip(
+                `<div>
+                     Levi's® Playa del Carmen - 4.5⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c4f8a579c0278b92c9c7500d5aeb2323.setIcon(icon_06ed6dc6625a3a16c70ec980262fc1f8);
+            
+    
+            var marker_ebdb2ae44f3a81d23ad4d15c8f0593db = L.marker(
+                [19.6319574, -99.1248661],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_bd6073013a61f37f052cd76b3aa600a7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d2f429693ec16c01ed3d03fb281db741 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c02f556e2c9e7e689b8f9836454ca5a7 = $(`<div id="html_c02f556e2c9e7e689b8f9836454ca5a7" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Bosque de Felipe 2, Bosques del Valle, 55717 San Francisco Coacalco, Méx., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.2/5.0<br>                     <b>💬 Reviews:</b> 49<br>                     <b>📍 City:</b> Coacalco, State of Mexico                 </div>             </div>             </div>`)[0];
+                popup_d2f429693ec16c01ed3d03fb281db741.setContent(html_c02f556e2c9e7e689b8f9836454ca5a7);
+            
+        
+
+        marker_ebdb2ae44f3a81d23ad4d15c8f0593db.bindPopup(popup_d2f429693ec16c01ed3d03fb281db741)
+        ;
+
+        
+    
+    
+            marker_ebdb2ae44f3a81d23ad4d15c8f0593db.bindTooltip(
+                `<div>
+                     Levi's - 4.2⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ebdb2ae44f3a81d23ad4d15c8f0593db.setIcon(icon_bd6073013a61f37f052cd76b3aa600a7);
+            
+    
+            var marker_9ea2970660d6ba60de6d05242f57dc16 = L.marker(
+                [19.6311803, -99.0901974],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_a8cc0000d9ad482d26c9e13bb10d9f35 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a308d842598ccf94d3fdde5c0f7962d7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ec6e1472495eac1106cb85d8f1e946d1 = $(`<div id="html_ec6e1472495eac1106cb85d8f1e946d1" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Via Jose Lopez Portillo No.1 Local D-104, 55712 Méx., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.0/5.0<br>                     <b>💬 Reviews:</b> 2<br>                     <b>📍 City:</b> Coacalco, State of Mexico                 </div>             </div>             </div>`)[0];
+                popup_a308d842598ccf94d3fdde5c0f7962d7.setContent(html_ec6e1472495eac1106cb85d8f1e946d1);
+            
+        
+
+        marker_9ea2970660d6ba60de6d05242f57dc16.bindPopup(popup_a308d842598ccf94d3fdde5c0f7962d7)
+        ;
+
+        
+    
+    
+            marker_9ea2970660d6ba60de6d05242f57dc16.bindTooltip(
+                `<div>
+                     Levi's - 3.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9ea2970660d6ba60de6d05242f57dc16.setIcon(icon_a8cc0000d9ad482d26c9e13bb10d9f35);
+            
+    
+            var marker_265100a2d290de1b48c70d598d80287e = L.marker(
+                [19.5311683, -99.0277037],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_6c01edc7f51e0d502d070b1fea409a6c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c280b5ef304f3f453c9763a9f124a239 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8d7c4ddceb3d6c256a3ef8df558be0af = $(`<div id="html_8d7c4ddceb3d6c256a3ef8df558be0af" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Av. Carlos Hank González 120-Local - 142,145A and 155B, Rinconada de Aragon, 55149 Ecatepec de Morelos, Méx., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 501<br>                     <b>📍 City:</b> Ecatepec de Morelos, State of Mexico                 </div>             </div>             </div>`)[0];
+                popup_c280b5ef304f3f453c9763a9f124a239.setContent(html_8d7c4ddceb3d6c256a3ef8df558be0af);
+            
+        
+
+        marker_265100a2d290de1b48c70d598d80287e.bindPopup(popup_c280b5ef304f3f453c9763a9f124a239)
+        ;
+
+        
+    
+    
+            marker_265100a2d290de1b48c70d598d80287e.bindTooltip(
+                `<div>
+                     Levi's - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_265100a2d290de1b48c70d598d80287e.setIcon(icon_6c01edc7f51e0d502d070b1fea409a6c);
+            
+    
+            var marker_db38f665c5a25189d2e81531e2fe50da = L.marker(
+                [19.577005, -99.0239073],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_d301350b007c600b7dd46bb4b0a7ed88 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a4974eb73e5e1f796a40d18e0ee351b1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f063078dc1685b179b4cff9f2f4c4888 = $(`<div id="html_f063078dc1685b179b4cff9f2f4c4888" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 Levi's® Ecatepec Pop Up                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Esq. 1 de Mayo, Plaza Las Américas, Av. Central Manzana 4 Lote 2-Local B-23, Potrero Chico, 55075 Ecatepec de Morelos, Méx., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 28<br>                     <b>📍 City:</b> Ecatepec de Morelos, State of Mexico                 </div>             </div>             </div>`)[0];
+                popup_a4974eb73e5e1f796a40d18e0ee351b1.setContent(html_f063078dc1685b179b4cff9f2f4c4888);
+            
+        
+
+        marker_db38f665c5a25189d2e81531e2fe50da.bindPopup(popup_a4974eb73e5e1f796a40d18e0ee351b1)
+        ;
+
+        
+    
+    
+            marker_db38f665c5a25189d2e81531e2fe50da.bindTooltip(
+                `<div>
+                     Levi's® Ecatepec Pop Up - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_db38f665c5a25189d2e81531e2fe50da.setIcon(icon_d301350b007c600b7dd46bb4b0a7ed88);
+            
+    
+            var marker_57d41f8e9b179500299ab8140f5ae81e = L.marker(
+                [18.9254584, -99.1981618],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_856e33c4ea97f8e0ffdce497e090f783 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0055ead7403292e8a99e818a7d8fcbbc = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_687535e6f245a00c2c8213a4c7ee8d31 = $(`<div id="html_687535e6f245a00c2c8213a4c7ee8d31" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: orange;                       border-bottom: 2px solid orange; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>C. Jacarandas 103-Local 82A, Ricardo Flores Magon, 62370 Cuernavaca, Mor., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.8/5.0<br>                     <b>💬 Reviews:</b> 4<br>                     <b>📍 City:</b> Cuernavaca, Morelos                 </div>             </div>             </div>`)[0];
+                popup_0055ead7403292e8a99e818a7d8fcbbc.setContent(html_687535e6f245a00c2c8213a4c7ee8d31);
+            
+        
+
+        marker_57d41f8e9b179500299ab8140f5ae81e.bindPopup(popup_0055ead7403292e8a99e818a7d8fcbbc)
+        ;
+
+        
+    
+    
+            marker_57d41f8e9b179500299ab8140f5ae81e.bindTooltip(
+                `<div>
+                     Levi's - 3.8⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_57d41f8e9b179500299ab8140f5ae81e.setIcon(icon_856e33c4ea97f8e0ffdce497e090f783);
+            
+    
+            var marker_0eef89df3c4ae8444df8898de5ff091a = L.marker(
+                [18.9259061, -99.1973522],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_65e4d7a68cca8538808fa49a1292fd41 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_16b82e1fd7d2dccc4b7fc59419feba31 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_582824caa8531dd42c030c7fc571ca74 = $(`<div id="html_582824caa8531dd42c030c7fc571ca74" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: orange;                       border-bottom: 2px solid orange; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>136, C. Jacarandas 87, Ricardo Flores Magon, 62370 Cuernavaca, Mor., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.4/5.0<br>                     <b>💬 Reviews:</b> 143<br>                     <b>📍 City:</b> Cuernavaca, Morelos                 </div>             </div>             </div>`)[0];
+                popup_16b82e1fd7d2dccc4b7fc59419feba31.setContent(html_582824caa8531dd42c030c7fc571ca74);
+            
+        
+
+        marker_0eef89df3c4ae8444df8898de5ff091a.bindPopup(popup_16b82e1fd7d2dccc4b7fc59419feba31)
+        ;
+
+        
+    
+    
+            marker_0eef89df3c4ae8444df8898de5ff091a.bindTooltip(
+                `<div>
+                     Levi's - 4.4⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0eef89df3c4ae8444df8898de5ff091a.setIcon(icon_65e4d7a68cca8538808fa49a1292fd41);
+            
+    
+            var marker_8722bb73dd41420c2306aa9294b07dd5 = L.marker(
+                [25.651427, -100.3353208],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_7273b045ce8d2ab35c2921c12ce22330 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "cadetblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_811753307232784e2a5735bc485cf2b9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_251c30f9d9700b97268ec682e2575121 = $(`<div id="html_251c30f9d9700b97268ec682e2575121" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: cadetblue;                       border-bottom: 2px solid cadetblue; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Av Lázaro Cárdenas 1000-L-116, Zona San Agustín, 66260 San Pedro Garza García, N.L., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.5/5.0<br>                     <b>💬 Reviews:</b> 23<br>                     <b>📍 City:</b> San Pedro Garza García, Nuevo Leon                 </div>             </div>             </div>`)[0];
+                popup_811753307232784e2a5735bc485cf2b9.setContent(html_251c30f9d9700b97268ec682e2575121);
+            
+        
+
+        marker_8722bb73dd41420c2306aa9294b07dd5.bindPopup(popup_811753307232784e2a5735bc485cf2b9)
+        ;
+
+        
+    
+    
+            marker_8722bb73dd41420c2306aa9294b07dd5.bindTooltip(
+                `<div>
+                     Levi's - 4.5⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8722bb73dd41420c2306aa9294b07dd5.setIcon(icon_7273b045ce8d2ab35c2921c12ce22330);
+            
+    
+            var marker_9da598e21fec03ae74528b42518c14be = L.marker(
+                [25.6528681, -100.3781483],
+                {
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            var icon_6bb207d8bb467b1f1cca61a1faaf01f0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "cadetblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b69405ac15adda6aef7a3b54632f90a4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7d2211f3cd55bd58d13519dfb45da190 = $(`<div id="html_7d2211f3cd55bd58d13519dfb45da190" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: cadetblue;                       border-bottom: 2px solid cadetblue; padding-bottom: 5px;'>                     🛒 Levi's® PH Corner Monterrey                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Palacio de Hierro, Av. José Vasconcelos 402, Del Valle, 66220 San Pedro Garza García, N.L., Mexico</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 28<br>                     <b>📍 City:</b> San Pedro Garza García, Nuevo Leon                 </div>             </div>             </div>`)[0];
+                popup_b69405ac15adda6aef7a3b54632f90a4.setContent(html_7d2211f3cd55bd58d13519dfb45da190);
+            
+        
+
+        marker_9da598e21fec03ae74528b42518c14be.bindPopup(popup_b69405ac15adda6aef7a3b54632f90a4)
+        ;
+
+        
+    
+    
+            marker_9da598e21fec03ae74528b42518c14be.bindTooltip(
+                `<div>
+                     Levi's® PH Corner Monterrey - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9da598e21fec03ae74528b42518c14be.setIcon(icon_6bb207d8bb467b1f1cca61a1faaf01f0);
+            
+    
+            var poly_line_b97f68026e2a29710b349a2e970e2013 = L.polyline(
+                [[19.403014, -99.155399], [19.403852, -99.155353], [19.403854, -99.15529], [19.403855, -99.154438], [19.403871, -99.153292], [19.403872, -99.15323], [19.403873, -99.153109], [19.402053, -99.153252], [19.40199, -99.153257], [19.401951, -99.154005], [19.401942, -99.15429], [19.401923, -99.154751], [19.401909, -99.155006], [19.401894, -99.155236], [19.401881, -99.155419], [19.401878, -99.155466], [19.401874, -99.155534], [19.401867, -99.15562], [19.401692, -99.155638], [19.401389, -99.15567], [19.400909, -99.155721], [19.400529, -99.15575], [19.400143, -99.155752], [19.398451, -99.155899], [19.398352, -99.155908], [19.398235, -99.155921], [19.398137, -99.155928], [19.395982, -99.156096], [19.395921, -99.1561], [19.395863, -99.156104], [19.39541, -99.156137], [19.394232, -99.156224], [19.393958, -99.15625], [19.392451, -99.156371], [19.390765, -99.156499], [19.389377, -99.156681], [19.387545, -99.156935], [19.387215, -99.157008], [19.385947, -99.157321], [19.385218, -99.157497], [19.382873, -99.158078], [19.381878, -99.158393], [19.381448, -99.15854], [19.381134, -99.158646], [19.379689, -99.159109], [19.379463, -99.159182], [19.378769, -99.159383], [19.378656, -99.15947], [19.37858, -99.159571], [19.378509, -99.159688], [19.378408, -99.159874], [19.378329, -99.160051], [19.377148, -99.160823], [19.376773, -99.16107], [19.376406, -99.161294], [19.37518, -99.162067], [19.374615, -99.162427], [19.372493, -99.163766], [19.371497, -99.164403], [19.37091, -99.164771], [19.370757, -99.164867], [19.370704, -99.164899], [19.370685, -99.16492], [19.370594, -99.164968], [19.370552, -99.164994], [19.370481, -99.165039], [19.368493, -99.166309], [19.366879, -99.167335], [19.366559, -99.167531], [19.36646, -99.167593], [19.366339, -99.167669], [19.366226, -99.167744], [19.36483, -99.168615], [19.364223, -99.169044], [19.363991, -99.169208], [19.363287, -99.169779], [19.363126, -99.16992], [19.362955, -99.170085], [19.362766, -99.170242], [19.362551, -99.170393], [19.362037, -99.170636], [19.361429, -99.170919], [19.360508, -99.171366], [19.360218, -99.171507], [19.360341, -99.171756], [19.360428, -99.171713], [19.360486, -99.17167], [19.360623, -99.171427], [19.360508, -99.171366], [19.36037, -99.171275], [19.36054, -99.171184], [19.361285, -99.170814], [19.361293, -99.170746], [19.361295, -99.170725], [19.361291, -99.170707], [19.361194, -99.170358], [19.361159, -99.170237], [19.361049, -99.17027]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            poly_line_b97f68026e2a29710b349a2e970e2013.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 3.80 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_d51475e1bf58b4009e9d4063f7db0648 = L.polyline(
+                [[19.369566, -99.165624], [19.368493, -99.166309], [19.366879, -99.167335], [19.366559, -99.167531], [19.36646, -99.167593], [19.366339, -99.167669], [19.366226, -99.167744], [19.36483, -99.168615], [19.364223, -99.169044], [19.363991, -99.169208], [19.363287, -99.169779], [19.363126, -99.16992], [19.362955, -99.170085], [19.362766, -99.170242], [19.362551, -99.170393], [19.362037, -99.170636], [19.361429, -99.170919], [19.360508, -99.171366], [19.360218, -99.171507], [19.360341, -99.171756], [19.360428, -99.171713], [19.360486, -99.17167], [19.360623, -99.171427], [19.360508, -99.171366], [19.36037, -99.171275], [19.36054, -99.171184], [19.361285, -99.170814], [19.361293, -99.170746], [19.361295, -99.170725], [19.361291, -99.170707], [19.361194, -99.170358], [19.361159, -99.170237], [19.361049, -99.17027]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            poly_line_d51475e1bf58b4009e9d4063f7db0648.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 0.94 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_5e854d0287f8005a3713bb3a762c19c1 = L.polyline(
+                [[19.44017, -99.20252], [19.440178, -99.202994], [19.440216, -99.204007], [19.44023, -99.204389], [19.440233, -99.204438], [19.440236, -99.204491], [19.440237, -99.204563], [19.440238, -99.204575], [19.440242, -99.204694], [19.440254, -99.205062], [19.440257, -99.205124], [19.440258, -99.205247], [19.440274, -99.205487], [19.440318, -99.206479], [19.440219, -99.206484], [19.440153, -99.20549], [19.440144, -99.205262], [19.44014, -99.205205], [19.440137, -99.20507], [19.44013, -99.204781], [19.440126, -99.204626], [19.440126, -99.204601], [19.440125, -99.204581], [19.440124, -99.204504], [19.440084, -99.203336], [19.440076, -99.202997], [19.440061, -99.202697], [19.44006, -99.202526], [19.440062, -99.202204]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            poly_line_5e854d0287f8005a3713bb3a762c19c1.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 0.55 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_1a942353faeb57347825a8f24559efd9 = L.polyline(
+                [[19.44017, -99.20252], [19.440178, -99.202994], [19.440216, -99.204007], [19.44023, -99.204389], [19.440233, -99.204438], [19.440236, -99.204491], [19.440237, -99.204563], [19.440238, -99.204575], [19.440242, -99.204694], [19.440254, -99.205062], [19.440257, -99.205124], [19.440447, -99.20511], [19.441138, -99.205091], [19.441262, -99.205084], [19.441265, -99.205141], [19.441268, -99.205198], [19.441184, -99.205201], [19.441139, -99.205202], [19.440811, -99.205218], [19.440441, -99.205238], [19.440258, -99.205247], [19.440144, -99.205262], [19.43972, -99.205386], [19.439511, -99.205454], [19.439253, -99.205591], [19.439227, -99.205609], [19.438987, -99.205776], [19.438707, -99.205963], [19.438462, -99.206089], [19.437647, -99.206452], [19.436632, -99.20687], [19.436422, -99.206957], [19.436268, -99.20702], [19.435532, -99.207319], [19.43543, -99.207364], [19.435312, -99.207411], [19.435299, -99.207306], [19.435288, -99.207218], [19.435106, -99.206307], [19.434965, -99.205541], [19.434829, -99.20481], [19.434709, -99.204139], [19.434696, -99.204067], [19.434556, -99.203286], [19.434673, -99.20328], [19.434828, -99.203272], [19.434907, -99.203268], [19.435323, -99.203256]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            poly_line_1a942353faeb57347825a8f24559efd9.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 1.01 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_f4f7ae82729c01a1586bdf9442d0d617 = L.polyline(
+                [[19.307309, -99.16431], [19.307309, -99.16431], [19.307279, -99.164379], [19.307239, -99.164359], [19.307268, -99.164296], [19.307268, -99.164248], [19.307257, -99.164198], [19.307244, -99.164163], [19.307147, -99.1642], [19.306684, -99.164394], [19.306506, -99.164502], [19.306424, -99.164556], [19.306335, -99.164593], [19.306244, -99.1646], [19.306203, -99.16458], [19.306183, -99.164557], [19.306169, -99.164523], [19.306172, -99.164476], [19.306181, -99.164445], [19.306231, -99.1644], [19.306303, -99.164361], [19.306428, -99.164335], [19.306665, -99.164313], [19.307294, -99.164068], [19.307729, -99.163899], [19.30778, -99.163867], [19.307817, -99.163837], [19.307854, -99.163798], [19.30788, -99.163763], [19.3079, -99.163734], [19.307937, -99.16368], [19.307939, -99.163667], [19.307954, -99.163641], [19.307982, -99.163612], [19.308025, -99.163597], [19.308059, -99.163599], [19.308094, -99.163618], [19.308125, -99.163651], [19.308156, -99.163698], [19.308166, -99.163738], [19.308164, -99.163769], [19.308198, -99.163841], [19.308231, -99.163946], [19.308282, -99.164092], [19.30831, -99.164143], [19.308488, -99.16445], [19.309205, -99.16569], [19.309353, -99.165946], [19.309407, -99.16604], [19.31008, -99.167201], [19.310343, -99.167664], [19.31074, -99.16835], [19.310862, -99.168535], [19.310901, -99.168593], [19.31094, -99.168629], [19.311073, -99.168749], [19.311188, -99.168848], [19.311344, -99.168955], [19.311374, -99.168975], [19.311671, -99.169166], [19.31174, -99.169223], [19.311799, -99.169288], [19.311868, -99.169378], [19.311976, -99.169525], [19.312079, -99.169725], [19.312137, -99.169869], [19.312187, -99.170028], [19.3122, -99.170075], [19.312261, -99.170296], [19.312335, -99.170563], [19.312376, -99.170743], [19.312488, -99.171099], [19.312731, -99.171721], [19.312917, -99.172038], [19.313156, -99.172347], [19.313349, -99.172551], [19.313514, -99.172684], [19.313893, -99.172946], [19.31482, -99.173538], [19.315339, -99.173856], [19.315565, -99.173978], [19.315825, -99.17406], [19.316244, -99.174077], [19.317901, -99.17407], [19.319223, -99.174043], [19.319991, -99.174022], [19.32026, -99.174017], [19.321127, -99.174001], [19.321772, -99.173982], [19.322292, -99.173927], [19.32243, -99.17391], [19.323848, -99.17376], [19.32393, -99.173753], [19.324654, -99.173678], [19.324737, -99.173669], [19.326347, -99.173502], [19.326942, -99.173521], [19.327589, -99.173445], [19.32793, -99.173404], [19.32817, -99.173375], [19.328406, -99.173346], [19.328809, -99.17328], [19.329163, -99.173315], [19.329299, -99.173328], [19.32958, -99.173356], [19.329951, -99.173406], [19.330087, -99.173425], [19.330282, -99.173452], [19.330476, -99.173489], [19.330811, -99.173532], [19.33106, -99.173564], [19.331255, -99.173593], [19.331411, -99.173617], [19.332227, -99.17372], [19.332455, -99.173751], [19.332727, -99.173783], [19.333192, -99.173799], [19.333289, -99.173798], [19.333383, -99.173787], [19.333474, -99.173759], [19.333717, -99.173648], [19.334933, -99.17307], [19.335503, -99.172809], [19.335549, -99.172799], [19.33562, -99.172807], [19.335683, -99.172825], [19.335746, -99.17285], [19.335873, -99.172928], [19.336061, -99.172933], [19.336062, -99.173027], [19.336071, -99.173193], [19.336076, -99.173272], [19.336092, -99.173561], [19.336124, -99.174184], [19.336154, -99.17467], [19.336176, -99.175071], [19.336189, -99.175299], [19.336203, -99.17557], [19.336208, -99.175681], [19.336211, -99.175719], [19.336223, -99.175908], [19.336227, -99.175979], [19.336234, -99.1761], [19.336239, -99.176184], [19.33624, -99.17621], [19.336296, -99.177248], [19.336302, -99.177459], [19.33631, -99.177579], [19.336334, -99.177945], [19.336351, -99.178334], [19.336278, -99.178596], [19.336151, -99.178803], [19.336058, -99.178956], [19.335907, -99.179186], [19.335862, -99.179337], [19.335879, -99.17946], [19.336224, -99.180287], [19.336489, -99.181018], [19.336537, -99.181161], [19.337389, -99.183508], [19.337449, -99.183673], [19.337454, -99.183686], [19.337531, -99.183546], [19.337684, -99.183316], [19.337902, -99.183013], [19.337962, -99.182948], [19.338103, -99.182827], [19.338209, -99.182741], [19.338548, -99.182485], [19.338693, -99.182376], [19.338866, -99.182283], [19.33889, -99.182269], [19.338968, -99.182235], [19.33911, -99.182185], [19.339206, -99.182148], [19.339407, -99.182094], [19.339559, -99.182062], [19.339685, -99.182033], [19.33998, -99.181979], [19.340087, -99.18196], [19.340188, -99.181942], [19.34029, -99.181922], [19.340513, -99.18188], [19.341386, -99.181708], [19.341508, -99.181685], [19.341773, -99.181636], [19.341992, -99.18159], [19.343345, -99.181302], [19.343506, -99.181271], [19.343682, -99.18124], [19.343933, -99.181194], [19.344606, -99.181058], [19.344922, -99.180996], [19.345048, -99.180969], [19.345226, -99.180932], [19.34629, -99.180716], [19.346352, -99.180703], [19.346562, -99.18066], [19.346577, -99.180657], [19.346605, -99.180652], [19.3468, -99.180614], [19.346809, -99.180563], [19.346829, -99.180517], [19.346859, -99.180476], [19.346778, -99.180177], [19.346761, -99.180115], [19.34674, -99.180046], [19.346709, -99.179929], [19.346576, -99.179441], [19.346563, -99.179393], [19.346496, -99.179151], [19.346421, -99.178877], [19.34641, -99.178814], [19.346407, -99.178795], [19.346391, -99.178689], [19.346379, -99.178618], [19.346346, -99.178426], [19.346168, -99.178478], [19.34601, -99.178521], [19.345631, -99.178636]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            poly_line_f4f7ae82729c01a1586bdf9442d0d617.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 4.19 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_9e05edc6df751502d0075088723a33ee = L.polyline(
+                [[19.307309, -99.16431], [19.307309, -99.16431], [19.307279, -99.164379], [19.307239, -99.164359], [19.307268, -99.164296], [19.307268, -99.164248], [19.307257, -99.164198], [19.307244, -99.164163], [19.307147, -99.1642], [19.306684, -99.164394], [19.306506, -99.164502], [19.306424, -99.164556], [19.306335, -99.164593], [19.306244, -99.1646], [19.306082, -99.164604], [19.305631, -99.164771], [19.305485, -99.164837], [19.305424, -99.164872], [19.305353, -99.164929], [19.305292, -99.164996], [19.305225, -99.165032], [19.30515, -99.165057], [19.305059, -99.165049], [19.3049, -99.165078], [19.304865, -99.165085], [19.304606, -99.16516], [19.304287, -99.165233], [19.303886, -99.165298], [19.303521, -99.165352], [19.303455, -99.165361], [19.303191, -99.1654], [19.302324, -99.165529], [19.302288, -99.165534], [19.302137, -99.165602], [19.302007, -99.165731], [19.301988, -99.165816], [19.302018, -99.166046], [19.302031, -99.166181], [19.302125, -99.166895], [19.3022, -99.16749], [19.302252, -99.167861], [19.302313, -99.168282], [19.302347, -99.168538], [19.302374, -99.168736], [19.302377, -99.168766], [19.302363, -99.1695], [19.302398, -99.169764], [19.30253, -99.170787], [19.302608, -99.171382], [19.302702, -99.172114], [19.302781, -99.172721], [19.302786, -99.172757], [19.302804, -99.172898], [19.302856, -99.17327], [19.302926, -99.173767], [19.302941, -99.173871], [19.303012, -99.174348], [19.303086, -99.174844], [19.303154, -99.175299], [19.303229, -99.175965], [19.303329, -99.17673], [19.303331, -99.176746], [19.303406, -99.177357], [19.303499, -99.178053], [19.303536, -99.178961], [19.303525, -99.179399], [19.303514, -99.179802], [19.303489, -99.180712], [19.303471, -99.181328], [19.303465, -99.181555], [19.303405, -99.182137], [19.303006, -99.185738], [19.302958, -99.186251], [19.302857, -99.187227], [19.302822, -99.187751], [19.30281, -99.187987], [19.302804, -99.188213], [19.302812, -99.188353], [19.302714, -99.189209], [19.302694, -99.189374], [19.302678, -99.189524], [19.302619, -99.189993], [19.30252, -99.190958], [19.302473, -99.191411], [19.302468, -99.191462], [19.302411, -99.192017], [19.302464, -99.192089], [19.302972, -99.192783], [19.303107, -99.192875], [19.303261, -99.192918], [19.303501, -99.193048], [19.303575, -99.193057], [19.303606, -99.19306], [19.303656, -99.193066], [19.303861, -99.19309], [19.303931, -99.193099], [19.304845, -99.193206], [19.304968, -99.193217], [19.305071, -99.193229], [19.305526, -99.193281], [19.305681, -99.193296], [19.305787, -99.193305], [19.305784, -99.193243], [19.305742, -99.192293], [19.305696, -99.191496], [19.305687, -99.19115]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            poly_line_9e05edc6df751502d0075088723a33ee.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 2.53 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_1d27aba86aa4f7c73279587a16501f1e = L.polyline(
+                [[19.440062, -99.202204], [19.440063, -99.20203], [19.440145, -99.201586], [19.440298, -99.201214], [19.440412, -99.200942], [19.44044, -99.200875], [19.43969, -99.200912], [19.43848, -99.20097], [19.438239, -99.200992], [19.437768, -99.201054], [19.437262, -99.201138], [19.436109, -99.201341], [19.436001, -99.201361], [19.434833, -99.201568], [19.434545, -99.20162], [19.434582, -99.201835], [19.434679, -99.202403], [19.434796, -99.203085], [19.434828, -99.203272], [19.434907, -99.203268], [19.435323, -99.203256]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            poly_line_1d27aba86aa4f7c73279587a16501f1e.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 0.64 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_b2d4b1fedd994312ecb6fe3c19196aef = L.polyline(
+                [[19.44017, -99.20252], [19.440178, -99.202994], [19.440216, -99.204007], [19.44023, -99.204389], [19.440233, -99.204438], [19.440236, -99.204491], [19.440237, -99.204563], [19.440238, -99.204575], [19.440242, -99.204694], [19.440254, -99.205062], [19.440257, -99.205124], [19.440258, -99.205247], [19.440274, -99.205487], [19.440318, -99.206479], [19.440219, -99.206484], [19.440153, -99.20549], [19.440144, -99.205262], [19.44014, -99.205205], [19.440137, -99.20507], [19.44013, -99.204781], [19.440126, -99.204626], [19.440126, -99.204601], [19.440125, -99.204581], [19.440124, -99.204504], [19.440084, -99.203336], [19.440076, -99.202997], [19.440061, -99.202697], [19.44006, -99.202526], [19.440062, -99.202204]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+    
+            poly_line_b2d4b1fedd994312ecb6fe3c19196aef.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 0.55 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_e2ef91c63c9c8d241aa3593867e6ff2b);
+        
+</script>
+</html>

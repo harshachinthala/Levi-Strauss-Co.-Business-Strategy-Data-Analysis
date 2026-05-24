@@ -1,0 +1,2426 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_8e81e7ff1a914e660ad0c4c5c67fae41 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+</head>
+<body>
+    
+    
+    <div style="position: fixed; top: 10px; right: 10px; width: 280px;
+         background-color: white; border: 3px solid #333; z-index: 9999;
+         font-size: 13px; padding: 15px; border-radius: 8px;
+         box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+        <h3 style="margin: 0 0 12px 0; border-bottom: 2px solid #333; padding-bottom: 8px;">
+            🎯 Germany - Closure Map
+        </h3>
+        
+        <div style="margin: 10px 0;">
+            <i class="fa fa-times" style="color: red; font-size: 16px;"></i>
+            <b style="color: red;">RED MARKERS</b> = Closure Candidates<br>
+            <span style="font-size: 11px; color: #666;">Rating < 4.2 + Multiple Conflicts</span>
+        </div>
+        
+        <div style="margin: 10px 0;">
+            <i class="fa fa-shopping-cart" style="color: blue; font-size: 16px;"></i>
+            <b>COLORED MARKERS</b> = Keep (Anchors)<br>
+            <span style="font-size: 11px; color: #666;">One color per city cluster</span>
+        </div>
+        
+        <hr style="margin: 10px 0;">
+        
+        <p style="margin: 5px 0; font-size: 12px;">
+            <b>🚫 Closure Candidates:</b> 3
+        </p>
+        <p style="margin: 5px 0; font-size: 12px;">
+            <b>📊 Total Conflicts:</b> 9
+        </p>
+        <p style="margin: 5px 0; font-size: 12px;">
+            <b>🏙️ Cities Affected:</b> 2
+        </p>
+        
+        <hr style="margin: 10px 0;">
+        
+        <p style="font-size: 11px; color: #666; margin: 5px 0;">
+            <b>Red lines</b> = Cannibalization conflicts<br>
+            Click markers for store details
+        </p>
+    </div>
+    
+    
+            <div class="folium-map" id="map_8e81e7ff1a914e660ad0c4c5c67fae41" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_8e81e7ff1a914e660ad0c4c5c67fae41 = L.map(
+                "map_8e81e7ff1a914e660ad0c4c5c67fae41",
+                {
+                    center: [51.953686759374996, 11.186428797916667],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 6,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_aab51273292c94d620b3b333f14c6083 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_aab51273292c94d620b3b333f14c6083.addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var rectangle_554d6d6c96e9f63edd0f0ce4392ce790 = L.rectangle(
+                [[53.5300352, 9.8519303], [53.5811504, 10.0101849]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            rectangle_554d6d6c96e9f63edd0f0ce4392ce790.bindTooltip(
+                `<div>
+                     Cluster: Hamburg
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_76c42877ce29995672c604192d60f5e7 = L.rectangle(
+                [[52.447590500000004, 13.3103174], [52.533809999999995, 13.4247949]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            rectangle_76c42877ce29995672c604192d60f5e7.bindTooltip(
+                `<div>
+                     Cluster: Berlin
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_82cc4c26e6b9721a412eb73b5d276df4 = L.rectangle(
+                [[48.0906615, 11.524715], [48.193458, 11.702166]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            rectangle_82cc4c26e6b9721a412eb73b5d276df4.bindTooltip(
+                `<div>
+                     Cluster: Munich
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_6d740b12db736635fe4f82431bc3493a = L.rectangle(
+                [[51.0331938, 13.6861135], [51.095034299999995, 13.7454665]],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            rectangle_6d740b12db736635fe4f82431bc3493a.bindTooltip(
+                `<div>
+                     Cluster: Dresden
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_9908ec2227ab835f989ac5c2b42c8059 = L.rectangle(
+                [[50.9266219, 6.9321934], [50.9484059, 6.9625178]],
+                {"bubblingMouseEvents": true, "color": "cadetblue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "cadetblue", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            rectangle_9908ec2227ab835f989ac5c2b42c8059.bindTooltip(
+                `<div>
+                     Cluster: Cologne
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_ca6668fbb7b1839625cda5285e3179f9 = L.rectangle(
+                [[48.3555082, 10.886919], [48.378672099999996, 10.9175113]],
+                {"bubblingMouseEvents": true, "color": "darkgreen", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "darkgreen", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            rectangle_ca6668fbb7b1839625cda5285e3179f9.bindTooltip(
+                `<div>
+                     Cluster: Augsburg
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_3dc53e61dcf02a0e4784fa4f4d166e48 = L.rectangle(
+                [[48.5259688, 9.2719326], [48.5465373, 9.292292]],
+                {"bubblingMouseEvents": true, "color": "darkblue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "darkblue", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            rectangle_3dc53e61dcf02a0e4784fa4f4d166e48.bindTooltip(
+                `<div>
+                     Cluster: Metzingen
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_ce74765a7dc53d98b0d25bad06e83eb0 = L.rectangle(
+                [[50.1038316, 8.666212400000001], [50.124792299999996, 8.6918249]],
+                {"bubblingMouseEvents": true, "color": "pink", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "pink", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            rectangle_ce74765a7dc53d98b0d25bad06e83eb0.bindTooltip(
+                `<div>
+                     Cluster: Frankfurt am Main
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_6036d3517aaca63fdf526281ca746205 = L.rectangle(
+                [[51.2143888, 6.764127], [51.236725799999995, 6.794371]],
+                {"bubblingMouseEvents": true, "color": "lightgreen", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "lightgreen", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            rectangle_6036d3517aaca63fdf526281ca746205.bindTooltip(
+                `<div>
+                     Cluster: Düsseldorf
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_b1556735c9ee879748e90168e1c35cf2 = L.rectangle(
+                [[48.7665607, 9.1667708], [48.8010041, 9.1940923]],
+                {"bubblingMouseEvents": true, "color": "lightblue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "lightblue", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            rectangle_b1556735c9ee879748e90168e1c35cf2.bindTooltip(
+                `<div>
+                     Cluster: Stuttgart
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_78b4dce6dafe69cc243d5e2f48685953 = L.rectangle(
+                [[49.763248700000005, 9.5676226], [49.785119599999994, 9.5885398]],
+                {"bubblingMouseEvents": true, "color": "beige", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "beige", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            rectangle_78b4dce6dafe69cc243d5e2f48685953.bindTooltip(
+                `<div>
+                     Cluster: Wertheim am Main
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_a9fcfe27a9fe761c2a6035a8ce876bda = L.rectangle(
+                [[49.4401989, 11.0634477], [49.461250799999995, 11.0846661]],
+                {"bubblingMouseEvents": true, "color": "lightred", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "lightred", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            rectangle_a9fcfe27a9fe761c2a6035a8ce876bda.bindTooltip(
+                `<div>
+                     Cluster: Nuremberg
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_5ee53868c98591923c64bc304513bda1 = L.rectangle(
+                [[51.5032736, 7.4493609], [51.5244833, 7.4721176]],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            rectangle_5ee53868c98591923c64bc304513bda1.bindTooltip(
+                `<div>
+                     Cluster: Dortmund
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_5efe686ceb294321c105252bd594a5ef = L.marker(
+                [53.5400352, 9.9991653],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_b322a05a0a43720c224aff4dd3f0c5c4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0ec588c99e53d54bac5944f092b56cf4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ffd73c1bec6f7e48743846de61a3182e = $(`<div id="html_ffd73c1bec6f7e48743846de61a3182e" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi's® Hamburg Uberseequartier                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Baltimore Str. 4, 20457 Hamburg, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 5.0/5.0<br>                     <b>💬 Reviews:</b> 4<br>                     <b>📍 City:</b> Hamburg, Germany                 </div>             </div>             </div>`)[0];
+                popup_0ec588c99e53d54bac5944f092b56cf4.setContent(html_ffd73c1bec6f7e48743846de61a3182e);
+            
+        
+
+        marker_5efe686ceb294321c105252bd594a5ef.bindPopup(popup_0ec588c99e53d54bac5944f092b56cf4)
+        ;
+
+        
+    
+    
+            marker_5efe686ceb294321c105252bd594a5ef.bindTooltip(
+                `<div>
+                     Levi's® Hamburg Uberseequartie - 5.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5efe686ceb294321c105252bd594a5ef.setIcon(icon_b322a05a0a43720c224aff4dd3f0c5c4);
+            
+    
+            var marker_567bcf8eced390d3f1036de9a0f2dfa1 = L.marker(
+                [53.551287, 10.0001849],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_72e69102b92c8150181cf081f521f84d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "times",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_dd81283b692d514389137e47f02677ef = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_85b9bf862fb9db7744b05b23864308eb = $(`<div id="html_85b9bf862fb9db7744b05b23864308eb" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: red;                       border-bottom: 2px solid red; padding-bottom: 5px;'>                     🚫 CLOSURE CANDIDATE Levi's® Hamburg Spitalerstrasse                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Spitalerstraße 30, 20095 Hamburg, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.5/5.0<br>                     <b>💬 Reviews:</b> 108<br>                     <b>📍 City:</b> Hamburg, Germany                 </div>             </div>             </div>`)[0];
+                popup_dd81283b692d514389137e47f02677ef.setContent(html_85b9bf862fb9db7744b05b23864308eb);
+            
+        
+
+        marker_567bcf8eced390d3f1036de9a0f2dfa1.bindPopup(popup_dd81283b692d514389137e47f02677ef)
+        ;
+
+        
+    
+    
+            marker_567bcf8eced390d3f1036de9a0f2dfa1.bindTooltip(
+                `<div>
+                     Levi's® Hamburg Spitalerstrass - 3.5⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_567bcf8eced390d3f1036de9a0f2dfa1.setIcon(icon_72e69102b92c8150181cf081f521f84d);
+            
+    
+            var marker_68b89d87a679d0471a2e077f2b0dc4c0 = L.marker(
+                [53.5513213, 9.9960583],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_faaa1c7e9fd3e3d8527f971f7954127e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e30c7f34c9c336f7d88e4b186e5e3b7e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f5eb4d772e14cb16b4a8dd8aa3893a58 = $(`<div id="html_f5eb4d772e14cb16b4a8dd8aa3893a58" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Ballindamm 40, 20095 Hamburg, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 118<br>                     <b>📍 City:</b> Hamburg, Germany                 </div>             </div>             </div>`)[0];
+                popup_e30c7f34c9c336f7d88e4b186e5e3b7e.setContent(html_f5eb4d772e14cb16b4a8dd8aa3893a58);
+            
+        
+
+        marker_68b89d87a679d0471a2e077f2b0dc4c0.bindPopup(popup_e30c7f34c9c336f7d88e4b186e5e3b7e)
+        ;
+
+        
+    
+    
+            marker_68b89d87a679d0471a2e077f2b0dc4c0.bindTooltip(
+                `<div>
+                     Levi's - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_68b89d87a679d0471a2e077f2b0dc4c0.setIcon(icon_faaa1c7e9fd3e3d8527f971f7954127e);
+            
+    
+            var marker_5fd081381541a4430e22a718d1aba6bf = L.marker(
+                [53.5523408, 9.9326032],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_30dc9d8360b6d756c9a5df1621c43f1d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9c769407d4c72e216db6e1f18ea15f1b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_70c737fbdcbccf6dd32fad7917194d5c = $(`<div id="html_70c737fbdcbccf6dd32fad7917194d5c" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi's Mercado                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Ottenser Hauptstraße 10 |/Unit E29, 22765 Hamburg, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.9/5.0<br>                     <b>💬 Reviews:</b> 67<br>                     <b>📍 City:</b> Hamburg, Germany                 </div>             </div>             </div>`)[0];
+                popup_9c769407d4c72e216db6e1f18ea15f1b.setContent(html_70c737fbdcbccf6dd32fad7917194d5c);
+            
+        
+
+        marker_5fd081381541a4430e22a718d1aba6bf.bindPopup(popup_9c769407d4c72e216db6e1f18ea15f1b)
+        ;
+
+        
+    
+    
+            marker_5fd081381541a4430e22a718d1aba6bf.bindTooltip(
+                `<div>
+                     Levi's Mercado - 3.9⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5fd081381541a4430e22a718d1aba6bf.setIcon(icon_30dc9d8360b6d756c9a5df1621c43f1d);
+            
+    
+            var marker_c811ef66436323eda910c03c0511663f = L.marker(
+                [53.5516594, 9.9915417],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_58f4fd6d95378f15e3d57a06ef648cd0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_38ccfcfb4dd594194aba856f60388af0 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d7efda307910d4605325b71fedd18602 = $(`<div id="html_d7efda307910d4605325b71fedd18602" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi's® Schleusenbruecke                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Schleusenbrücke 1, 20354 Hamburg, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.2/5.0<br>                     <b>💬 Reviews:</b> 66<br>                     <b>📍 City:</b> Hamburg, Germany                 </div>             </div>             </div>`)[0];
+                popup_38ccfcfb4dd594194aba856f60388af0.setContent(html_d7efda307910d4605325b71fedd18602);
+            
+        
+
+        marker_c811ef66436323eda910c03c0511663f.bindPopup(popup_38ccfcfb4dd594194aba856f60388af0)
+        ;
+
+        
+    
+    
+            marker_c811ef66436323eda910c03c0511663f.bindTooltip(
+                `<div>
+                     Levi's® Schleusenbruecke - 4.2⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c811ef66436323eda910c03c0511663f.setIcon(icon_58f4fd6d95378f15e3d57a06ef648cd0);
+            
+    
+            var marker_6b0205d8efa30fe35f52a3b5d0a27c8c = L.marker(
+                [53.5602613, 9.9631906],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_74b97648f1a26442a63a26a49ed3bfbd = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d574ebcea7c13fe73f9a2d3816943895 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_fd4f15d3cbd5b5450235cc500b39a928 = $(`<div id="html_fd4f15d3cbd5b5450235cc500b39a928" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi's® Schulterblatt                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Schulterblatt 25, 22769 Hamburg, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.1/5.0<br>                     <b>💬 Reviews:</b> 55<br>                     <b>📍 City:</b> Hamburg, Germany                 </div>             </div>             </div>`)[0];
+                popup_d574ebcea7c13fe73f9a2d3816943895.setContent(html_fd4f15d3cbd5b5450235cc500b39a928);
+            
+        
+
+        marker_6b0205d8efa30fe35f52a3b5d0a27c8c.bindPopup(popup_d574ebcea7c13fe73f9a2d3816943895)
+        ;
+
+        
+    
+    
+            marker_6b0205d8efa30fe35f52a3b5d0a27c8c.bindTooltip(
+                `<div>
+                     Levi's® Schulterblatt - 4.1⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6b0205d8efa30fe35f52a3b5d0a27c8c.setIcon(icon_74b97648f1a26442a63a26a49ed3bfbd);
+            
+    
+            var marker_a98c04d4998c41b864102c255b54cbde = L.marker(
+                [53.5711504, 9.8619303],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_588da91888b4d558ea31b6dbea20b6ec = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "times",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c0a0b5b7494b93d6a58c088682edf436 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a81e79edeb25b600de07a2114810890e = $(`<div id="html_a81e79edeb25b600de07a2114810890e" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: red;                       border-bottom: 2px solid red; padding-bottom: 5px;'>                     🚫 CLOSURE CANDIDATE Levi's® EKZ                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Osdorfer Landstraße 131, 22609 Hamburg, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.5/5.0<br>                     <b>💬 Reviews:</b> 24<br>                     <b>📍 City:</b> Hamburg, Germany                 </div>             </div>             </div>`)[0];
+                popup_c0a0b5b7494b93d6a58c088682edf436.setContent(html_a81e79edeb25b600de07a2114810890e);
+            
+        
+
+        marker_a98c04d4998c41b864102c255b54cbde.bindPopup(popup_c0a0b5b7494b93d6a58c088682edf436)
+        ;
+
+        
+    
+    
+            marker_a98c04d4998c41b864102c255b54cbde.bindTooltip(
+                `<div>
+                     Levi's® EKZ - 3.5⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a98c04d4998c41b864102c255b54cbde.setIcon(icon_588da91888b4d558ea31b6dbea20b6ec);
+            
+    
+            var marker_73ae1b9ea7bb4160c1d63302b168b73e = L.marker(
+                [52.5103364, 13.3808472],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_25c1d168838b931d823470826eab545f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_da5e34367d0333d10ad4700fd2d387a0 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_644a281454739c47fc80f9cc086ca259 = $(`<div id="html_644a281454739c47fc80f9cc086ca259" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 Levi's® Mall of Berlin                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Leipziger Pl. 12, 10117 Berlin, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.7/5.0<br>                     <b>💬 Reviews:</b> 95<br>                     <b>📍 City:</b> Berlin, Germany                 </div>             </div>             </div>`)[0];
+                popup_da5e34367d0333d10ad4700fd2d387a0.setContent(html_644a281454739c47fc80f9cc086ca259);
+            
+        
+
+        marker_73ae1b9ea7bb4160c1d63302b168b73e.bindPopup(popup_da5e34367d0333d10ad4700fd2d387a0)
+        ;
+
+        
+    
+    
+            marker_73ae1b9ea7bb4160c1d63302b168b73e.bindTooltip(
+                `<div>
+                     Levi's® Mall of Berlin - 3.7⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_73ae1b9ea7bb4160c1d63302b168b73e.setIcon(icon_25c1d168838b931d823470826eab545f);
+            
+    
+            var marker_e154276c7d8eee7187a983b97dd79929 = L.marker(
+                [52.5199004, 13.4147949],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_24e166bc16eb19c897e9d98b94aa083a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3b0215db137f5b07a56807ecddebd2b3 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0018d5da0417e9cff60d5fa7ca62c4ea = $(`<div id="html_0018d5da0417e9cff60d5fa7ca62c4ea" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 Levi's® Berlin Alexa                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Grunerstraße 20, 10179 Berlin, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 181<br>                     <b>📍 City:</b> Berlin, Germany                 </div>             </div>             </div>`)[0];
+                popup_3b0215db137f5b07a56807ecddebd2b3.setContent(html_0018d5da0417e9cff60d5fa7ca62c4ea);
+            
+        
+
+        marker_e154276c7d8eee7187a983b97dd79929.bindPopup(popup_3b0215db137f5b07a56807ecddebd2b3)
+        ;
+
+        
+    
+    
+            marker_e154276c7d8eee7187a983b97dd79929.bindTooltip(
+                `<div>
+                     Levi's® Berlin Alexa - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e154276c7d8eee7187a983b97dd79929.setIcon(icon_24e166bc16eb19c897e9d98b94aa083a);
+            
+    
+            var marker_575f759ac0166c40b4228c1cd1394f0b = L.marker(
+                [52.52381, 13.40976],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_0ccf5f0e0d914c77036aa0ebd790adee = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9b8ea31e5cc00034860865a3f27d07a4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8be040a9765fda505f58c6d57dc35aa5 = $(`<div id="html_8be040a9765fda505f58c6d57dc35aa5" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Memhardstraße 7, 10178 Berlin, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.7/5.0<br>                     <b>💬 Reviews:</b> 238<br>                     <b>📍 City:</b> Berlin, Germany                 </div>             </div>             </div>`)[0];
+                popup_9b8ea31e5cc00034860865a3f27d07a4.setContent(html_8be040a9765fda505f58c6d57dc35aa5);
+            
+        
+
+        marker_575f759ac0166c40b4228c1cd1394f0b.bindPopup(popup_9b8ea31e5cc00034860865a3f27d07a4)
+        ;
+
+        
+    
+    
+            marker_575f759ac0166c40b4228c1cd1394f0b.bindTooltip(
+                `<div>
+                     Levi's - 3.7⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_575f759ac0166c40b4228c1cd1394f0b.setIcon(icon_0ccf5f0e0d914c77036aa0ebd790adee);
+            
+    
+            var marker_33c38c8e26628c4b261d1f6139682329 = L.marker(
+                [52.5012684, 13.340607],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_eb59bba54e807964fec2f49f33394578 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9185d77c94ebb01b4a9852cefc9d48d8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_4120785867c9630a8baf6ef8f64d968a = $(`<div id="html_4120785867c9630a8baf6ef8f64d968a" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Tauentzienstraße 21-24, 10789 Berlin, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 5.0/5.0<br>                     <b>💬 Reviews:</b> 1<br>                     <b>📍 City:</b> Berlin, Germany                 </div>             </div>             </div>`)[0];
+                popup_9185d77c94ebb01b4a9852cefc9d48d8.setContent(html_4120785867c9630a8baf6ef8f64d968a);
+            
+        
+
+        marker_33c38c8e26628c4b261d1f6139682329.bindPopup(popup_9185d77c94ebb01b4a9852cefc9d48d8)
+        ;
+
+        
+    
+    
+            marker_33c38c8e26628c4b261d1f6139682329.bindTooltip(
+                `<div>
+                     Levi's - 5.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_33c38c8e26628c4b261d1f6139682329.setIcon(icon_eb59bba54e807964fec2f49f33394578);
+            
+    
+            var marker_4a6cb624e15f6f9232cf5508707546f3 = L.marker(
+                [52.5042341, 13.3348783],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_617200c6e2b7d8c665952fe3c84df5ed = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2931549df8b5cc7c20b1b2bd271040d5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_acb9f4c1c2f8d5056bf93634473ae5fd = $(`<div id="html_acb9f4c1c2f8d5056bf93634473ae5fd" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Kurfürstendamm 237, 10719 Berlin, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.9/5.0<br>                     <b>💬 Reviews:</b> 493<br>                     <b>📍 City:</b> Berlin, Germany                 </div>             </div>             </div>`)[0];
+                popup_2931549df8b5cc7c20b1b2bd271040d5.setContent(html_acb9f4c1c2f8d5056bf93634473ae5fd);
+            
+        
+
+        marker_4a6cb624e15f6f9232cf5508707546f3.bindPopup(popup_2931549df8b5cc7c20b1b2bd271040d5)
+        ;
+
+        
+    
+    
+            marker_4a6cb624e15f6f9232cf5508707546f3.bindTooltip(
+                `<div>
+                     Levi's - 3.9⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4a6cb624e15f6f9232cf5508707546f3.setIcon(icon_617200c6e2b7d8c665952fe3c84df5ed);
+            
+    
+            var marker_89aabeacc6708900492309b9badfef24 = L.marker(
+                [52.4627292, 13.3249518],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_aad68bc9a32706fbf86f3079aea34ac7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c7f6d5bbec1d36d1ef1f282d1d002b00 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e7cdd2879e65428a1fe31c8599266195 = $(`<div id="html_e7cdd2879e65428a1fe31c8599266195" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Schloßstraße 15, 12163 Berlin, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.0/5.0<br>                     <b>💬 Reviews:</b> 97<br>                     <b>📍 City:</b> Berlin, Germany                 </div>             </div>             </div>`)[0];
+                popup_c7f6d5bbec1d36d1ef1f282d1d002b00.setContent(html_e7cdd2879e65428a1fe31c8599266195);
+            
+        
+
+        marker_89aabeacc6708900492309b9badfef24.bindPopup(popup_c7f6d5bbec1d36d1ef1f282d1d002b00)
+        ;
+
+        
+    
+    
+            marker_89aabeacc6708900492309b9badfef24.bindTooltip(
+                `<div>
+                     Levi's - 4.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_89aabeacc6708900492309b9badfef24.setIcon(icon_aad68bc9a32706fbf86f3079aea34ac7);
+            
+    
+            var marker_f5bc844f6cb8a13e7c29116de4088974 = L.marker(
+                [52.4575905, 13.3203174],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_8f33d5b76aef20e281c9f55387ddc8e6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a84366282a57364d2ad1baab217de645 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7a7649b974a04205b859c8fcd6eb09e1 = $(`<div id="html_7a7649b974a04205b859c8fcd6eb09e1" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 Levi's® Berlin Das Schloss                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Schloßstraße 34/Unit 53, 12163 Berlin, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.0/5.0<br>                     <b>💬 Reviews:</b> 31<br>                     <b>📍 City:</b> Berlin, Germany                 </div>             </div>             </div>`)[0];
+                popup_a84366282a57364d2ad1baab217de645.setContent(html_7a7649b974a04205b859c8fcd6eb09e1);
+            
+        
+
+        marker_f5bc844f6cb8a13e7c29116de4088974.bindPopup(popup_a84366282a57364d2ad1baab217de645)
+        ;
+
+        
+    
+    
+            marker_f5bc844f6cb8a13e7c29116de4088974.bindTooltip(
+                `<div>
+                     Levi's® Berlin Das Schloss - 4.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f5bc844f6cb8a13e7c29116de4088974.setIcon(icon_8f33d5b76aef20e281c9f55387ddc8e6);
+            
+    
+            var marker_b68fc1d5b547980e3d6c00382872a6df = L.marker(
+                [48.134682, 11.5687045],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_7c1f2b051e1de9bb367ae595589af68a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5527b55de609e87bf351f5c42cfaae6b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_cea2b8c29bf5349b5942fd7e00fbbb48 = $(`<div id="html_cea2b8c29bf5349b5942fd7e00fbbb48" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 Levi's Sendlinger Straße                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Sendlinger Str. 50, 80331 München, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.0/5.0<br>                     <b>💬 Reviews:</b> 224<br>                     <b>📍 City:</b> Munich, Germany                 </div>             </div>             </div>`)[0];
+                popup_5527b55de609e87bf351f5c42cfaae6b.setContent(html_cea2b8c29bf5349b5942fd7e00fbbb48);
+            
+        
+
+        marker_b68fc1d5b547980e3d6c00382872a6df.bindPopup(popup_5527b55de609e87bf351f5c42cfaae6b)
+        ;
+
+        
+    
+    
+            marker_b68fc1d5b547980e3d6c00382872a6df.bindTooltip(
+                `<div>
+                     Levi's Sendlinger Straße - 4.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b68fc1d5b547980e3d6c00382872a6df.setIcon(icon_7c1f2b051e1de9bb367ae595589af68a);
+            
+    
+            var marker_0d036ceffea46c99d7f81b3089f01132 = L.marker(
+                [48.1386947, 11.5673157],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_cc9d36e91df45b78ad5a8b297af0f226 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_26812a3da3fd33b2b28a1bc0896eebd5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7c61f2559eabd13bf55cf554209f9f40 = $(`<div id="html_7c61f2559eabd13bf55cf554209f9f40" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 Levi's Neuhauser Straße                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Neuhauser Str. 41, 80331 München, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 272<br>                     <b>📍 City:</b> Munich, Germany                 </div>             </div>             </div>`)[0];
+                popup_26812a3da3fd33b2b28a1bc0896eebd5.setContent(html_7c61f2559eabd13bf55cf554209f9f40);
+            
+        
+
+        marker_0d036ceffea46c99d7f81b3089f01132.bindPopup(popup_26812a3da3fd33b2b28a1bc0896eebd5)
+        ;
+
+        
+    
+    
+            marker_0d036ceffea46c99d7f81b3089f01132.bindTooltip(
+                `<div>
+                     Levi's Neuhauser Straße - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0d036ceffea46c99d7f81b3089f01132.setIcon(icon_cc9d36e91df45b78ad5a8b297af0f226);
+            
+    
+            var marker_dcda18e0fccf1984b338fd754118d768 = L.marker(
+                [48.183458, 11.534715],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_ca58a97382307df913f396b740123755 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "times",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_238729bd24690ecdbd8e10e690493733 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c2792774fc99f3b3a6f3914c326fa99b = $(`<div id="html_c2792774fc99f3b3a6f3914c326fa99b" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: red;                       border-bottom: 2px solid red; padding-bottom: 5px;'>                     🚫 CLOSURE CANDIDATE Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Hanauer Str. 68, 80993 München, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.1/5.0<br>                     <b>💬 Reviews:</b> 79<br>                     <b>📍 City:</b> Munich, Germany                 </div>             </div>             </div>`)[0];
+                popup_238729bd24690ecdbd8e10e690493733.setContent(html_c2792774fc99f3b3a6f3914c326fa99b);
+            
+        
+
+        marker_dcda18e0fccf1984b338fd754118d768.bindPopup(popup_238729bd24690ecdbd8e10e690493733)
+        ;
+
+        
+    
+    
+            marker_dcda18e0fccf1984b338fd754118d768.bindTooltip(
+                `<div>
+                     Levi's - 3.1⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_dcda18e0fccf1984b338fd754118d768.setIcon(icon_ca58a97382307df913f396b740123755);
+            
+    
+            var marker_fc5834890969aab14dd20f5414dec3e1 = L.marker(
+                [48.1320275, 11.692166],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_9de56e0316dc6cbeca5fc3d4797cd31f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_babec987168a0b8d7e641abd4c8046c1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_31255be39db6765eb485cb5c14b809bd = $(`<div id="html_31255be39db6765eb485cb5c14b809bd" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>StadtQuartier Riem Arcaden Shop OG Shop 14, Willy-Brandt-Platz 5, 81829 München, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.7/5.0<br>                     <b>💬 Reviews:</b> 69<br>                     <b>📍 City:</b> Munich, Germany                 </div>             </div>             </div>`)[0];
+                popup_babec987168a0b8d7e641abd4c8046c1.setContent(html_31255be39db6765eb485cb5c14b809bd);
+            
+        
+
+        marker_fc5834890969aab14dd20f5414dec3e1.bindPopup(popup_babec987168a0b8d7e641abd4c8046c1)
+        ;
+
+        
+    
+    
+            marker_fc5834890969aab14dd20f5414dec3e1.bindTooltip(
+                `<div>
+                     Levi's - 3.7⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_fc5834890969aab14dd20f5414dec3e1.setIcon(icon_9de56e0316dc6cbeca5fc3d4797cd31f);
+            
+    
+            var marker_c2569d1fbb34a0dcc7460578b43641c8 = L.marker(
+                [48.1006615, 11.6450634],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_82db53afa1b75c4432b301b26d1932c8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2f246bed5a6f31544aee80d792440a08 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ec59465dc6fd9076a14c91025a623a3f = $(`<div id="html_ec59465dc6fd9076a14c91025a623a3f" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Einkaufs-Center Neuperlach, Ollenhauerstraße 6, 81737 München, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.9/5.0<br>                     <b>💬 Reviews:</b> 48<br>                     <b>📍 City:</b> Munich, Germany                 </div>             </div>             </div>`)[0];
+                popup_2f246bed5a6f31544aee80d792440a08.setContent(html_ec59465dc6fd9076a14c91025a623a3f);
+            
+        
+
+        marker_c2569d1fbb34a0dcc7460578b43641c8.bindPopup(popup_2f246bed5a6f31544aee80d792440a08)
+        ;
+
+        
+    
+    
+            marker_c2569d1fbb34a0dcc7460578b43641c8.bindTooltip(
+                `<div>
+                     Levi's - 3.9⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c2569d1fbb34a0dcc7460578b43641c8.setIcon(icon_82db53afa1b75c4432b301b26d1932c8);
+            
+    
+            var marker_a349bbf64260b1f118202c55d7221b40 = L.marker(
+                [51.0500476, 13.7354322],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_b3d379f3bd0eb811851d4b02972a9210 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ace30b863ecf05aaac82b9b3c32ff090 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a774e74322f81bad82328d15e667b227 = $(`<div id="html_a774e74322f81bad82328d15e667b227" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: orange;                       border-bottom: 2px solid orange; padding-bottom: 5px;'>                     🛒 Levi's® Dresden Altmarkt-Galerie                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Webergasse 1, 01067 Dresden, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.0/5.0<br>                     <b>💬 Reviews:</b> 68<br>                     <b>📍 City:</b> Dresden, Germany                 </div>             </div>             </div>`)[0];
+                popup_ace30b863ecf05aaac82b9b3c32ff090.setContent(html_a774e74322f81bad82328d15e667b227);
+            
+        
+
+        marker_a349bbf64260b1f118202c55d7221b40.bindPopup(popup_ace30b863ecf05aaac82b9b3c32ff090)
+        ;
+
+        
+    
+    
+            marker_a349bbf64260b1f118202c55d7221b40.bindTooltip(
+                `<div>
+                     Levi's® Dresden Altmarkt-Galer - 4.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a349bbf64260b1f118202c55d7221b40.setIcon(icon_b3d379f3bd0eb811851d4b02972a9210);
+            
+    
+            var marker_f99b132bde3e4f8b9eb874f8013a4e93 = L.marker(
+                [51.0850343, 13.6961135],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_0cf6634bd21b71004660c5a8bb294715 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_009e4b5f5b0a2b2562f090d9a100eee6 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2991e0e98f4cfdcc7e2b38f9fe3472bb = $(`<div id="html_2991e0e98f4cfdcc7e2b38f9fe3472bb" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: orange;                       border-bottom: 2px solid orange; padding-bottom: 5px;'>                     🛒 Levi's® Dresden Elbepark                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Peschelstraße 33, 01139 Dresden, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.4/5.0<br>                     <b>💬 Reviews:</b> 10<br>                     <b>📍 City:</b> Dresden, Germany                 </div>             </div>             </div>`)[0];
+                popup_009e4b5f5b0a2b2562f090d9a100eee6.setContent(html_2991e0e98f4cfdcc7e2b38f9fe3472bb);
+            
+        
+
+        marker_f99b132bde3e4f8b9eb874f8013a4e93.bindPopup(popup_009e4b5f5b0a2b2562f090d9a100eee6)
+        ;
+
+        
+    
+    
+            marker_f99b132bde3e4f8b9eb874f8013a4e93.bindTooltip(
+                `<div>
+                     Levi's® Dresden Elbepark - 4.4⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f99b132bde3e4f8b9eb874f8013a4e93.setIcon(icon_0cf6634bd21b71004660c5a8bb294715);
+            
+    
+            var marker_467bcd9fc2136359e87ab419de7507d6 = L.marker(
+                [51.0431938, 13.7354665],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_a2673c408b73d6946659045e2990f8da = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_678e92e2ce3644748b735bcd62776bcf = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_6a07a30bf8dc5a7895541b825f60f254 = $(`<div id="html_6a07a30bf8dc5a7895541b825f60f254" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: orange;                       border-bottom: 2px solid orange; padding-bottom: 5px;'>                     🛒 Levi's® Pragerstrasse                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Prager Str. 4a, 01069 Dresden, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.1/5.0<br>                     <b>💬 Reviews:</b> 99<br>                     <b>📍 City:</b> Dresden, Germany                 </div>             </div>             </div>`)[0];
+                popup_678e92e2ce3644748b735bcd62776bcf.setContent(html_6a07a30bf8dc5a7895541b825f60f254);
+            
+        
+
+        marker_467bcd9fc2136359e87ab419de7507d6.bindPopup(popup_678e92e2ce3644748b735bcd62776bcf)
+        ;
+
+        
+    
+    
+            marker_467bcd9fc2136359e87ab419de7507d6.bindTooltip(
+                `<div>
+                     Levi's® Pragerstrasse - 4.1⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_467bcd9fc2136359e87ab419de7507d6.setIcon(icon_a2673c408b73d6946659045e2990f8da);
+            
+    
+            var marker_202d75754d1fec70409dc7fcd1672ab5 = L.marker(
+                [50.9384059, 6.9421934],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_92d6113ed2e6a754ebd1040e2c98e181 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "cadetblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_99b498b7323ce5f770ad97b3e401a033 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c6805c890cefba53c9aacefde70602ef = $(`<div id="html_c6805c890cefba53c9aacefde70602ef" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: cadetblue;                       border-bottom: 2px solid cadetblue; padding-bottom: 5px;'>                     🛒 Levi's® Ehrenstrasse                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Ehrenstraße 60-64, 50672 Köln, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.1/5.0<br>                     <b>💬 Reviews:</b> 152<br>                     <b>📍 City:</b> Cologne, Germany                 </div>             </div>             </div>`)[0];
+                popup_99b498b7323ce5f770ad97b3e401a033.setContent(html_c6805c890cefba53c9aacefde70602ef);
+            
+        
+
+        marker_202d75754d1fec70409dc7fcd1672ab5.bindPopup(popup_99b498b7323ce5f770ad97b3e401a033)
+        ;
+
+        
+    
+    
+            marker_202d75754d1fec70409dc7fcd1672ab5.bindTooltip(
+                `<div>
+                     Levi's® Ehrenstrasse - 4.1⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_202d75754d1fec70409dc7fcd1672ab5.setIcon(icon_92d6113ed2e6a754ebd1040e2c98e181);
+            
+    
+            var marker_c974f8c85d4ed846e602df2029be9bde = L.marker(
+                [50.9366219, 6.9525178],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_9c01c2cb1af569fc709460d9b18b4e64 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "cadetblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c61d32436c366c8d4e132798bfd7ddb9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_985f1c9551bddd69c023ff484c0064f1 = $(`<div id="html_985f1c9551bddd69c023ff484c0064f1" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: cadetblue;                       border-bottom: 2px solid cadetblue; padding-bottom: 5px;'>                     🛒 Levi's® Koln Schildergasse                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Schildergasse 72-76, 50667 Köln, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 181<br>                     <b>📍 City:</b> Cologne, Germany                 </div>             </div>             </div>`)[0];
+                popup_c61d32436c366c8d4e132798bfd7ddb9.setContent(html_985f1c9551bddd69c023ff484c0064f1);
+            
+        
+
+        marker_c974f8c85d4ed846e602df2029be9bde.bindPopup(popup_c61d32436c366c8d4e132798bfd7ddb9)
+        ;
+
+        
+    
+    
+            marker_c974f8c85d4ed846e602df2029be9bde.bindTooltip(
+                `<div>
+                     Levi's® Koln Schildergasse - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c974f8c85d4ed846e602df2029be9bde.setIcon(icon_9c01c2cb1af569fc709460d9b18b4e64);
+            
+    
+            var marker_f16520e6de097fe58c9b5f37ccd33c8d = L.marker(
+                [48.3655082, 10.9075113],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_cf433176729fd55b9f4f68f08e8a65fe = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkgreen",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_091413289e9eac1619dc5e5c988bf0bf = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e4f45becf08db7d18b6a451b1d55aab4 = $(`<div id="html_e4f45becf08db7d18b6a451b1d55aab4" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: darkgreen;                       border-bottom: 2px solid darkgreen; padding-bottom: 5px;'>                     🛒 Levi's® Augsburg                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Willy-Brandt-Platz 1, 86153 Augsburg, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.2/5.0<br>                     <b>💬 Reviews:</b> 40<br>                     <b>📍 City:</b> Augsburg, Germany                 </div>             </div>             </div>`)[0];
+                popup_091413289e9eac1619dc5e5c988bf0bf.setContent(html_e4f45becf08db7d18b6a451b1d55aab4);
+            
+        
+
+        marker_f16520e6de097fe58c9b5f37ccd33c8d.bindPopup(popup_091413289e9eac1619dc5e5c988bf0bf)
+        ;
+
+        
+    
+    
+            marker_f16520e6de097fe58c9b5f37ccd33c8d.bindTooltip(
+                `<div>
+                     Levi's® Augsburg - 4.2⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f16520e6de097fe58c9b5f37ccd33c8d.setIcon(icon_cf433176729fd55b9f4f68f08e8a65fe);
+            
+    
+            var marker_2882dc39b63eb92de3e622dfbb9437c7 = L.marker(
+                [48.3686721, 10.896919],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_5f956246ce7948800b008c509012b411 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkgreen",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_adc69ce22daf309088caaeda33ebea96 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_82dcc37fd8b4cf23b742d2a6c4432294 = $(`<div id="html_82dcc37fd8b4cf23b742d2a6c4432294" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: darkgreen;                       border-bottom: 2px solid darkgreen; padding-bottom: 5px;'>                     🛒 Levis Store Augsburg                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Philippine-Welser-Str. 14, 86150 Augsburg, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 5.0/5.0<br>                     <b>💬 Reviews:</b> 1<br>                     <b>📍 City:</b> Augsburg, Germany                 </div>             </div>             </div>`)[0];
+                popup_adc69ce22daf309088caaeda33ebea96.setContent(html_82dcc37fd8b4cf23b742d2a6c4432294);
+            
+        
+
+        marker_2882dc39b63eb92de3e622dfbb9437c7.bindPopup(popup_adc69ce22daf309088caaeda33ebea96)
+        ;
+
+        
+    
+    
+            marker_2882dc39b63eb92de3e622dfbb9437c7.bindTooltip(
+                `<div>
+                     Levis Store Augsburg - 5.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2882dc39b63eb92de3e622dfbb9437c7.setIcon(icon_5f956246ce7948800b008c509012b411);
+            
+    
+            var marker_b5185efbd9f65041754fa224770e2f18 = L.marker(
+                [48.5365373, 9.2819326],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_834b363ea3878dda234d611d4de7cc0c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7003ce77083a50e7bb16c0ff378f4da9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c5485f85539565d861df66526e7ccbcb = $(`<div id="html_c5485f85539565d861df66526e7ccbcb" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: darkblue;                       border-bottom: 2px solid darkblue; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Reutlinger Str. 36, 72555 Metzingen, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.4/5.0<br>                     <b>💬 Reviews:</b> 786<br>                     <b>📍 City:</b> Metzingen, Germany                 </div>             </div>             </div>`)[0];
+                popup_7003ce77083a50e7bb16c0ff378f4da9.setContent(html_c5485f85539565d861df66526e7ccbcb);
+            
+        
+
+        marker_b5185efbd9f65041754fa224770e2f18.bindPopup(popup_7003ce77083a50e7bb16c0ff378f4da9)
+        ;
+
+        
+    
+    
+            marker_b5185efbd9f65041754fa224770e2f18.bindTooltip(
+                `<div>
+                     Levi's - 4.4⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b5185efbd9f65041754fa224770e2f18.setIcon(icon_834b363ea3878dda234d611d4de7cc0c);
+            
+    
+            var marker_30f1a00f5f0347b79103bd582c019353 = L.marker(
+                [48.5359688, 9.282292],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_e2ac1efe071d99e33ed4abeefc5cbdd3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_15b7ff7a6b7abf8c21c0658bbff20776 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9ff0bcebbcbd8620393580062cf7ad83 = $(`<div id="html_9ff0bcebbcbd8620393580062cf7ad83" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: darkblue;                       border-bottom: 2px solid darkblue; padding-bottom: 5px;'>                     🛒 Lee & Wrangler Outlet Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Kanalstraße 6, 72555 Metzingen, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.1/5.0<br>                     <b>💬 Reviews:</b> 26<br>                     <b>📍 City:</b> Metzingen, Germany                 </div>             </div>             </div>`)[0];
+                popup_15b7ff7a6b7abf8c21c0658bbff20776.setContent(html_9ff0bcebbcbd8620393580062cf7ad83);
+            
+        
+
+        marker_30f1a00f5f0347b79103bd582c019353.bindPopup(popup_15b7ff7a6b7abf8c21c0658bbff20776)
+        ;
+
+        
+    
+    
+            marker_30f1a00f5f0347b79103bd582c019353.bindTooltip(
+                `<div>
+                     Lee & Wrangler Outlet Store - 4.1⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_30f1a00f5f0347b79103bd582c019353.setIcon(icon_e2ac1efe071d99e33ed4abeefc5cbdd3);
+            
+    
+            var marker_e56daee88d655fc9f7cbff8fe0455d0c = L.marker(
+                [50.1138316, 8.6762124],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_1a21243a331683517aef1f36fa76395b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "pink",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fcd359effcfb97d02966934259591f8d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e2ff3fd1c307354949fc41a36bf702ef = $(`<div id="html_e2ff3fd1c307354949fc41a36bf702ef" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: pink;                       border-bottom: 2px solid pink; padding-bottom: 5px;'>                     🛒 Levi's Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Rathenaupl. 1a, 60313 Frankfurt am Main, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.2/5.0<br>                     <b>💬 Reviews:</b> 121<br>                     <b>📍 City:</b> Frankfurt am Main, Germany                 </div>             </div>             </div>`)[0];
+                popup_fcd359effcfb97d02966934259591f8d.setContent(html_e2ff3fd1c307354949fc41a36bf702ef);
+            
+        
+
+        marker_e56daee88d655fc9f7cbff8fe0455d0c.bindPopup(popup_fcd359effcfb97d02966934259591f8d)
+        ;
+
+        
+    
+    
+            marker_e56daee88d655fc9f7cbff8fe0455d0c.bindTooltip(
+                `<div>
+                     Levi's Store - 4.2⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e56daee88d655fc9f7cbff8fe0455d0c.setIcon(icon_1a21243a331683517aef1f36fa76395b);
+            
+    
+            var marker_4769cca25f4c141509ef6a3fd9a693c5 = L.marker(
+                [50.1147923, 8.6818249],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_c11e835225a45e2f9379f8759896ee2b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "pink",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1af59aa3b866fa4d8dd07539589ee163 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_10b2e184d59cfe28f0ab1a91a25a711f = $(`<div id="html_10b2e184d59cfe28f0ab1a91a25a711f" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: pink;                       border-bottom: 2px solid pink; padding-bottom: 5px;'>                     🛒 Levi's® Frankfurt                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Zeil 106, 60313 Frankfurt am Main, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 79<br>                     <b>📍 City:</b> Frankfurt am Main, Germany                 </div>             </div>             </div>`)[0];
+                popup_1af59aa3b866fa4d8dd07539589ee163.setContent(html_10b2e184d59cfe28f0ab1a91a25a711f);
+            
+        
+
+        marker_4769cca25f4c141509ef6a3fd9a693c5.bindPopup(popup_1af59aa3b866fa4d8dd07539589ee163)
+        ;
+
+        
+    
+    
+            marker_4769cca25f4c141509ef6a3fd9a693c5.bindTooltip(
+                `<div>
+                     Levi's® Frankfurt - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4769cca25f4c141509ef6a3fd9a693c5.setIcon(icon_c11e835225a45e2f9379f8759896ee2b);
+            
+    
+            var marker_52321ed2e26269a2a46c80816f9b4d31 = L.marker(
+                [51.2243888, 6.774127],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_f5f1aa70addce23e6f94d3499d57c6ce = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgreen",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6e0667a7368c74c9a92cec9ec3ee9e55 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9ef8b7fc1d18ccd008d3f305073d0e91 = $(`<div id="html_9ef8b7fc1d18ccd008d3f305073d0e91" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: lightgreen;                       border-bottom: 2px solid lightgreen; padding-bottom: 5px;'>                     🛒 Levi's Mittelstrasse                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Mittelstraße 17, 40213 Düsseldorf, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.0/5.0<br>                     <b>💬 Reviews:</b> 113<br>                     <b>📍 City:</b> Düsseldorf, Germany                 </div>             </div>             </div>`)[0];
+                popup_6e0667a7368c74c9a92cec9ec3ee9e55.setContent(html_9ef8b7fc1d18ccd008d3f305073d0e91);
+            
+        
+
+        marker_52321ed2e26269a2a46c80816f9b4d31.bindPopup(popup_6e0667a7368c74c9a92cec9ec3ee9e55)
+        ;
+
+        
+    
+    
+            marker_52321ed2e26269a2a46c80816f9b4d31.bindTooltip(
+                `<div>
+                     Levi's Mittelstrasse - 4.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_52321ed2e26269a2a46c80816f9b4d31.setIcon(icon_f5f1aa70addce23e6f94d3499d57c6ce);
+            
+    
+            var marker_1dbd723aa4307188e7f4163cfeb4090e = L.marker(
+                [51.2267258, 6.784371],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_a14fb1fdb64575cba8529f39e1c95877 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgreen",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f2a8da14781218266f6b4f8fea22d297 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_adcd2e1ea20c5cdc794210ed8dffa5b4 = $(`<div id="html_adcd2e1ea20c5cdc794210ed8dffa5b4" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: lightgreen;                       border-bottom: 2px solid lightgreen; padding-bottom: 5px;'>                     🛒 Levi's Store Düsseldorf                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Schadowstraße 55, 40212 Düsseldorf, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 124<br>                     <b>📍 City:</b> Düsseldorf, Germany                 </div>             </div>             </div>`)[0];
+                popup_f2a8da14781218266f6b4f8fea22d297.setContent(html_adcd2e1ea20c5cdc794210ed8dffa5b4);
+            
+        
+
+        marker_1dbd723aa4307188e7f4163cfeb4090e.bindPopup(popup_f2a8da14781218266f6b4f8fea22d297)
+        ;
+
+        
+    
+    
+            marker_1dbd723aa4307188e7f4163cfeb4090e.bindTooltip(
+                `<div>
+                     Levi's Store Düsseldorf - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1dbd723aa4307188e7f4163cfeb4090e.setIcon(icon_a14fb1fdb64575cba8529f39e1c95877);
+            
+    
+            var marker_5b59d659ee17f67bc139c49953c8926e = L.marker(
+                [48.7765607, 9.1767708],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_e94fe4f878283d453bb8744b64fd2eec = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_95a9cbd5dbf5133b93e199ef626fc095 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_fa4fcdf43f58b94f7c494fc9c659eecb = $(`<div id="html_fa4fcdf43f58b94f7c494fc9c659eecb" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: lightblue;                       border-bottom: 2px solid lightblue; padding-bottom: 5px;'>                     🛒 Levi's® Konigstrasse                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Königstraße 21, 70173 Stuttgart, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.7/5.0<br>                     <b>💬 Reviews:</b> 89<br>                     <b>📍 City:</b> Stuttgart, Germany                 </div>             </div>             </div>`)[0];
+                popup_95a9cbd5dbf5133b93e199ef626fc095.setContent(html_fa4fcdf43f58b94f7c494fc9c659eecb);
+            
+        
+
+        marker_5b59d659ee17f67bc139c49953c8926e.bindPopup(popup_95a9cbd5dbf5133b93e199ef626fc095)
+        ;
+
+        
+    
+    
+            marker_5b59d659ee17f67bc139c49953c8926e.bindTooltip(
+                `<div>
+                     Levi's® Konigstrasse - 3.7⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5b59d659ee17f67bc139c49953c8926e.setIcon(icon_e94fe4f878283d453bb8744b64fd2eec);
+            
+    
+            var marker_218fc9bf8a26f9f215599c7f6643dd18 = L.marker(
+                [48.7910041, 9.1840923],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_a5bfac5a41c6ddf91ee463538ef71d5c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_cb8c98f724929e0afa043c37d7768f47 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7f962ef980ed52dedf588fc899ac7b4f = $(`<div id="html_7f962ef980ed52dedf588fc899ac7b4f" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: lightblue;                       border-bottom: 2px solid lightblue; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Mailänder Platz 7, 70173 Stuttgart, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.0/5.0<br>                     <b>💬 Reviews:</b> 171<br>                     <b>📍 City:</b> Stuttgart, Germany                 </div>             </div>             </div>`)[0];
+                popup_cb8c98f724929e0afa043c37d7768f47.setContent(html_7f962ef980ed52dedf588fc899ac7b4f);
+            
+        
+
+        marker_218fc9bf8a26f9f215599c7f6643dd18.bindPopup(popup_cb8c98f724929e0afa043c37d7768f47)
+        ;
+
+        
+    
+    
+            marker_218fc9bf8a26f9f215599c7f6643dd18.bindTooltip(
+                `<div>
+                     Levi's - 4.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_218fc9bf8a26f9f215599c7f6643dd18.setIcon(icon_a5bfac5a41c6ddf91ee463538ef71d5c);
+            
+    
+            var marker_ffd923deb1318969d74b738643ebd7bc = L.marker(
+                [49.7751196, 9.5776226],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_db7c5490922a988796fae90ff8615b59 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "beige",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6b8e2f4bccdc117d5074c282e958d98b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0b669f33219eaad1a8a63a6e787e6f20 = $(`<div id="html_0b669f33219eaad1a8a63a6e787e6f20" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: beige;                       border-bottom: 2px solid beige; padding-bottom: 5px;'>                     🛒 Levi's® Factory Outlet Wertheim                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Factory Outlet Wertheim Village - Almosenberg Shop 15/16, 97877 Wertheim, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.2/5.0<br>                     <b>💬 Reviews:</b> 289<br>                     <b>📍 City:</b> Wertheim am Main, Germany                 </div>             </div>             </div>`)[0];
+                popup_6b8e2f4bccdc117d5074c282e958d98b.setContent(html_0b669f33219eaad1a8a63a6e787e6f20);
+            
+        
+
+        marker_ffd923deb1318969d74b738643ebd7bc.bindPopup(popup_6b8e2f4bccdc117d5074c282e958d98b)
+        ;
+
+        
+    
+    
+            marker_ffd923deb1318969d74b738643ebd7bc.bindTooltip(
+                `<div>
+                     Levi's® Factory Outlet Werthei - 4.2⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ffd923deb1318969d74b738643ebd7bc.setIcon(icon_db7c5490922a988796fae90ff8615b59);
+            
+    
+            var marker_db9d4241ad38ff5bc9449cf9592d16d5 = L.marker(
+                [49.7732487, 9.5785398],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_9e47fe89fa89e84c1747e925e6195f91 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "beige",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_41f52303f0045e12de9360c5a80cb5a1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_13a95c08f6d50f7979b7b9eed7a0097a = $(`<div id="html_13a95c08f6d50f7979b7b9eed7a0097a" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: beige;                       border-bottom: 2px solid beige; padding-bottom: 5px;'>                     🛒 Levi's® Outlet Wertheim Pop-Up                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Almosenberg unit 52-54, 97877 Wertheim, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 5.0/5.0<br>                     <b>💬 Reviews:</b> 1<br>                     <b>📍 City:</b> Wertheim am Main, Germany                 </div>             </div>             </div>`)[0];
+                popup_41f52303f0045e12de9360c5a80cb5a1.setContent(html_13a95c08f6d50f7979b7b9eed7a0097a);
+            
+        
+
+        marker_db9d4241ad38ff5bc9449cf9592d16d5.bindPopup(popup_41f52303f0045e12de9360c5a80cb5a1)
+        ;
+
+        
+    
+    
+            marker_db9d4241ad38ff5bc9449cf9592d16d5.bindTooltip(
+                `<div>
+                     Levi's® Outlet Wertheim Pop-Up - 5.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_db9d4241ad38ff5bc9449cf9592d16d5.setIcon(icon_9e47fe89fa89e84c1747e925e6195f91);
+            
+    
+            var marker_47e5318a6024e04f5ded44df352638dd = L.marker(
+                [49.4501989, 11.0746661],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_2098292ba3c8c8bb254d336e40c956a8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightred",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c8c93fbb7c2ad5852aea34cf91b1198f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_18eb183f2ebbaed2fe878f1a5599f7c0 = $(`<div id="html_18eb183f2ebbaed2fe878f1a5599f7c0" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: lightred;                       border-bottom: 2px solid lightred; padding-bottom: 5px;'>                     🛒 Levi's Nuernberg                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Breite G. 58, 90402 Nürnberg, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.2/5.0<br>                     <b>💬 Reviews:</b> 105<br>                     <b>📍 City:</b> Nuremberg, Germany                 </div>             </div>             </div>`)[0];
+                popup_c8c93fbb7c2ad5852aea34cf91b1198f.setContent(html_18eb183f2ebbaed2fe878f1a5599f7c0);
+            
+        
+
+        marker_47e5318a6024e04f5ded44df352638dd.bindPopup(popup_c8c93fbb7c2ad5852aea34cf91b1198f)
+        ;
+
+        
+    
+    
+            marker_47e5318a6024e04f5ded44df352638dd.bindTooltip(
+                `<div>
+                     Levi's Nuernberg - 4.2⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_47e5318a6024e04f5ded44df352638dd.setIcon(icon_2098292ba3c8c8bb254d336e40c956a8);
+            
+    
+            var marker_9bcf6e3481b6f83e9a757652c81a7b66 = L.marker(
+                [49.4512508, 11.0734477],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_19fc881db7515fc71be849add27af13e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightred",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_594cd82f6701e0c7ef9999c1b54a5ede = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_39cbdecd8f031e36cda8cf2383926e88 = $(`<div id="html_39cbdecd8f031e36cda8cf2383926e88" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: lightred;                       border-bottom: 2px solid lightred; padding-bottom: 5px;'>                     🛒 Levi's® Nuernberg Karolinen Strasse                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Karolinenstraße 42-44, 90402 Nürnberg, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.5/5.0<br>                     <b>💬 Reviews:</b> 26<br>                     <b>📍 City:</b> Nuremberg, Germany                 </div>             </div>             </div>`)[0];
+                popup_594cd82f6701e0c7ef9999c1b54a5ede.setContent(html_39cbdecd8f031e36cda8cf2383926e88);
+            
+        
+
+        marker_9bcf6e3481b6f83e9a757652c81a7b66.bindPopup(popup_594cd82f6701e0c7ef9999c1b54a5ede)
+        ;
+
+        
+    
+    
+            marker_9bcf6e3481b6f83e9a757652c81a7b66.bindTooltip(
+                `<div>
+                     Levi's® Nuernberg Karolinen St - 4.5⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9bcf6e3481b6f83e9a757652c81a7b66.setIcon(icon_19fc881db7515fc71be849add27af13e);
+            
+    
+            var marker_a2c1803087e26337193347ccfb9aabcb = L.marker(
+                [51.5132736, 7.4593609],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_57251fa97507037df7e029c1790952b2 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "gray",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8bb01bf00aa1350e09fe44ee569bacfe = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_cccd2884fcb1046d80c9f30a44b9325c = $(`<div id="html_cccd2884fcb1046d80c9f30a44b9325c" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: gray;                       border-bottom: 2px solid gray; padding-bottom: 5px;'>                     🛒 Levi's Dortmund                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Westenhellweg 102-106, 44137 Dortmund, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.0/5.0<br>                     <b>💬 Reviews:</b> 140<br>                     <b>📍 City:</b> Dortmund, Germany                 </div>             </div>             </div>`)[0];
+                popup_8bb01bf00aa1350e09fe44ee569bacfe.setContent(html_cccd2884fcb1046d80c9f30a44b9325c);
+            
+        
+
+        marker_a2c1803087e26337193347ccfb9aabcb.bindPopup(popup_8bb01bf00aa1350e09fe44ee569bacfe)
+        ;
+
+        
+    
+    
+            marker_a2c1803087e26337193347ccfb9aabcb.bindTooltip(
+                `<div>
+                     Levi's Dortmund - 4.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a2c1803087e26337193347ccfb9aabcb.setIcon(icon_57251fa97507037df7e029c1790952b2);
+            
+    
+            var marker_f4a9c2612ab8911b0fa84cff603c10a1 = L.marker(
+                [51.5144833, 7.4621176],
+                {
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            var icon_235ca1d0ffb78cf80f153d6c3237054b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "gray",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e318366aeef9e279030e8edc235859c9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2a78716fbbee0ed940db6d126f517933 = $(`<div id="html_2a78716fbbee0ed940db6d126f517933" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: gray;                       border-bottom: 2px solid gray; padding-bottom: 5px;'>                     🛒 Levi's® Westenhellweg                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Westenhellweg 55-57, 44137 Dortmund, Germany</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.4/5.0<br>                     <b>💬 Reviews:</b> 38<br>                     <b>📍 City:</b> Dortmund, Germany                 </div>             </div>             </div>`)[0];
+                popup_e318366aeef9e279030e8edc235859c9.setContent(html_2a78716fbbee0ed940db6d126f517933);
+            
+        
+
+        marker_f4a9c2612ab8911b0fa84cff603c10a1.bindPopup(popup_e318366aeef9e279030e8edc235859c9)
+        ;
+
+        
+    
+    
+            marker_f4a9c2612ab8911b0fa84cff603c10a1.bindTooltip(
+                `<div>
+                     Levi's® Westenhellweg - 4.4⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f4a9c2612ab8911b0fa84cff603c10a1.setIcon(icon_235ca1d0ffb78cf80f153d6c3237054b);
+            
+    
+            var poly_line_8acd49c316557c8d55fe028305710aef = L.polyline(
+                [[53.550585, 10.000403], [53.550579, 10.000348], [53.550552, 10.000175], [53.550426, 10.000136], [53.550095, 10.000187], [53.55004, 10.000193], [53.549974, 10.000201], [53.549979, 10.000318], [53.549986, 10.000526], [53.549993, 10.000838], [53.549993, 10.001322], [53.549993, 10.001424], [53.549996, 10.001503], [53.550001, 10.001659], [53.550015, 10.001799], [53.550023, 10.001877], [53.550046, 10.002119], [53.550057, 10.002272], [53.550058, 10.002307], [53.550062, 10.002417], [53.550066, 10.002527], [53.550072, 10.002735], [53.550081, 10.003364], [53.550091, 10.004535], [53.550091, 10.004592], [53.550096, 10.004845], [53.550097, 10.004926], [53.550092, 10.005062], [53.550025, 10.005056], [53.549983, 10.005049], [53.549892, 10.005037], [53.549528, 10.004987], [53.549421, 10.004996], [53.549317, 10.004973], [53.549089, 10.004906], [53.549029, 10.004882], [53.548928, 10.004866], [53.548751, 10.004777], [53.548639, 10.004709], [53.548577, 10.004655], [53.548544, 10.004636], [53.548513, 10.004631], [53.548472, 10.004628], [53.548431, 10.004635], [53.548393, 10.004645], [53.548357, 10.004661], [53.548318, 10.004691], [53.548282, 10.004724], [53.548037, 10.005012], [53.548013, 10.005047], [53.547986, 10.005089], [53.547931, 10.005175], [53.547732, 10.005495], [53.547693, 10.005592], [53.547665, 10.005693], [53.547652, 10.005807], [53.547753, 10.005988], [53.547822, 10.006074], [53.547871, 10.006118], [53.547944, 10.006154], [53.548046, 10.006194], [53.548138, 10.006216], [53.548258, 10.006241], [53.54847, 10.006246], [53.548615, 10.006204], [53.548762, 10.00623], [53.549168, 10.006333], [53.54949, 10.006413], [53.549656, 10.006438], [53.549774, 10.00645], [53.549861, 10.006456], [53.550094, 10.006455], [53.55035, 10.006427], [53.550541, 10.006383], [53.55076, 10.006314], [53.550933, 10.006255], [53.551137, 10.006174], [53.55138, 10.006078], [53.55187, 10.005896], [53.552138, 10.005805], [53.552375, 10.005711], [53.552478, 10.005659], [53.552609, 10.005583], [53.552701, 10.005517], [53.552819, 10.005415], [53.552957, 10.005277], [53.553233, 10.004944], [53.553495, 10.004611], [53.553706, 10.004331], [53.553929, 10.003998], [53.554108, 10.003703], [53.554296, 10.003403], [53.554537, 10.002989], [53.554877, 10.002392], [53.555116, 10.001935], [53.555323, 10.001556], [53.555587, 10.001084], [53.555615, 10.001028], [53.555645, 10.000969], [53.555675, 10.000909], [53.555743, 10.000777], [53.555833, 10.000595], [53.5557, 10.000506], [53.555586, 10.000427], [53.555512, 10.000371], [53.555469, 10.000335], [53.555417, 10.000287], [53.55532, 10.000185], [53.55528, 10.000129], [53.555089, 9.999834], [53.554984, 9.999666], [53.554511, 9.998914], [53.553953, 9.997995], [53.553666, 9.997525], [53.553378, 9.997067], [53.553097, 9.996611], [53.553073, 9.996571], [53.553002, 9.996452], [53.552932, 9.996334], [53.552514, 9.995655], [53.552428, 9.995513], [53.552374, 9.99542], [53.552278, 9.995255], [53.552235, 9.995215], [53.552198, 9.995171], [53.552163, 9.995115], [53.552123, 9.995045], [53.552093, 9.994985], [53.552065, 9.994877], [53.55204, 9.994751], [53.552029, 9.994672], [53.552027, 9.994644], [53.552027, 9.994605], [53.551989, 9.9946], [53.551962, 9.994598], [53.551926, 9.994595], [53.551877, 9.994591], [53.551704, 9.994588], [53.551662, 9.994589], [53.551599, 9.994592], [53.551576, 9.994602], [53.551546, 9.994626], [53.551362, 9.994866], [53.551175, 9.995107], [53.550996, 9.995334]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            poly_line_8acd49c316557c8d55fe028305710aef.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 1.55 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_9e5f229e910000519ee3eff2408d2780 = L.polyline(
+                [[53.550585, 10.000403], [53.550579, 10.000348], [53.550552, 10.000175], [53.550426, 10.000136], [53.550095, 10.000187], [53.55004, 10.000193], [53.549974, 10.000201], [53.549979, 10.000318], [53.549986, 10.000526], [53.549993, 10.000838], [53.549993, 10.001322], [53.549993, 10.001424], [53.549996, 10.001503], [53.550001, 10.001659], [53.550015, 10.001799], [53.550023, 10.001877], [53.550046, 10.002119], [53.550057, 10.002272], [53.550058, 10.002307], [53.550062, 10.002417], [53.550066, 10.002527], [53.550072, 10.002735], [53.550081, 10.003364], [53.550091, 10.004535], [53.550091, 10.004592], [53.550096, 10.004845], [53.550097, 10.004926], [53.550092, 10.005062], [53.550025, 10.005056], [53.549983, 10.005049], [53.549892, 10.005037], [53.549528, 10.004987], [53.549421, 10.004996], [53.549317, 10.004973], [53.549089, 10.004906], [53.549029, 10.004882], [53.548928, 10.004866], [53.548751, 10.004777], [53.548639, 10.004709], [53.548577, 10.004655], [53.548544, 10.004636], [53.548513, 10.004631], [53.548472, 10.004628], [53.548431, 10.004635], [53.548393, 10.004645], [53.548357, 10.004661], [53.548318, 10.004691], [53.548282, 10.004724], [53.548037, 10.005012], [53.548013, 10.005047], [53.547986, 10.005089], [53.547931, 10.005175], [53.547837, 10.004992], [53.547797, 10.004886], [53.547775, 10.004809], [53.547751, 10.004715], [53.547722, 10.004554], [53.547594, 10.003733], [53.54753, 10.003325], [53.547509, 10.003179], [53.547486, 10.002988], [53.547476, 10.002802], [53.547478, 10.002622], [53.547452, 10.002395], [53.547478, 10.002195], [53.547557, 10.001719], [53.547592, 10.001492], [53.547619, 10.001288], [53.547649, 10.001003], [53.547666, 10.000804], [53.54768, 10.000505], [53.547653, 10.000044], [53.547658, 9.999659], [53.547657, 9.999348], [53.547645, 9.999068], [53.547615, 9.998581], [53.547584, 9.99817], [53.547615, 9.997851], [53.547595, 9.997241], [53.547591, 9.997179], [53.547583, 9.997047], [53.547574, 9.996889], [53.547555, 9.99659], [53.547552, 9.996554], [53.54748, 9.995607], [53.547443, 9.995123], [53.547383, 9.994302], [53.547376, 9.994192], [53.54736, 9.993989], [53.547355, 9.993926], [53.547293, 9.99359], [53.54729, 9.993574], [53.54727, 9.993264], [53.547241, 9.9926], [53.547238, 9.992512], [53.547229, 9.992241], [53.547218, 9.991947], [53.547205, 9.991622], [53.547183, 9.990977], [53.54718, 9.990682], [53.547185, 9.990393], [53.547196, 9.99012], [53.547212, 9.989858], [53.547235, 9.989596], [53.547312, 9.98935], [53.547332, 9.989213], [53.547345, 9.989105], [53.547372, 9.988901], [53.547385, 9.988795], [53.547424, 9.988538], [53.547545, 9.987832], [53.547623, 9.987499], [53.547726, 9.986928], [53.547744, 9.986836], [53.547767, 9.986722], [53.547812, 9.986463], [53.547844, 9.986291], [53.548025, 9.985347], [53.548151, 9.984813], [53.548217, 9.984502], [53.548336, 9.983926], [53.548405, 9.98359], [53.548416, 9.983535], [53.548452, 9.983365], [53.548494, 9.983162], [53.548504, 9.983107], [53.548503, 9.982841], [53.548693, 9.981918], [53.548913, 9.980847], [53.54912, 9.979814], [53.549204, 9.979302], [53.549254, 9.978968], [53.549347, 9.978704], [53.549387, 9.978405], [53.549403, 9.978212], [53.549409, 9.978123], [53.549415, 9.977966], [53.549419, 9.977809], [53.549427, 9.977547], [53.549427, 9.977487], [53.549432, 9.977129], [53.549435, 9.976954], [53.549451, 9.976417], [53.549469, 9.976098], [53.549492, 9.975747], [53.549539, 9.975249], [53.549561, 9.975043], [53.549586, 9.974818], [53.549595, 9.974763], [53.549661, 9.974388], [53.549767, 9.973863], [53.549783, 9.973779], [53.549818, 9.973582], [53.549858, 9.97332], [53.54991, 9.972892], [53.549956, 9.972536], [53.549988, 9.972343], [53.550027, 9.972139], [53.55005, 9.972019], [53.550094, 9.971803], [53.550133, 9.971342], [53.550139, 9.971264], [53.550145, 9.971179], [53.550148, 9.971098], [53.550155, 9.970944], [53.550156, 9.97088], [53.55014, 9.970334], [53.550129, 9.969914], [53.550125, 9.969783], [53.55012, 9.96961], [53.550113, 9.969421], [53.550107, 9.969229], [53.550095, 9.968838], [53.550087, 9.968503], [53.550062, 9.967827], [53.550046, 9.96751], [53.550038, 9.967359], [53.550012, 9.967025], [53.550008, 9.966975], [53.549816, 9.965052], [53.549811, 9.964999], [53.549792, 9.964781], [53.549586, 9.962677], [53.549581, 9.962626], [53.549558, 9.962414], [53.549542, 9.962202], [53.549522, 9.961673], [53.549521, 9.961608], [53.54952, 9.96136], [53.549535, 9.960612], [53.549541, 9.960313], [53.549544, 9.960091], [53.549546, 9.959974], [53.549548, 9.959902], [53.54955, 9.959737], [53.549555, 9.959558], [53.549558, 9.959406], [53.549564, 9.95918], [53.549565, 9.959132], [53.549608, 9.95857], [53.549611, 9.958539], [53.549617, 9.958451], [53.54963, 9.958307], [53.549708, 9.957595], [53.549754, 9.957094], [53.549763, 9.956939], [53.549773, 9.956778], [53.549799, 9.956355], [53.549801, 9.955805], [53.549801, 9.955761], [53.549794, 9.955647], [53.549781, 9.955413], [53.54977, 9.955256], [53.549745, 9.954789], [53.549731, 9.954572], [53.54972, 9.954393], [53.549711, 9.954256], [53.549652, 9.953655], [53.549649, 9.953602], [53.549644, 9.953535], [53.549617, 9.953101], [53.549602, 9.952867], [53.549585, 9.952655], [53.549552, 9.952339], [53.549514, 9.952024], [53.549353, 9.951012], [53.549305, 9.950728], [53.549296, 9.950676], [53.549285, 9.950613], [53.549174, 9.949944], [53.549127, 9.949661], [53.549134, 9.949434], [53.549125, 9.949318], [53.54911, 9.949219], [53.549086, 9.949049], [53.549028, 9.94868], [53.548985, 9.948395], [53.549011, 9.948309], [53.549045, 9.948198], [53.549075, 9.94811], [53.549322, 9.947341], [53.549387, 9.947275], [53.549429, 9.947249], [53.549472, 9.947232], [53.54953, 9.947227], [53.54971, 9.947201], [53.549815, 9.947208], [53.550149, 9.947201], [53.550356, 9.947184], [53.550792, 9.947167], [53.550868, 9.947199], [53.551108, 9.947173], [53.551135, 9.947175], [53.551154, 9.947179], [53.551167, 9.947184], [53.551182, 9.947192], [53.551197, 9.947205], [53.551205, 9.947225], [53.551215, 9.947243], [53.551226, 9.947259], [53.551238, 9.947273], [53.551252, 9.947283], [53.551266, 9.94729], [53.55128, 9.947295], [53.551295, 9.947295], [53.551309, 9.947293], [53.551324, 9.947287], [53.551337, 9.947278], [53.55135, 9.947267], [53.551361, 9.947254], [53.55137, 9.947239], [53.551379, 9.947222], [53.551386, 9.947203], [53.551392, 9.947183], [53.551396, 9.947163], [53.551399, 9.947141], [53.551401, 9.94712], [53.551401, 9.947098], [53.5514, 9.947087], [53.551399, 9.947076], [53.551396, 9.947055], [53.551391, 9.947035], [53.551385, 9.947014], [53.551376, 9.946995], [53.551367, 9.946978], [53.551356, 9.946962], [53.551344, 9.94695], [53.551332, 9.946939], [53.551318, 9.946932], [53.551309, 9.946915], [53.551302, 9.946898], [53.551297, 9.946878], [53.551291, 9.946854], [53.551283, 9.946798], [53.551281, 9.946759], [53.551241, 9.946368], [53.5512, 9.946142], [53.551109, 9.945744], [53.550907, 9.945054], [53.550831, 9.944772], [53.550784, 9.944588], [53.550782, 9.94458], [53.550739, 9.944411], [53.550716, 9.944314], [53.550652, 9.944027], [53.55062, 9.943879], [53.550552, 9.94358], [53.550548, 9.943562], [53.550541, 9.943531], [53.550454, 9.943134], [53.550218, 9.942154], [53.550145, 9.941769], [53.550134, 9.941701], [53.550118, 9.941581], [53.550108, 9.941481], [53.550097, 9.941325], [53.55009, 9.941199], [53.55009, 9.941159], [53.550092, 9.940988], [53.550095, 9.94071], [53.550107, 9.940476], [53.550132, 9.939973], [53.550172, 9.939196], [53.550181, 9.938974], [53.550208, 9.938431], [53.550212, 9.938341], [53.550223, 9.93813], [53.550262, 9.937299], [53.550289, 9.936622], [53.550293, 9.936535], [53.550305, 9.936304], [53.550313, 9.936087], [53.55032, 9.935916], [53.550334, 9.935597], [53.550352, 9.935428], [53.55036, 9.935282], [53.550357, 9.935154], [53.550352, 9.935065], [53.550346, 9.934941], [53.550343, 9.934909], [53.550332, 9.934806], [53.550306, 9.93466], [53.550294, 9.934469], [53.550256, 9.933697], [53.550245, 9.933538], [53.550233, 9.933358], [53.550222, 9.933185], [53.550232, 9.932926], [53.550295, 9.932936], [53.550332, 9.93293], [53.550626, 9.932809], [53.550843, 9.932683], [53.550889, 9.932659], [53.551502, 9.932373], [53.551513, 9.932369], [53.552131, 9.9321], [53.552131, 9.9321]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            poly_line_9e5f229e910000519ee3eff2408d2780.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 3.74 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_e03207ceb767b36bee79e0c7e42ff838 = L.polyline(
+                [[53.550585, 10.000403], [53.550579, 10.000348], [53.550552, 10.000175], [53.550426, 10.000136], [53.550095, 10.000187], [53.55004, 10.000193], [53.549974, 10.000201], [53.549979, 10.000318], [53.549986, 10.000526], [53.549993, 10.000838], [53.549993, 10.001322], [53.549993, 10.001424], [53.549996, 10.001503], [53.550001, 10.001659], [53.550015, 10.001799], [53.550023, 10.001877], [53.550046, 10.002119], [53.550057, 10.002272], [53.550058, 10.002307], [53.550062, 10.002417], [53.550066, 10.002527], [53.550072, 10.002735], [53.550081, 10.003364], [53.550091, 10.004535], [53.550091, 10.004592], [53.550096, 10.004845], [53.550097, 10.004926], [53.550092, 10.005062], [53.550025, 10.005056], [53.549983, 10.005049], [53.549892, 10.005037], [53.549528, 10.004987], [53.549421, 10.004996], [53.549317, 10.004973], [53.549089, 10.004906], [53.549029, 10.004882], [53.548928, 10.004866], [53.548751, 10.004777], [53.548639, 10.004709], [53.548577, 10.004655], [53.548544, 10.004636], [53.548513, 10.004631], [53.548472, 10.004628], [53.548431, 10.004635], [53.548393, 10.004645], [53.548357, 10.004661], [53.548318, 10.004691], [53.548282, 10.004724], [53.548037, 10.005012], [53.548013, 10.005047], [53.547986, 10.005089], [53.547931, 10.005175], [53.547837, 10.004992], [53.547797, 10.004886], [53.547775, 10.004809], [53.547751, 10.004715], [53.547722, 10.004554], [53.547594, 10.003733], [53.54753, 10.003325], [53.547509, 10.003179], [53.547486, 10.002988], [53.547476, 10.002802], [53.547478, 10.002622], [53.547452, 10.002395], [53.547478, 10.002195], [53.547557, 10.001719], [53.547592, 10.001492], [53.547619, 10.001288], [53.547649, 10.001003], [53.547666, 10.000804], [53.54768, 10.000505], [53.547653, 10.000044], [53.547658, 9.999659], [53.547657, 9.999348], [53.547645, 9.999068], [53.547615, 9.998581], [53.547584, 9.99817], [53.547615, 9.997851], [53.547595, 9.997241], [53.547591, 9.997179], [53.547583, 9.997047], [53.547574, 9.996889], [53.547555, 9.99659], [53.547552, 9.996554], [53.54748, 9.995607], [53.547443, 9.995123], [53.547383, 9.994302], [53.547376, 9.994192], [53.54736, 9.993989], [53.547355, 9.993926], [53.547293, 9.99359], [53.54729, 9.993574], [53.54727, 9.993264], [53.547241, 9.9926], [53.547238, 9.992512], [53.547229, 9.992241], [53.547218, 9.991947], [53.547205, 9.991622], [53.547183, 9.990977], [53.54718, 9.990682], [53.547185, 9.990393], [53.547196, 9.99012], [53.547212, 9.989858], [53.547235, 9.989596], [53.547312, 9.98935], [53.547332, 9.989213], [53.547345, 9.989105], [53.547372, 9.988901], [53.547385, 9.988795], [53.547424, 9.988538], [53.547545, 9.987832], [53.547623, 9.987499], [53.547726, 9.986928], [53.547744, 9.986836], [53.547767, 9.986722], [53.547868, 9.986806], [53.54809, 9.987012], [53.548241, 9.987142], [53.54828, 9.987176], [53.548421, 9.987298], [53.548528, 9.987389], [53.548579, 9.987436], [53.548666, 9.987509], [53.548707, 9.987503], [53.548742, 9.987487], [53.548774, 9.987465], [53.548805, 9.98743], [53.548863, 9.987344], [53.548899, 9.987284], [53.548986, 9.987141], [53.549038, 9.98706], [53.549115, 9.986943], [53.549239, 9.986725], [53.54951, 9.986381], [53.549662, 9.986227], [53.549693, 9.986197], [53.549794, 9.986117], [53.549854, 9.986307], [53.549898, 9.986413], [53.550111, 9.986913], [53.550155, 9.987017], [53.550216, 9.987161], [53.550768, 9.988459], [53.551067, 9.989166], [53.551377, 9.989897], [53.551425, 9.990012], [53.551456, 9.990085], [53.551932, 9.991215]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            poly_line_e03207ceb767b36bee79e0c7e42ff838.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 1.61 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_7a2601fb6fe998a1ca81e3d0697844d5 = L.polyline(
+                [[53.550585, 10.000403], [53.550579, 10.000348], [53.550552, 10.000175], [53.550426, 10.000136], [53.550095, 10.000187], [53.55004, 10.000193], [53.549974, 10.000201], [53.549979, 10.000318], [53.549986, 10.000526], [53.549993, 10.000838], [53.549993, 10.001322], [53.549993, 10.001424], [53.549996, 10.001503], [53.550001, 10.001659], [53.550015, 10.001799], [53.550023, 10.001877], [53.550046, 10.002119], [53.550057, 10.002272], [53.550058, 10.002307], [53.550062, 10.002417], [53.550066, 10.002527], [53.550072, 10.002735], [53.550081, 10.003364], [53.550091, 10.004535], [53.550091, 10.004592], [53.550096, 10.004845], [53.550097, 10.004926], [53.550092, 10.005062], [53.550025, 10.005056], [53.549983, 10.005049], [53.549892, 10.005037], [53.549528, 10.004987], [53.549421, 10.004996], [53.549317, 10.004973], [53.549089, 10.004906], [53.549029, 10.004882], [53.548928, 10.004866], [53.548751, 10.004777], [53.548639, 10.004709], [53.548577, 10.004655], [53.548544, 10.004636], [53.548513, 10.004631], [53.548472, 10.004628], [53.548431, 10.004635], [53.548393, 10.004645], [53.548357, 10.004661], [53.548318, 10.004691], [53.548282, 10.004724], [53.548037, 10.005012], [53.548013, 10.005047], [53.547986, 10.005089], [53.547931, 10.005175], [53.547837, 10.004992], [53.547797, 10.004886], [53.547775, 10.004809], [53.547751, 10.004715], [53.547722, 10.004554], [53.547594, 10.003733], [53.54753, 10.003325], [53.547509, 10.003179], [53.547486, 10.002988], [53.547476, 10.002802], [53.547478, 10.002622], [53.547452, 10.002395], [53.547478, 10.002195], [53.547557, 10.001719], [53.547592, 10.001492], [53.547619, 10.001288], [53.547649, 10.001003], [53.547666, 10.000804], [53.54768, 10.000505], [53.547653, 10.000044], [53.547658, 9.999659], [53.547657, 9.999348], [53.547645, 9.999068], [53.547615, 9.998581], [53.547584, 9.99817], [53.547615, 9.997851], [53.547595, 9.997241], [53.547591, 9.997179], [53.547583, 9.997047], [53.547574, 9.996889], [53.547555, 9.99659], [53.547552, 9.996554], [53.54748, 9.995607], [53.547443, 9.995123], [53.547383, 9.994302], [53.547376, 9.994192], [53.54736, 9.993989], [53.547355, 9.993926], [53.547293, 9.99359], [53.54729, 9.993574], [53.54727, 9.993264], [53.547241, 9.9926], [53.547238, 9.992512], [53.547229, 9.992241], [53.547218, 9.991947], [53.547205, 9.991622], [53.547183, 9.990977], [53.54718, 9.990682], [53.547185, 9.990393], [53.547196, 9.99012], [53.547212, 9.989858], [53.547235, 9.989596], [53.547312, 9.98935], [53.547332, 9.989213], [53.547345, 9.989105], [53.547372, 9.988901], [53.547385, 9.988795], [53.547424, 9.988538], [53.547545, 9.987832], [53.547623, 9.987499], [53.547726, 9.986928], [53.547744, 9.986836], [53.547767, 9.986722], [53.547812, 9.986463], [53.547844, 9.986291], [53.548025, 9.985347], [53.548151, 9.984813], [53.548217, 9.984502], [53.548336, 9.983926], [53.548405, 9.98359], [53.548416, 9.983535], [53.548452, 9.983365], [53.548494, 9.983162], [53.548504, 9.983107], [53.548503, 9.982841], [53.548693, 9.981918], [53.548913, 9.980847], [53.54912, 9.979814], [53.549204, 9.979302], [53.549254, 9.978968], [53.549347, 9.978704], [53.549387, 9.978405], [53.549403, 9.978212], [53.549409, 9.978123], [53.549415, 9.977966], [53.549419, 9.977809], [53.549427, 9.977547], [53.549427, 9.977487], [53.549432, 9.977129], [53.549435, 9.976954], [53.549451, 9.976417], [53.549469, 9.976098], [53.549492, 9.975747], [53.549539, 9.975249], [53.549561, 9.975043], [53.549586, 9.974818], [53.549595, 9.974763], [53.549661, 9.974388], [53.549767, 9.973863], [53.549783, 9.973779], [53.549818, 9.973582], [53.549858, 9.97332], [53.54991, 9.972892], [53.549956, 9.972536], [53.549988, 9.972343], [53.550027, 9.972139], [53.55005, 9.972019], [53.550094, 9.971803], [53.550182, 9.971457], [53.550209, 9.971372], [53.550241, 9.971296], [53.550352, 9.971057], [53.550384, 9.970991], [53.550435, 9.970885], [53.550724, 9.97027], [53.550758, 9.970192], [53.550845, 9.969977], [53.550928, 9.969773], [53.551096, 9.969384], [53.551168, 9.969265], [53.551253, 9.969093], [53.551334, 9.968905], [53.551352, 9.96886], [53.551588, 9.968286], [53.55184, 9.967709], [53.551932, 9.967521], [53.552116, 9.967209], [53.552201, 9.967007], [53.552271, 9.966913], [53.552423, 9.966707], [53.552597, 9.966478], [53.552813, 9.96621], [53.55294, 9.966133], [53.55302, 9.966042], [53.553061, 9.965998], [53.553132, 9.965919], [53.553236, 9.965803], [53.553359, 9.965664], [53.55345, 9.965498], [53.553634, 9.965316], [53.553793, 9.965182], [53.55403, 9.965013], [53.554163, 9.96493], [53.554233, 9.964891], [53.554332, 9.964844], [53.554528, 9.964774], [53.554605, 9.964752], [53.554832, 9.964687], [53.554933, 9.964661], [53.555063, 9.964703], [53.555097, 9.964696], [53.555331, 9.964643], [53.555696, 9.964554], [53.555818, 9.964524], [53.555946, 9.964492], [53.556076, 9.964455], [53.556122, 9.964446], [53.556155, 9.964444], [53.556245, 9.96444], [53.556318, 9.964438], [53.556369, 9.964435], [53.556431, 9.964428], [53.556465, 9.96442], [53.556556, 9.964399], [53.556846, 9.964325], [53.556893, 9.964314], [53.556937, 9.964301], [53.556998, 9.964288], [53.557099, 9.964266], [53.557145, 9.964254], [53.557207, 9.964241], [53.557449, 9.964192], [53.557602, 9.964169], [53.557759, 9.964188], [53.558017, 9.964156], [53.558054, 9.964153], [53.558099, 9.964153], [53.558467, 9.96416], [53.55856, 9.964162], [53.558719, 9.964162], [53.558975, 9.964166], [53.559034, 9.964141], [53.559087, 9.964116], [53.559125, 9.964092], [53.559174, 9.96406], [53.559257, 9.964008], [53.559352, 9.96395], [53.559383, 9.963931], [53.559509, 9.963858], [53.559801, 9.963686], [53.560153, 9.963489], [53.560305, 9.963396]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            poly_line_7a2601fb6fe998a1ca81e3d0697844d5.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 2.67 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_1237dba6036d2ee5e257c2b407dcd1c1 = L.polyline(
+                [[53.54027, 9.997285], [53.54027, 9.997285], [53.540288, 9.99729], [53.540309, 9.99729], [53.540332, 9.997285], [53.540366, 9.997269], [53.540502, 9.997173], [53.540602, 9.997105], [53.540804, 9.996968], [53.540908, 9.996898], [53.541043, 9.996802], [53.541122, 9.996745], [53.54115, 9.996736], [53.541321, 9.996669], [53.541374, 9.996643], [53.541464, 9.996584], [53.541513, 9.996553], [53.541566, 9.996519], [53.541695, 9.996427], [53.541712, 9.996415], [53.541975, 9.996221], [53.542082, 9.996142], [53.542163, 9.996084], [53.542185, 9.996162], [53.542372, 9.996889], [53.542389, 9.996935], [53.542413, 9.996966], [53.542448, 9.99698], [53.542489, 9.996963], [53.542669, 9.996839], [53.543202, 9.996472], [53.543289, 9.99641], [53.543587, 9.996201], [53.543641, 9.996167], [53.543828, 9.996952], [53.543941, 9.997427], [53.543958, 9.997489], [53.544059, 9.997819], [53.544183, 9.99774], [53.544283, 9.997691], [53.544317, 9.997676], [53.5445, 9.997594], [53.544706, 9.997484], [53.544759, 9.997464], [53.545111, 9.997341], [53.545337, 9.997272], [53.545445, 9.997243], [53.545608, 9.997205], [53.54566, 9.997196], [53.545738, 9.997179], [53.54578, 9.997169], [53.545803, 9.997164], [53.545841, 9.997157], [53.546202, 9.997068], [53.546268, 9.997054], [53.546298, 9.997047], [53.546381, 9.997034], [53.546524, 9.997083], [53.546573, 9.997104], [53.546668, 9.99715], [53.546719, 9.997156], [53.546961, 9.997085], [53.547057, 9.997062], [53.547338, 9.996993], [53.547371, 9.996986], [53.547452, 9.996967], [53.547574, 9.996889], [53.54765, 9.996876], [53.547716, 9.996868], [53.547742, 9.996868], [53.54786, 9.996869], [53.548162, 9.99687], [53.548215, 9.99687], [53.54826, 9.996871], [53.548292, 9.996871], [53.548384, 9.996856], [53.548541, 9.996809], [53.548744, 9.99674], [53.548813, 9.996715], [53.54886, 9.996697], [53.54889, 9.996686], [53.549052, 9.996638], [53.549166, 9.996606], [53.549281, 9.996692], [53.549329, 9.996731], [53.549486, 9.996836], [53.549642, 9.997367], [53.549694, 9.997543], [53.549712, 9.997606], [53.549759, 9.997787], [53.549814, 9.998065], [53.549836, 9.998224], [53.549855, 9.998392], [53.549879, 9.998725], [53.549891, 9.998882], [53.549895, 9.998933], [53.549911, 9.999168], [53.549928, 9.999453], [53.549936, 9.999585], [53.549974, 10.000201], [53.55004, 10.000193], [53.550095, 10.000187], [53.550426, 10.000136], [53.550552, 10.000175], [53.550579, 10.000348], [53.550585, 10.000403]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            poly_line_1237dba6036d2ee5e257c2b407dcd1c1.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 0.92 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_89af62b59ff6ac466174c5c22767d987 = L.polyline(
+                [[48.134877, 11.569106], [48.134918, 11.569061], [48.134966, 11.569009], [48.135011, 11.568941], [48.13515, 11.568625], [48.13521, 11.56848], [48.135237, 11.568414], [48.13524, 11.568243], [48.135272, 11.568078], [48.135308, 11.567895], [48.135323, 11.567823], [48.135768, 11.568081], [48.135798, 11.568098], [48.136264, 11.568357], [48.136295, 11.568399], [48.136563, 11.566882], [48.136559, 11.566783], [48.136555, 11.566685], [48.136567, 11.566412], [48.136572, 11.566308], [48.136603, 11.565946], [48.136615, 11.565906], [48.13664, 11.565833], [48.136676, 11.565361], [48.136683, 11.56527], [48.136626, 11.565145], [48.13668, 11.565153], [48.13679, 11.56517], [48.137299, 11.565251], [48.137362, 11.565265], [48.13757, 11.565305], [48.137848, 11.565338], [48.137912, 11.56535], [48.138614, 11.565488], [48.138779, 11.565522], [48.138915, 11.565541], [48.139041, 11.565564], [48.139129, 11.565584], [48.139169, 11.565595], [48.139228, 11.565617], [48.139265, 11.565636], [48.139295, 11.565654], [48.139369, 11.565705], [48.139432, 11.565756], [48.139579, 11.565893], [48.139604, 11.565915], [48.139628, 11.565945], [48.13982, 11.566193], [48.139896, 11.566292], [48.140036, 11.566471], [48.140107, 11.566565], [48.140126, 11.566592], [48.140277, 11.566779], [48.140326, 11.566839], [48.140348, 11.566861], [48.14037, 11.566882], [48.140393, 11.566901], [48.140422, 11.566923], [48.140434, 11.56693], [48.14046, 11.566948], [48.140485, 11.566962], [48.140498, 11.566969], [48.140519, 11.566978], [48.140562, 11.566997], [48.140637, 11.567021], [48.140652, 11.566742], [48.140653, 11.566673], [48.140653, 11.566626], [48.140653, 11.566503], [48.140652, 11.566378], [48.140651, 11.566257], [48.140653, 11.56619], [48.140655, 11.566122], [48.140659, 11.566065], [48.140665, 11.566002], [48.140678, 11.565901], [48.1407, 11.565757], [48.140791, 11.565467], [48.140937, 11.564997], [48.141091, 11.564498], [48.141266, 11.56392], [48.141278, 11.563878], [48.141394, 11.5635], [48.141511, 11.563118], [48.141528, 11.563063], [48.141792, 11.562225], [48.141892, 11.561926], [48.141919, 11.561849], [48.142034, 11.56169], [48.142093, 11.561574], [48.142145, 11.56145], [48.142182, 11.561358], [48.142289, 11.561084], [48.142402, 11.560797], [48.142567, 11.560372], [48.142614, 11.560251], [48.142624, 11.560228], [48.142674, 11.560212], [48.142821, 11.560173], [48.143357, 11.560032], [48.143507, 11.559992], [48.143654, 11.559952], [48.143894, 11.559888], [48.143966, 11.559869], [48.144135, 11.559825], [48.144221, 11.559801], [48.144246, 11.559794], [48.144267, 11.559808], [48.144397, 11.559894], [48.144711, 11.560091], [48.144862, 11.560189], [48.144921, 11.560227], [48.14493, 11.560198], [48.144945, 11.560148], [48.144974, 11.560051], [48.14508, 11.559696], [48.145117, 11.559575], [48.145122, 11.559558], [48.145195, 11.559537], [48.145217, 11.559531], [48.146054, 11.559303], [48.146265, 11.55925], [48.146495, 11.559181], [48.146545, 11.559186], [48.146552, 11.559185], [48.146621, 11.559174], [48.146688, 11.559138], [48.146734, 11.559099], [48.146833, 11.55897], [48.146879, 11.558895], [48.147316, 11.559005], [48.147382, 11.559018], [48.147468, 11.559023], [48.147535, 11.559027], [48.147547, 11.559026], [48.147675, 11.559012], [48.147791, 11.558984], [48.148065, 11.558911], [48.148196, 11.558875], [48.14872, 11.558731], [48.148997, 11.558655], [48.14981, 11.55844], [48.149912, 11.558414], [48.150084, 11.558384], [48.150138, 11.558378], [48.150197, 11.558368], [48.150265, 11.558357], [48.150373, 11.558334], [48.150469, 11.5583], [48.150563, 11.558261], [48.150651, 11.558216], [48.150739, 11.558163], [48.150852, 11.558083], [48.15088, 11.558059], [48.15097, 11.557973], [48.151051, 11.557884], [48.151411, 11.557435], [48.151612, 11.55718], [48.151748, 11.557007], [48.151968, 11.556747], [48.152264, 11.556397], [48.152429, 11.556202], [48.152939, 11.555595], [48.15343, 11.554988], [48.153564, 11.554822], [48.153667, 11.554729], [48.153707, 11.55468], [48.154167, 11.554114], [48.154231, 11.554033], [48.154315, 11.553925], [48.154369, 11.553856], [48.154418, 11.553794], [48.154532, 11.553638], [48.154591, 11.553552], [48.15461, 11.553523], [48.15476, 11.553306], [48.154912, 11.553109], [48.154931, 11.553088], [48.155151, 11.552835], [48.155224, 11.552746], [48.15533, 11.552604], [48.155335, 11.552596], [48.155382, 11.552531], [48.1554, 11.552503], [48.155597, 11.552222], [48.155822, 11.55194], [48.156116, 11.551578], [48.156719, 11.550839], [48.157432, 11.54996], [48.158002, 11.549266], [48.158702, 11.548444], [48.158942, 11.548165], [48.15918, 11.547888], [48.15934, 11.547702], [48.159381, 11.547655], [48.159447, 11.547578], [48.159457, 11.547567], [48.159498, 11.547524], [48.159505, 11.547516], [48.159516, 11.547504], [48.159529, 11.547491], [48.159531, 11.547489], [48.159568, 11.54745], [48.15958, 11.547436], [48.15966, 11.547346], [48.159976, 11.546982], [48.160225, 11.546683], [48.160485, 11.546333], [48.161241, 11.545115], [48.161598, 11.544527], [48.161938, 11.543937], [48.162385, 11.543207], [48.162629, 11.542826], [48.16282, 11.542524], [48.162859, 11.542462], [48.162981, 11.542276], [48.163068, 11.542126], [48.163465, 11.541446], [48.163705, 11.541044], [48.164646, 11.539488], [48.164925, 11.539122], [48.165279, 11.538732], [48.165672, 11.538312], [48.165759, 11.53822], [48.165869, 11.538115], [48.166253, 11.537734], [48.166409, 11.537576], [48.166831, 11.537179], [48.167179, 11.536834], [48.167428, 11.53657], [48.167508, 11.536483], [48.167674, 11.536284], [48.168041, 11.535814], [48.168232, 11.535525], [48.168338, 11.535352], [48.16842, 11.53522], [48.168567, 11.534979], [48.168613, 11.534908], [48.168988, 11.534334], [48.169551, 11.533473], [48.169758, 11.533123], [48.169798, 11.533057], [48.169855, 11.532967], [48.169906, 11.532892], [48.169951, 11.532819], [48.170218, 11.532386], [48.170752, 11.531514], [48.171286, 11.53067], [48.171308, 11.530635], [48.171412, 11.530469], [48.171942, 11.529591], [48.172271, 11.529003], [48.17238, 11.528788], [48.17251, 11.528531], [48.17253, 11.528491], [48.172617, 11.528309], [48.172686, 11.528397], [48.172732, 11.528455], [48.172791, 11.52852], [48.172851, 11.528545], [48.172912, 11.528553], [48.173063, 11.528547], [48.173139, 11.528543], [48.173534, 11.52852], [48.173696, 11.528513], [48.173947, 11.528504], [48.174037, 11.528512], [48.174099, 11.528528], [48.1744, 11.528607], [48.174431, 11.528616], [48.174475, 11.528628], [48.174518, 11.52864], [48.174586, 11.528658], [48.174819, 11.528726], [48.175104, 11.528815], [48.175212, 11.528858], [48.175512, 11.528948], [48.175854, 11.529021], [48.175884, 11.529027], [48.175982, 11.529048], [48.176092, 11.529072], [48.176128, 11.52908], [48.176185, 11.529092], [48.17632, 11.529128], [48.176524, 11.529204], [48.176653, 11.529225], [48.176933, 11.529237], [48.177086, 11.529231], [48.177294, 11.529224], [48.177643, 11.529212], [48.177875, 11.529174], [48.178024, 11.529167], [48.178292, 11.529155], [48.178356, 11.529155], [48.178523, 11.529156], [48.178682, 11.529151], [48.17953, 11.52912], [48.180446, 11.529088], [48.180708, 11.529081], [48.180827, 11.529091], [48.180911, 11.529107], [48.181079, 11.52915], [48.181295, 11.529205], [48.181417, 11.52926], [48.181608, 11.529378], [48.181825, 11.529543], [48.181879, 11.529591], [48.182075, 11.529752], [48.18225, 11.529908], [48.182349, 11.530002], [48.182692, 11.530304], [48.182791, 11.530395], [48.183056, 11.530634], [48.183685, 11.531182], [48.183702, 11.531196], [48.183728, 11.53122], [48.183911, 11.531381], [48.184167, 11.531618], [48.184297, 11.531766], [48.184679, 11.53212], [48.184732, 11.532171], [48.184809, 11.532245], [48.184772, 11.532382], [48.184659, 11.532935], [48.184611, 11.532907], [48.184548, 11.532869], [48.184413, 11.532811], [48.184114, 11.532751], [48.184032, 11.532741], [48.183984, 11.532753], [48.183937, 11.532804], [48.18392, 11.532868], [48.183912, 11.532969], [48.183805, 11.534298], [48.183787, 11.534516], [48.183772, 11.53471], [48.183767, 11.534769]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            poly_line_89af62b59ff6ac466174c5c22767d987.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 4.66 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_48109951192b2749f168fd1a2f553178 = L.polyline(
+                [[48.138461, 11.566832], [48.137994, 11.566688], [48.137936, 11.566634], [48.137868, 11.566583], [48.137505, 11.566601], [48.136934, 11.566613], [48.136555, 11.566685], [48.136567, 11.566412], [48.136572, 11.566308], [48.136603, 11.565946], [48.136615, 11.565906], [48.13664, 11.565833], [48.136676, 11.565361], [48.136683, 11.56527], [48.136626, 11.565145], [48.13668, 11.565153], [48.13679, 11.56517], [48.137299, 11.565251], [48.137362, 11.565265], [48.13757, 11.565305], [48.137848, 11.565338], [48.137912, 11.56535], [48.138614, 11.565488], [48.138779, 11.565522], [48.138915, 11.565541], [48.139041, 11.565564], [48.139129, 11.565584], [48.139169, 11.565595], [48.139228, 11.565617], [48.139265, 11.565636], [48.139295, 11.565654], [48.139369, 11.565705], [48.139432, 11.565756], [48.139579, 11.565893], [48.139604, 11.565915], [48.139628, 11.565945], [48.13982, 11.566193], [48.139896, 11.566292], [48.140036, 11.566471], [48.140107, 11.566565], [48.140126, 11.566592], [48.140277, 11.566779], [48.140326, 11.566839], [48.140348, 11.566861], [48.14037, 11.566882], [48.140393, 11.566901], [48.140422, 11.566923], [48.140434, 11.56693], [48.14046, 11.566948], [48.140485, 11.566962], [48.140498, 11.566969], [48.140519, 11.566978], [48.140562, 11.566997], [48.140637, 11.567021], [48.140652, 11.566742], [48.140653, 11.566673], [48.140653, 11.566626], [48.140653, 11.566503], [48.140652, 11.566378], [48.140651, 11.566257], [48.140653, 11.56619], [48.140655, 11.566122], [48.140659, 11.566065], [48.140665, 11.566002], [48.140678, 11.565901], [48.1407, 11.565757], [48.140791, 11.565467], [48.140937, 11.564997], [48.141091, 11.564498], [48.141266, 11.56392], [48.141278, 11.563878], [48.141394, 11.5635], [48.141511, 11.563118], [48.141528, 11.563063], [48.141792, 11.562225], [48.141892, 11.561926], [48.141919, 11.561849], [48.142034, 11.56169], [48.142093, 11.561574], [48.142145, 11.56145], [48.142182, 11.561358], [48.142289, 11.561084], [48.142402, 11.560797], [48.142567, 11.560372], [48.142614, 11.560251], [48.142624, 11.560228], [48.142674, 11.560212], [48.142821, 11.560173], [48.143357, 11.560032], [48.143507, 11.559992], [48.143654, 11.559952], [48.143894, 11.559888], [48.143966, 11.559869], [48.144135, 11.559825], [48.144221, 11.559801], [48.144246, 11.559794], [48.144267, 11.559808], [48.144397, 11.559894], [48.144711, 11.560091], [48.144862, 11.560189], [48.144921, 11.560227], [48.14493, 11.560198], [48.144945, 11.560148], [48.144974, 11.560051], [48.14508, 11.559696], [48.145117, 11.559575], [48.145122, 11.559558], [48.145195, 11.559537], [48.145217, 11.559531], [48.146054, 11.559303], [48.146265, 11.55925], [48.146495, 11.559181], [48.146545, 11.559186], [48.146552, 11.559185], [48.146621, 11.559174], [48.146688, 11.559138], [48.146734, 11.559099], [48.146833, 11.55897], [48.146879, 11.558895], [48.147316, 11.559005], [48.147382, 11.559018], [48.147468, 11.559023], [48.147535, 11.559027], [48.147547, 11.559026], [48.147675, 11.559012], [48.147791, 11.558984], [48.148065, 11.558911], [48.148196, 11.558875], [48.14872, 11.558731], [48.148997, 11.558655], [48.14981, 11.55844], [48.149912, 11.558414], [48.150084, 11.558384], [48.150138, 11.558378], [48.150197, 11.558368], [48.150265, 11.558357], [48.150373, 11.558334], [48.150469, 11.5583], [48.150563, 11.558261], [48.150651, 11.558216], [48.150739, 11.558163], [48.150852, 11.558083], [48.15088, 11.558059], [48.15097, 11.557973], [48.151051, 11.557884], [48.151411, 11.557435], [48.151612, 11.55718], [48.151748, 11.557007], [48.151968, 11.556747], [48.152264, 11.556397], [48.152429, 11.556202], [48.152939, 11.555595], [48.15343, 11.554988], [48.153564, 11.554822], [48.153667, 11.554729], [48.153707, 11.55468], [48.154167, 11.554114], [48.154231, 11.554033], [48.154315, 11.553925], [48.154369, 11.553856], [48.154418, 11.553794], [48.154532, 11.553638], [48.154591, 11.553552], [48.15461, 11.553523], [48.15476, 11.553306], [48.154912, 11.553109], [48.154931, 11.553088], [48.155151, 11.552835], [48.155224, 11.552746], [48.15533, 11.552604], [48.155335, 11.552596], [48.155382, 11.552531], [48.1554, 11.552503], [48.155597, 11.552222], [48.155822, 11.55194], [48.156116, 11.551578], [48.156719, 11.550839], [48.157432, 11.54996], [48.158002, 11.549266], [48.158702, 11.548444], [48.158942, 11.548165], [48.15918, 11.547888], [48.15934, 11.547702], [48.159381, 11.547655], [48.159447, 11.547578], [48.159457, 11.547567], [48.159498, 11.547524], [48.159505, 11.547516], [48.159516, 11.547504], [48.159529, 11.547491], [48.159531, 11.547489], [48.159568, 11.54745], [48.15958, 11.547436], [48.15966, 11.547346], [48.159976, 11.546982], [48.160225, 11.546683], [48.160485, 11.546333], [48.161241, 11.545115], [48.161598, 11.544527], [48.161938, 11.543937], [48.162385, 11.543207], [48.162629, 11.542826], [48.16282, 11.542524], [48.162859, 11.542462], [48.162981, 11.542276], [48.163068, 11.542126], [48.163465, 11.541446], [48.163705, 11.541044], [48.164646, 11.539488], [48.164925, 11.539122], [48.165279, 11.538732], [48.165672, 11.538312], [48.165759, 11.53822], [48.165869, 11.538115], [48.166253, 11.537734], [48.166409, 11.537576], [48.166831, 11.537179], [48.167179, 11.536834], [48.167428, 11.53657], [48.167508, 11.536483], [48.167674, 11.536284], [48.168041, 11.535814], [48.168232, 11.535525], [48.168338, 11.535352], [48.16842, 11.53522], [48.168567, 11.534979], [48.168613, 11.534908], [48.168988, 11.534334], [48.169551, 11.533473], [48.169758, 11.533123], [48.169798, 11.533057], [48.169855, 11.532967], [48.169906, 11.532892], [48.169951, 11.532819], [48.170218, 11.532386], [48.170752, 11.531514], [48.171286, 11.53067], [48.171308, 11.530635], [48.171412, 11.530469], [48.171942, 11.529591], [48.172271, 11.529003], [48.17238, 11.528788], [48.17251, 11.528531], [48.17253, 11.528491], [48.172617, 11.528309], [48.172686, 11.528397], [48.172732, 11.528455], [48.172791, 11.52852], [48.172851, 11.528545], [48.172912, 11.528553], [48.173063, 11.528547], [48.173139, 11.528543], [48.173534, 11.52852], [48.173696, 11.528513], [48.173947, 11.528504], [48.174037, 11.528512], [48.174099, 11.528528], [48.1744, 11.528607], [48.174431, 11.528616], [48.174475, 11.528628], [48.174518, 11.52864], [48.174586, 11.528658], [48.174819, 11.528726], [48.175104, 11.528815], [48.175212, 11.528858], [48.175512, 11.528948], [48.175854, 11.529021], [48.175884, 11.529027], [48.175982, 11.529048], [48.176092, 11.529072], [48.176128, 11.52908], [48.176185, 11.529092], [48.17632, 11.529128], [48.176524, 11.529204], [48.176653, 11.529225], [48.176933, 11.529237], [48.177086, 11.529231], [48.177294, 11.529224], [48.177643, 11.529212], [48.177875, 11.529174], [48.178024, 11.529167], [48.178292, 11.529155], [48.178356, 11.529155], [48.178523, 11.529156], [48.178682, 11.529151], [48.17953, 11.52912], [48.180446, 11.529088], [48.180708, 11.529081], [48.180827, 11.529091], [48.180911, 11.529107], [48.181079, 11.52915], [48.181295, 11.529205], [48.181417, 11.52926], [48.181608, 11.529378], [48.181825, 11.529543], [48.181879, 11.529591], [48.182075, 11.529752], [48.18225, 11.529908], [48.182349, 11.530002], [48.182692, 11.530304], [48.182791, 11.530395], [48.183056, 11.530634], [48.183685, 11.531182], [48.183702, 11.531196], [48.183728, 11.53122], [48.183911, 11.531381], [48.184167, 11.531618], [48.184297, 11.531766], [48.184679, 11.53212], [48.184732, 11.532171], [48.184809, 11.532245], [48.184772, 11.532382], [48.184659, 11.532935], [48.184611, 11.532907], [48.184548, 11.532869], [48.184413, 11.532811], [48.184114, 11.532751], [48.184032, 11.532741], [48.183984, 11.532753], [48.183937, 11.532804], [48.18392, 11.532868], [48.183912, 11.532969], [48.183805, 11.534298], [48.183787, 11.534516], [48.183772, 11.53471], [48.183767, 11.534769]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            poly_line_48109951192b2749f168fd1a2f553178.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 4.57 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_46fa9303adc949c7abd5192ca46754e2 = L.polyline(
+                [[53.571555, 9.861997], [53.571543, 9.862257], [53.571546, 9.862928], [53.57074, 9.86295], [53.570748, 9.863588], [53.570748, 9.864085], [53.570754, 9.864297], [53.570691, 9.864407], [53.570447, 9.864441], [53.57042, 9.864434], [53.570394, 9.864419], [53.57034, 9.864371], [53.57032, 9.86432], [53.570281, 9.864264], [53.570258, 9.864245], [53.570222, 9.864235], [53.570176, 9.864232], [53.570069, 9.864233], [53.569985, 9.864233], [53.569993, 9.864769], [53.569998, 9.865058], [53.569998, 9.865147], [53.57001, 9.865405], [53.570021, 9.865445], [53.570034, 9.865468], [53.570045, 9.865484], [53.570063, 9.865502], [53.570079, 9.865511], [53.570099, 9.865516], [53.570139, 9.865514], [53.570196, 9.865492], [53.570365, 9.865439], [53.570548, 9.865393], [53.570844, 9.865325], [53.571006, 9.86529], [53.571083, 9.865279], [53.571251, 9.865267], [53.571384, 9.865267], [53.571416, 9.865267], [53.571473, 9.865262], [53.571521, 9.865257], [53.571504, 9.865413], [53.571426, 9.866237], [53.571321, 9.867314], [53.57128, 9.867748], [53.571244, 9.868183], [53.571194, 9.869031], [53.571191, 9.869102], [53.57118, 9.869379], [53.57115, 9.870131], [53.571144, 9.870257], [53.571141, 9.870354], [53.571119, 9.870905], [53.571084, 9.871866], [53.571073, 9.872173], [53.571055, 9.872637], [53.571041, 9.872985], [53.571007, 9.873445], [53.57097, 9.873768], [53.570903, 9.874148], [53.57083, 9.874459], [53.570815, 9.874517], [53.570748, 9.874766], [53.570655, 9.875076], [53.570553, 9.87538], [53.570527, 9.875457], [53.570347, 9.875994], [53.570225, 9.876357], [53.570191, 9.876459], [53.569993, 9.877049], [53.569842, 9.877463], [53.569672, 9.877881], [53.569604, 9.878044], [53.569373, 9.878559], [53.56922, 9.878909], [53.569203, 9.878947], [53.569106, 9.879174], [53.569022, 9.879389], [53.569002, 9.879446], [53.568952, 9.879628], [53.568912, 9.879804], [53.568811, 9.880353], [53.568785, 9.880542], [53.568769, 9.880677], [53.568735, 9.881129], [53.568698, 9.881461], [53.568648, 9.882051], [53.568361, 9.884825], [53.56833, 9.885094], [53.568305, 9.885265], [53.568183, 9.886255], [53.568093, 9.886888], [53.568076, 9.887006], [53.568039, 9.887253], [53.567986, 9.887605], [53.567977, 9.887657], [53.567941, 9.887906], [53.56787, 9.888287], [53.567858, 9.888353], [53.567825, 9.888529], [53.567788, 9.888727], [53.567758, 9.888895], [53.567606, 9.889746], [53.567519, 9.89023], [53.567482, 9.890439], [53.567438, 9.890652], [53.567361, 9.890972], [53.567275, 9.891246], [53.566924, 9.892299], [53.566568, 9.89335], [53.566452, 9.893692], [53.566425, 9.893773], [53.566244, 9.894313], [53.566055, 9.894874], [53.565879, 9.895397], [53.565831, 9.895536], [53.565784, 9.895667], [53.565703, 9.895946], [53.565641, 9.896246], [53.565617, 9.896428], [53.565598, 9.896578], [53.565565, 9.89693], [53.565558, 9.896985], [53.565536, 9.897157], [53.565512, 9.897299], [53.565477, 9.897484], [53.565357, 9.898016], [53.565291, 9.898282], [53.565214, 9.898598], [53.565197, 9.898657], [53.565163, 9.898753], [53.565063, 9.899242], [53.564965, 9.89978], [53.564939, 9.899927], [53.564931, 9.899969], [53.564876, 9.900204], [53.564862, 9.900256], [53.564821, 9.900479], [53.564822, 9.900616], [53.564825, 9.90081], [53.564822, 9.901022], [53.564822, 9.901222], [53.564832, 9.901459], [53.564716, 9.901512], [53.564606, 9.901621], [53.564504, 9.901757], [53.564413, 9.901894], [53.564328, 9.902056], [53.564293, 9.902155], [53.564253, 9.902345], [53.563986, 9.902753], [53.56393, 9.902838], [53.563897, 9.902889], [53.563628, 9.903311], [53.563589, 9.903377], [53.563389, 9.90371], [53.563353, 9.90377], [53.563184, 9.904096], [53.563094, 9.904266], [53.563065, 9.904322], [53.562955, 9.904533], [53.562837, 9.904713], [53.562656, 9.905012], [53.562521, 9.905235], [53.562416, 9.905385], [53.562312, 9.905555], [53.562278, 9.905612], [53.562184, 9.905757], [53.561976, 9.906038], [53.561893, 9.90614], [53.561873, 9.906167], [53.561741, 9.906343], [53.561603, 9.906521], [53.561365, 9.906834], [53.561351, 9.906855], [53.561268, 9.906981], [53.561246, 9.907014], [53.561216, 9.90707], [53.561176, 9.907144], [53.561032, 9.907413], [53.560998, 9.907488], [53.560886, 9.907708], [53.560856, 9.90778], [53.56079, 9.907933], [53.560668, 9.90823], [53.560481, 9.908699], [53.560417, 9.908853], [53.560357, 9.908995], [53.560292, 9.909152], [53.560282, 9.909176], [53.560259, 9.90923], [53.560255, 9.909242], [53.560238, 9.909281], [53.560113, 9.909588], [53.559988, 9.90988], [53.559973, 9.909915], [53.559808, 9.910306], [53.559716, 9.910476], [53.559632, 9.910681], [53.559587, 9.910789], [53.55946, 9.9111], [53.559249, 9.911632], [53.559219, 9.911703], [53.559207, 9.911731], [53.559198, 9.911754], [53.559065, 9.912088], [53.558945, 9.912392], [53.558923, 9.91244], [53.558652, 9.913085], [53.55855, 9.913325], [53.558438, 9.913604], [53.558421, 9.913647], [53.558404, 9.913689], [53.558332, 9.913861], [53.558274, 9.913999], [53.558223, 9.914122], [53.558189, 9.914203], [53.558167, 9.914253], [53.558045, 9.914517], [53.557968, 9.914683], [53.557943, 9.914736], [53.557872, 9.914886], [53.557833, 9.91502], [53.557607, 9.915786], [53.55759, 9.915844], [53.557463, 9.916276], [53.557328, 9.916744], [53.557239, 9.917076], [53.557177, 9.917297], [53.556988, 9.917973], [53.556966, 9.918051], [53.556891, 9.918317], [53.556813, 9.918145], [53.555888, 9.918063], [53.555535, 9.918028], [53.555009, 9.917984], [53.554695, 9.917965], [53.55446, 9.917936], [53.55425, 9.917911], [53.554123, 9.917895], [53.55407, 9.917889], [53.553943, 9.917844], [53.553899, 9.917829], [53.553848, 9.917802], [53.553737, 9.917745], [53.553653, 9.917698], [53.553456, 9.917593], [53.553431, 9.917586], [53.55333, 9.91756], [53.55323, 9.91755], [53.553109, 9.917563], [53.553047, 9.917576], [53.552976, 9.917604], [53.552902, 9.917633], [53.552747, 9.917692], [53.552558, 9.917747], [53.552416, 9.91777], [53.552313, 9.917768], [53.55212, 9.917715], [53.551893, 9.917704], [53.551679, 9.917738], [53.551546, 9.917742], [53.551361, 9.917725], [53.551312, 9.917709], [53.551199, 9.917681], [53.551091, 9.917673], [53.551076, 9.917904], [53.551063, 9.918108], [53.551042, 9.918594], [53.551, 9.919332], [53.550979, 9.919671], [53.550901, 9.920825], [53.550876, 9.92113], [53.550849, 9.921386], [53.550799, 9.921746], [53.550749, 9.922028], [53.55073, 9.922127], [53.550687, 9.922352], [53.550632, 9.92262], [53.550484, 9.923334], [53.550317, 9.924173], [53.550087, 9.925267], [53.550078, 9.9253], [53.549891, 9.925919], [53.549763, 9.926362], [53.549737, 9.926433], [53.549656, 9.926632], [53.549503, 9.926954], [53.549432, 9.927089], [53.549303, 9.92729], [53.549265, 9.927351], [53.549233, 9.927402], [53.549215, 9.927439], [53.549202, 9.927486], [53.549204, 9.92752], [53.549222, 9.927617], [53.549323, 9.92814], [53.54935, 9.928281], [53.549427, 9.928818], [53.549447, 9.928958], [53.549453, 9.929004], [53.549541, 9.929707], [53.549584, 9.930031], [53.549658, 9.930591], [53.549697, 9.930854], [53.549765, 9.931241], [53.549834, 9.931628], [53.549849, 9.931704], [53.549916, 9.932024], [53.550046, 9.932648], [53.55007, 9.932747], [53.550089, 9.932815], [53.550122, 9.932893], [53.550178, 9.932912], [53.550214, 9.932922], [53.550232, 9.932926], [53.550295, 9.932936], [53.550332, 9.93293], [53.550626, 9.932809], [53.550843, 9.932683], [53.550889, 9.932659], [53.551502, 9.932373], [53.551513, 9.932369], [53.552131, 9.9321], [53.552131, 9.9321]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            poly_line_46fa9303adc949c7abd5192ca46754e2.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 4.06 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_b8932acf738a87496443e8bfb3e78d53 = L.polyline(
+                [[53.571555, 9.861997], [53.571543, 9.862257], [53.571546, 9.862928], [53.57074, 9.86295], [53.570748, 9.863588], [53.570748, 9.864085], [53.570754, 9.864297], [53.570691, 9.864407], [53.570447, 9.864441], [53.57042, 9.864434], [53.570394, 9.864419], [53.57034, 9.864371], [53.57032, 9.86432], [53.570281, 9.864264], [53.570258, 9.864245], [53.570222, 9.864235], [53.570176, 9.864232], [53.570069, 9.864233], [53.569985, 9.864233], [53.569993, 9.864769], [53.569998, 9.865058], [53.569998, 9.865147], [53.57001, 9.865405], [53.570021, 9.865445], [53.570034, 9.865468], [53.570045, 9.865484], [53.570063, 9.865502], [53.570079, 9.865511], [53.570099, 9.865516], [53.570139, 9.865514], [53.570196, 9.865492], [53.570365, 9.865439], [53.570548, 9.865393], [53.570844, 9.865325], [53.571006, 9.86529], [53.571083, 9.865279], [53.571251, 9.865267], [53.571384, 9.865267], [53.571416, 9.865267], [53.571473, 9.865262], [53.571521, 9.865257], [53.571504, 9.865413], [53.571426, 9.866237], [53.571321, 9.867314], [53.57128, 9.867748], [53.571244, 9.868183], [53.571194, 9.869031], [53.571191, 9.869102], [53.57118, 9.869379], [53.57115, 9.870131], [53.571144, 9.870257], [53.571141, 9.870354], [53.571119, 9.870905], [53.571084, 9.871866], [53.571073, 9.872173], [53.571055, 9.872637], [53.571041, 9.872985], [53.571007, 9.873445], [53.57097, 9.873768], [53.570903, 9.874148], [53.57083, 9.874459], [53.570815, 9.874517], [53.570748, 9.874766], [53.570655, 9.875076], [53.570553, 9.87538], [53.570527, 9.875457], [53.570347, 9.875994], [53.570225, 9.876357], [53.570191, 9.876459], [53.569993, 9.877049], [53.569842, 9.877463], [53.569672, 9.877881], [53.569604, 9.878044], [53.569373, 9.878559], [53.56922, 9.878909], [53.569203, 9.878947], [53.569106, 9.879174], [53.569022, 9.879389], [53.569002, 9.879446], [53.568952, 9.879628], [53.568912, 9.879804], [53.568811, 9.880353], [53.568785, 9.880542], [53.568769, 9.880677], [53.568735, 9.881129], [53.568698, 9.881461], [53.568648, 9.882051], [53.568361, 9.884825], [53.56833, 9.885094], [53.568305, 9.885265], [53.568183, 9.886255], [53.568093, 9.886888], [53.568076, 9.887006], [53.568039, 9.887253], [53.567986, 9.887605], [53.567977, 9.887657], [53.567941, 9.887906], [53.56787, 9.888287], [53.567858, 9.888353], [53.567825, 9.888529], [53.567788, 9.888727], [53.567758, 9.888895], [53.567606, 9.889746], [53.567519, 9.89023], [53.567482, 9.890439], [53.567438, 9.890652], [53.567361, 9.890972], [53.567275, 9.891246], [53.566924, 9.892299], [53.566568, 9.89335], [53.566452, 9.893692], [53.566425, 9.893773], [53.566244, 9.894313], [53.566055, 9.894874], [53.565879, 9.895397], [53.565831, 9.895536], [53.565784, 9.895667], [53.565703, 9.895946], [53.565641, 9.896246], [53.565617, 9.896428], [53.565598, 9.896578], [53.565565, 9.89693], [53.565558, 9.896985], [53.565536, 9.897157], [53.565512, 9.897299], [53.565477, 9.897484], [53.565357, 9.898016], [53.565291, 9.898282], [53.565214, 9.898598], [53.565197, 9.898657], [53.565163, 9.898753], [53.565063, 9.899242], [53.564965, 9.89978], [53.564939, 9.899927], [53.564931, 9.899969], [53.564876, 9.900204], [53.564862, 9.900256], [53.564821, 9.900479], [53.564822, 9.900616], [53.564825, 9.90081], [53.564822, 9.901022], [53.564822, 9.901222], [53.564832, 9.901459], [53.564844, 9.90159], [53.564868, 9.901827], [53.564886, 9.901935], [53.564938, 9.902072], [53.564987, 9.902405], [53.565039, 9.902754], [53.565133, 9.903376], [53.565185, 9.903715], [53.5652, 9.903805], [53.565261, 9.904156], [53.56533, 9.904529], [53.565457, 9.905138], [53.565573, 9.905652], [53.565656, 9.905991], [53.565671, 9.906193], [53.565698, 9.906424], [53.565708, 9.906505], [53.565728, 9.90679], [53.56574, 9.906968], [53.565748, 9.907191], [53.565796, 9.907444], [53.565772, 9.908434], [53.565756, 9.908959], [53.565747, 9.909185], [53.565725, 9.909764], [53.565724, 9.910063], [53.565704, 9.910565], [53.565703, 9.910647], [53.565703, 9.910896], [53.565698, 9.910965], [53.56569, 9.91107], [53.565673, 9.911184], [53.565587, 9.911552], [53.565569, 9.911626], [53.565526, 9.911799], [53.565389, 9.912345], [53.565372, 9.912456], [53.565356, 9.912635], [53.565318, 9.91274], [53.565193, 9.913172], [53.564963, 9.914124], [53.564905, 9.914384], [53.564793, 9.914892], [53.564775, 9.914978], [53.56461, 9.915742], [53.564586, 9.91585], [53.564505, 9.916079], [53.56444, 9.916324], [53.564425, 9.916391], [53.564402, 9.916493], [53.564395, 9.91653], [53.564364, 9.916689], [53.564333, 9.916851], [53.564315, 9.916967], [53.564293, 9.917127], [53.564282, 9.917203], [53.564242, 9.91761], [53.564202, 9.917861], [53.564134, 9.91823], [53.56411, 9.918391], [53.564069, 9.918488], [53.564051, 9.918553], [53.564041, 9.918602], [53.563987, 9.919017], [53.563978, 9.919124], [53.563975, 9.91918], [53.563971, 9.919314], [53.563967, 9.91947], [53.563963, 9.919663], [53.563952, 9.920155], [53.563954, 9.920237], [53.563971, 9.920392], [53.563974, 9.920496], [53.563967, 9.920628], [53.563953, 9.920867], [53.563948, 9.920959], [53.563898, 9.921861], [53.563889, 9.922017], [53.563866, 9.922427], [53.563844, 9.922823], [53.563832, 9.923049], [53.56383, 9.923084], [53.563818, 9.923304], [53.56381, 9.923443], [53.563781, 9.923962], [53.563748, 9.924553], [53.563739, 9.924714], [53.563721, 9.925038], [53.563696, 9.925498], [53.563668, 9.926066], [53.563658, 9.926215], [53.563655, 9.926266], [53.563635, 9.926563], [53.563622, 9.926811], [53.563618, 9.926868], [53.563613, 9.926955], [53.563532, 9.928197], [53.563526, 9.928287], [53.563515, 9.928441], [53.563511, 9.928513], [53.563499, 9.928764], [53.56349, 9.928985], [53.563486, 9.929115], [53.563485, 9.929169], [53.563478, 9.929391], [53.563475, 9.929584], [53.563474, 9.929604], [53.563473, 9.929678], [53.563464, 9.930117], [53.563449, 9.931071], [53.563447, 9.931162], [53.563446, 9.931211], [53.563445, 9.931314], [53.563441, 9.931502], [53.563442, 9.931679], [53.563445, 9.93181], [53.563452, 9.931941], [53.563463, 9.932071], [53.563481, 9.932218], [53.563505, 9.932365], [53.563546, 9.93258], [53.56357, 9.932698], [53.563609, 9.932893], [53.563638, 9.933072], [53.563667, 9.933258], [53.563677, 9.933362], [53.563687, 9.933489], [53.563696, 9.933629], [53.563762, 9.934975], [53.563766, 9.935202], [53.563764, 9.935419], [53.56376, 9.935599], [53.563757, 9.935731], [53.563744, 9.936184], [53.563739, 9.936382], [53.563721, 9.93695], [53.563719, 9.93701], [53.563701, 9.937404], [53.563675, 9.93787], [53.563658, 9.938337], [53.563655, 9.938432], [53.563648, 9.938674], [53.563647, 9.938725], [53.563645, 9.938983], [53.563641, 9.939335], [53.563641, 9.93993], [53.56356, 9.940254], [53.563554, 9.940447], [53.563549, 9.94062], [53.563532, 9.9412], [53.563531, 9.941272], [53.563522, 9.941366], [53.56351, 9.941469], [53.563502, 9.941533], [53.563634, 9.94155], [53.563727, 9.941559], [53.563798, 9.941558], [53.563906, 9.941554], [53.56419, 9.94154], [53.564279, 9.941539], [53.564421, 9.941552], [53.564581, 9.941567], [53.564723, 9.941578], [53.56477, 9.941582], [53.564809, 9.941585], [53.565147, 9.941622], [53.565203, 9.941629], [53.565252, 9.941639], [53.565286, 9.941648], [53.565328, 9.941673], [53.565359, 9.941704], [53.565374, 9.941724], [53.565389, 9.941754], [53.5654, 9.941787], [53.565408, 9.941821], [53.565412, 9.941861], [53.565412, 9.941903], [53.565412, 9.941956], [53.565409, 9.942014], [53.565405, 9.942087], [53.565343, 9.942799], [53.565314, 9.943132], [53.565311, 9.943162], [53.565305, 9.943231], [53.565271, 9.943622], [53.565229, 9.944113], [53.565219, 9.944229], [53.565204, 9.944401], [53.565188, 9.944585], [53.565178, 9.944732], [53.56517, 9.944872], [53.565168, 9.944939], [53.565153, 9.945304], [53.565138, 9.945634], [53.565117, 9.946174], [53.565114, 9.946441], [53.565114, 9.946714], [53.565124, 9.947236], [53.565134, 9.947582], [53.565142, 9.947718], [53.56515, 9.947838], [53.565197, 9.94831], [53.565277, 9.948949], [53.565314, 9.949164], [53.565407, 9.94955], [53.565528, 9.950032], [53.565584, 9.950254], [53.565639, 9.950469], [53.56567, 9.950596], [53.565707, 9.950758], [53.565722, 9.950822], [53.565744, 9.951049], [53.565773, 9.951208], [53.565806, 9.9513], [53.565959, 9.951419], [53.565997, 9.951633], [53.566037, 9.951789], [53.566079, 9.951991], [53.566084, 9.952017], [53.5661, 9.952093], [53.566145, 9.952269], [53.566205, 9.952514], [53.566262, 9.952765], [53.566279, 9.952836], [53.566307, 9.952958], [53.56629, 9.953019], [53.566255, 9.953141], [53.566074, 9.953774], [53.56595, 9.95418], [53.565876, 9.954419], [53.565811, 9.954631], [53.565746, 9.954843], [53.565728, 9.954903], [53.565531, 9.955519], [53.565395, 9.955943], [53.56533, 9.956137], [53.565056, 9.956955], [53.56496, 9.957237], [53.564859, 9.957536], [53.564833, 9.957597], [53.564805, 9.957654], [53.564781, 9.957709], [53.564624, 9.958061], [53.564464, 9.958418], [53.56434, 9.958661], [53.564229, 9.958918], [53.564226, 9.959067], [53.564317, 9.959513], [53.564338, 9.959617], [53.564231, 9.959674], [53.564157, 9.959731], [53.564076, 9.959805], [53.563925, 9.959889], [53.563851, 9.959956], [53.563769, 9.960022], [53.563685, 9.960089], [53.563613, 9.960147], [53.563442, 9.960327], [53.563254, 9.960558], [53.562951, 9.960884], [53.562907, 9.96093], [53.562786, 9.961055], [53.562387, 9.961448], [53.562351, 9.961484], [53.562243, 9.961599], [53.562021, 9.961838], [53.561901, 9.961967], [53.561869, 9.962004], [53.561781, 9.962106], [53.561699, 9.962199], [53.561662, 9.962242], [53.56144, 9.962447], [53.561103, 9.962737], [53.560813, 9.962988], [53.560435, 9.963316], [53.560305, 9.963396]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+    
+            poly_line_b8932acf738a87496443e8bfb3e78d53.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 4.89 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_8e81e7ff1a914e660ad0c4c5c67fae41);
+        
+</script>
+</html>

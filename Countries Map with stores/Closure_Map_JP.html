@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_b5939e9baffaf91970bdc20b4bc2e307 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+</head>
+<body>
+    
+    
+    <div style="position: fixed; top: 10px; right: 10px; width: 280px;
+         background-color: white; border: 3px solid #333; z-index: 9999;
+         font-size: 13px; padding: 15px; border-radius: 8px;">
+        <h3 style="margin: 0 0 12px 0; border-bottom: 2px solid #333; padding-bottom: 8px;">
+            🎯 Japan - Closure Map
+        </h3>
+        <div style="margin: 10px 0;">
+            <i class="fa fa-times" style="color: red;"></i>
+            <b style="color: red;">RED</b> = Closure Candidates
+        </div>
+        <div style="margin: 10px 0;">
+            <i class="fa fa-shopping-cart" style="color: blue;"></i>
+            <b>COLORED</b> = Keep (Anchors)
+        </div>
+        <hr style="margin: 10px 0;">
+        <p style="margin: 5px 0;"><b>Closure Candidates:</b> 3</p>
+        <p style="margin: 5px 0;"><b>Total Conflicts:</b> 7</p>
+    </div>
+    
+    
+            <div class="folium-map" id="map_b5939e9baffaf91970bdc20b4bc2e307" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_b5939e9baffaf91970bdc20b4bc2e307 = L.map(
+                "map_b5939e9baffaf91970bdc20b4bc2e307",
+                {
+                    center: [34.57448917083334, 134.90123207916668],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 6,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_dada14f59118bf5307efa52ce7ffb06e = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_dada14f59118bf5307efa52ce7ffb06e.addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            var rectangle_474dfcc725678369ef8cfb1751095a9b = L.rectangle(
+                [[35.0984235, 136.8739141], [35.174112699999995, 136.9166515]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            rectangle_474dfcc725678369ef8cfb1751095a9b.bindTooltip(
+                `<div>
+                     Cluster: Nagoya
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_dfe511f8e7f223fc5017ac771d967319 = L.rectangle(
+                [[34.6355215, 135.4862546], [34.7141898, 135.5217132]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            rectangle_dfe511f8e7f223fc5017ac771d967319.bindTooltip(
+                `<div>
+                     Cluster: Osaka
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_6d4611d8c355e3c61b5e1eb6d3d44dea = L.rectangle(
+                [[33.5545799, 130.38716540000001], [33.5993186, 130.4498973]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            rectangle_6d4611d8c355e3c61b5e1eb6d3d44dea.bindTooltip(
+                `<div>
+                     Cluster: Fukuoka
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_6bf27a2bc4067e3a0faf4b7310ce68d6 = L.rectangle(
+                [[35.3266097, 139.34447350000002], [35.4021962, 139.3735755]],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            rectangle_6bf27a2bc4067e3a0faf4b7310ce68d6.bindTooltip(
+                `<div>
+                     Cluster: Hiratsuka
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_50f3cfd92d8b5f8e3d8c9310f914e545 = L.marker(
+                [35.1084235, 136.8839141],
+                {
+}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            var icon_f88ae7dc3c60e8765c1acd9747c77c70 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fbd262cb31245c8d4978889d4d34c26f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2daec6661361d458b9d71e991c5bdbb6 = $(`<div id="html_2daec6661361d458b9d71e991c5bdbb6" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Japan, 〒455-8501 Aichi, Nagoya, Minato Ward, Komei, 2 Chome-3-2 2F LaLaport Nagoya Minato Acruz</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.2/5.0<br>                     <b>💬 Reviews:</b> 10<br>                     <b>📍 City:</b> Nagoya, Aichi                 </div>             </div>             </div>`)[0];
+                popup_fbd262cb31245c8d4978889d4d34c26f.setContent(html_2daec6661361d458b9d71e991c5bdbb6);
+            
+        
+
+        marker_50f3cfd92d8b5f8e3d8c9310f914e545.bindPopup(popup_fbd262cb31245c8d4978889d4d34c26f)
+        ;
+
+        
+    
+    
+            marker_50f3cfd92d8b5f8e3d8c9310f914e545.bindTooltip(
+                `<div>
+                     Levi's - 4.2⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_50f3cfd92d8b5f8e3d8c9310f914e545.setIcon(icon_f88ae7dc3c60e8765c1acd9747c77c70);
+            
+    
+            var marker_7d1a8ac78d29c47271e1c51a07e21d9e = L.marker(
+                [35.1640937, 136.9063551],
+                {
+}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            var icon_8df5e753dda81328034c4a2198222de4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8b741226e9c9b8db311fa2782fea6b77 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5b030fe64ec5a68317497305ca94fa6b = $(`<div id="html_5b030fe64ec5a68317497305ca94fa6b" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi's ® Store Nagoya ZERO GATE                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>3 Chome-28-11 Sakae, Naka Ward, Nagoya, Aichi 460-0008, Japan</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.6/5.0<br>                     <b>💬 Reviews:</b> 47<br>                     <b>📍 City:</b> Nagoya, Aichi                 </div>             </div>             </div>`)[0];
+                popup_8b741226e9c9b8db311fa2782fea6b77.setContent(html_5b030fe64ec5a68317497305ca94fa6b);
+            
+        
+
+        marker_7d1a8ac78d29c47271e1c51a07e21d9e.bindPopup(popup_8b741226e9c9b8db311fa2782fea6b77)
+        ;
+
+        
+    
+    
+            marker_7d1a8ac78d29c47271e1c51a07e21d9e.bindTooltip(
+                `<div>
+                     Levi's ® Store Nagoya ZERO GAT - 3.6⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7d1a8ac78d29c47271e1c51a07e21d9e.setIcon(icon_8df5e753dda81328034c4a2198222de4);
+            
+    
+            var marker_3d393d0082bef3ded5803d5256057b8d = L.marker(
+                [35.1641127, 136.9066515],
+                {
+}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            var icon_7c697050c8551ac79dab509a7293df66 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_51efe8c62c5f3df154c8d9273a98f9ab = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_4daa1ffbb0d93b58d3acfaf5db89c4b0 = $(`<div id="html_4daa1ffbb0d93b58d3acfaf5db89c4b0" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi’s                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>3 Chome-28-7 Sakae, Naka Ward, Nagoya, Aichi 460-0008, Japan</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.6/5.0<br>                     <b>💬 Reviews:</b> 16<br>                     <b>📍 City:</b> Nagoya, Aichi                 </div>             </div>             </div>`)[0];
+                popup_51efe8c62c5f3df154c8d9273a98f9ab.setContent(html_4daa1ffbb0d93b58d3acfaf5db89c4b0);
+            
+        
+
+        marker_3d393d0082bef3ded5803d5256057b8d.bindPopup(popup_51efe8c62c5f3df154c8d9273a98f9ab)
+        ;
+
+        
+    
+    
+            marker_3d393d0082bef3ded5803d5256057b8d.bindTooltip(
+                `<div>
+                     Levi’s - 4.6⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3d393d0082bef3ded5803d5256057b8d.setIcon(icon_7c697050c8551ac79dab509a7293df66);
+            
+    
+            var marker_3b63774707e2b9628562f50f275972c1 = L.marker(
+                [34.7041898, 135.4962546],
+                {
+}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            var icon_bf1b2721b16ead5922f33d0b23e7efaa = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "times",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6ec889ce13313b5baa454e598f4dd86e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_80e7e103ea4dafab7217fa35f8058068 = $(`<div id="html_80e7e103ea4dafab7217fa35f8058068" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: red;                       border-bottom: 2px solid red; padding-bottom: 5px;'>                     🚫 CLOSURE CANDIDATE Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>〒530-0011 Osaka, Kita Ward, Ofukacho, 1-1 Yodobashi Umeda Tower, 6th Floor LINKS UMEDA</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.4/5.0<br>                     <b>💬 Reviews:</b> 38<br>                     <b>📍 City:</b> Osaka, Osaka                 </div>             </div>             </div>`)[0];
+                popup_6ec889ce13313b5baa454e598f4dd86e.setContent(html_80e7e103ea4dafab7217fa35f8058068);
+            
+        
+
+        marker_3b63774707e2b9628562f50f275972c1.bindPopup(popup_6ec889ce13313b5baa454e598f4dd86e)
+        ;
+
+        
+    
+    
+            marker_3b63774707e2b9628562f50f275972c1.bindTooltip(
+                `<div>
+                     Levi's - 3.4⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3b63774707e2b9628562f50f275972c1.setIcon(icon_bf1b2721b16ead5922f33d0b23e7efaa);
+            
+    
+            var marker_a357ce0011aae0304e58261260b1c521 = L.marker(
+                [34.6622332, 135.5024927],
+                {
+}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            var icon_db626ba88a5cb04719bd8f9528920d48 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "times",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_765f2428f06d89df1d7e3a0f167257a1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b52a7611c1c9d79b7fe519a21bed6482 = $(`<div id="html_b52a7611c1c9d79b7fe519a21bed6482" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: red;                       border-bottom: 2px solid red; padding-bottom: 5px;'>                     🚫 CLOSURE CANDIDATE Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Japan, 〒556-0011 Osaka, Chuo Ward, Namba, 5 Chome−1−60 Namba CITY South Building 1F</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 2.9/5.0<br>                     <b>💬 Reviews:</b> 49<br>                     <b>📍 City:</b> Osaka, Osaka                 </div>             </div>             </div>`)[0];
+                popup_765f2428f06d89df1d7e3a0f167257a1.setContent(html_b52a7611c1c9d79b7fe519a21bed6482);
+            
+        
+
+        marker_a357ce0011aae0304e58261260b1c521.bindPopup(popup_765f2428f06d89df1d7e3a0f167257a1)
+        ;
+
+        
+    
+    
+            marker_a357ce0011aae0304e58261260b1c521.bindTooltip(
+                `<div>
+                     Levi's - 2.9⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a357ce0011aae0304e58261260b1c521.setIcon(icon_db626ba88a5cb04719bd8f9528920d48);
+            
+    
+            var marker_0fafb490ecafad63fa303f6ba1159312 = L.marker(
+                [34.67211, 135.4993142],
+                {
+}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            var icon_356181218535ca440402e4ec1363cac2 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0bd10a6b9b4dd3a21befc55c74e6453d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_51e9be6e657a2dfc01c9ba5bf8a5ad9b = $(`<div id="html_51e9be6e657a2dfc01c9ba5bf8a5ad9b" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 Levi's Osaka Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>1 Chome-6-8 Nishishinsaibashi, Chuo Ward, Osaka, 542-0086, Japan</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.2/5.0<br>                     <b>💬 Reviews:</b> 226<br>                     <b>📍 City:</b> Osaka, Osaka                 </div>             </div>             </div>`)[0];
+                popup_0bd10a6b9b4dd3a21befc55c74e6453d.setContent(html_51e9be6e657a2dfc01c9ba5bf8a5ad9b);
+            
+        
+
+        marker_0fafb490ecafad63fa303f6ba1159312.bindPopup(popup_0bd10a6b9b4dd3a21befc55c74e6453d)
+        ;
+
+        
+    
+    
+            marker_0fafb490ecafad63fa303f6ba1159312.bindTooltip(
+                `<div>
+                     Levi's Osaka Store - 4.2⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0fafb490ecafad63fa303f6ba1159312.setIcon(icon_356181218535ca440402e4ec1363cac2);
+            
+    
+            var marker_ff7b2d9aab0c214c3910ca920fcc0dbe = L.marker(
+                [34.6455215, 135.5117132],
+                {
+}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            var icon_c262c94082e1b66d1111e44491944acf = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5663a7e9fa11a2421b8d80bc12bd624d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c9e62188ffa154bb9097afec773bd415 = $(`<div id="html_c9e62188ffa154bb9097afec773bd415" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 Levi's Abeno Q’s Mall Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>1 Chome-6-1 Abenosuji, Abeno Ward, Osaka, 545-0052, Japan</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.9/5.0<br>                     <b>💬 Reviews:</b> 29<br>                     <b>📍 City:</b> Osaka, Osaka                 </div>             </div>             </div>`)[0];
+                popup_5663a7e9fa11a2421b8d80bc12bd624d.setContent(html_c9e62188ffa154bb9097afec773bd415);
+            
+        
+
+        marker_ff7b2d9aab0c214c3910ca920fcc0dbe.bindPopup(popup_5663a7e9fa11a2421b8d80bc12bd624d)
+        ;
+
+        
+    
+    
+            marker_ff7b2d9aab0c214c3910ca920fcc0dbe.bindTooltip(
+                `<div>
+                     Levi's Abeno Q’s Mall Store - 3.9⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ff7b2d9aab0c214c3910ca920fcc0dbe.setIcon(icon_c262c94082e1b66d1111e44491944acf);
+            
+    
+            var marker_772e662d11186005fe07cd3e50df5eb0 = L.marker(
+                [33.5877126, 130.3971654],
+                {
+}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            var icon_1abadb9081f87a8aa95143cd748b8b4a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b59f1869801cc9fcb6a5e7b420c08426 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7d66f433d65cdae4d03d206d6cf1b2e0 = $(`<div id="html_7d66f433d65cdae4d03d206d6cf1b2e0" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 LEVI'S Fukuoka Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Japan, 〒810-0001 Fukuoka, Chuo Ward, Tenjin, 2 Chome−5−16 TENJIN216 1F</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 109<br>                     <b>📍 City:</b> Fukuoka, Fukuoka                 </div>             </div>             </div>`)[0];
+                popup_b59f1869801cc9fcb6a5e7b420c08426.setContent(html_7d66f433d65cdae4d03d206d6cf1b2e0);
+            
+        
+
+        marker_772e662d11186005fe07cd3e50df5eb0.bindPopup(popup_b59f1869801cc9fcb6a5e7b420c08426)
+        ;
+
+        
+    
+    
+            marker_772e662d11186005fe07cd3e50df5eb0.bindTooltip(
+                `<div>
+                     LEVI'S Fukuoka Store - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_772e662d11186005fe07cd3e50df5eb0.setIcon(icon_1abadb9081f87a8aa95143cd748b8b4a);
+            
+    
+            var marker_0fc37e2403c784034a80f2bf07fb9b0c = L.marker(
+                [33.5893186, 130.4110989],
+                {
+}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            var icon_39ff74ef07896ba2d709f25cd578be2b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_870bc59e372d66d958917410f068a1a8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_6f6893e016b8a0d057c75d86c0cc8d40 = $(`<div id="html_6f6893e016b8a0d057c75d86c0cc8d40" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Japan, 〒812-0018 Fukuoka, Hakata Ward, Sumiyoshi, 1 Chome-2-2-2-22 Canal City Opa 2F</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.5/5.0<br>                     <b>💬 Reviews:</b> 24<br>                     <b>📍 City:</b> Fukuoka, Fukuoka                 </div>             </div>             </div>`)[0];
+                popup_870bc59e372d66d958917410f068a1a8.setContent(html_6f6893e016b8a0d057c75d86c0cc8d40);
+            
+        
+
+        marker_0fc37e2403c784034a80f2bf07fb9b0c.bindPopup(popup_870bc59e372d66d958917410f068a1a8)
+        ;
+
+        
+    
+    
+            marker_0fc37e2403c784034a80f2bf07fb9b0c.bindTooltip(
+                `<div>
+                     Levi's - 4.5⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0fc37e2403c784034a80f2bf07fb9b0c.setIcon(icon_39ff74ef07896ba2d709f25cd578be2b);
+            
+    
+            var marker_405b73de261bda4aef1c30a4787a75c7 = L.marker(
+                [33.5645799, 130.4398973],
+                {
+}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            var icon_d9b3070858a2dca39b9ef036a35a481a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "times",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b034191048ded3a9ea3a040a4d867d36 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_dc7ec49dd00dd77290c8e248ebe3c168 = $(`<div id="html_dc7ec49dd00dd77290c8e248ebe3c168" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: red;                       border-bottom: 2px solid red; padding-bottom: 5px;'>                     🚫 CLOSURE CANDIDATE Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>6 Chome-23-1 Naka, Hakata Ward, Fukuoka, 812-0893, Japan</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 2.9/5.0<br>                     <b>💬 Reviews:</b> 20<br>                     <b>📍 City:</b> Fukuoka, Fukuoka                 </div>             </div>             </div>`)[0];
+                popup_b034191048ded3a9ea3a040a4d867d36.setContent(html_dc7ec49dd00dd77290c8e248ebe3c168);
+            
+        
+
+        marker_405b73de261bda4aef1c30a4787a75c7.bindPopup(popup_b034191048ded3a9ea3a040a4d867d36)
+        ;
+
+        
+    
+    
+            marker_405b73de261bda4aef1c30a4787a75c7.bindTooltip(
+                `<div>
+                     Levi's - 2.9⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_405b73de261bda4aef1c30a4787a75c7.setIcon(icon_d9b3070858a2dca39b9ef036a35a481a);
+            
+    
+            var marker_e9805a30987face0bec89eb0bc665651 = L.marker(
+                [35.3366097, 139.3544735],
+                {
+}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            var icon_d32676d865b5058ad9ab406402825351 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_651a79280c3798caf176ebe51d798687 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_60b925481564596f76f0560c4992e8dd = $(`<div id="html_60b925481564596f76f0560c4992e8dd" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: orange;                       border-bottom: 2px solid orange; padding-bottom: 5px;'>                     🛒 Levi's                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>Japan, 〒254-0031 Kanagawa, Hiratsuka, Amanuma, 10-1 LaLaport Shonan Hiratsuka 2F</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.7/5.0<br>                     <b>💬 Reviews:</b> 21<br>                     <b>📍 City:</b> Hiratsuka, Kanagawa                 </div>             </div>             </div>`)[0];
+                popup_651a79280c3798caf176ebe51d798687.setContent(html_60b925481564596f76f0560c4992e8dd);
+            
+        
+
+        marker_e9805a30987face0bec89eb0bc665651.bindPopup(popup_651a79280c3798caf176ebe51d798687)
+        ;
+
+        
+    
+    
+            marker_e9805a30987face0bec89eb0bc665651.bindTooltip(
+                `<div>
+                     Levi's - 3.7⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e9805a30987face0bec89eb0bc665651.setIcon(icon_d32676d865b5058ad9ab406402825351);
+            
+    
+            var marker_7f24d3f02ace68f9278a2d0db6c47bf1 = L.marker(
+                [35.3921962, 139.3635755],
+                {
+}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            var icon_5eddd1fd8998c77c701bd56cfa089082 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_87405a040fd8ce715078571995ef830a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b144f4eba357e0fa2b3d3a1783812bb0 = $(`<div id="html_b144f4eba357e0fa2b3d3a1783812bb0" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: orange;                       border-bottom: 2px solid orange; padding-bottom: 5px;'>                     🛒 Levi's Factory Outlet Shonan Hiratsuka                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>8-chome-1-1 Okami, Hiratsuka, Kanagawa 254-0012, Japan</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.9/5.0<br>                     <b>💬 Reviews:</b> 8<br>                     <b>📍 City:</b> Hiratsuka, Kanagawa                 </div>             </div>             </div>`)[0];
+                popup_87405a040fd8ce715078571995ef830a.setContent(html_b144f4eba357e0fa2b3d3a1783812bb0);
+            
+        
+
+        marker_7f24d3f02ace68f9278a2d0db6c47bf1.bindPopup(popup_87405a040fd8ce715078571995ef830a)
+        ;
+
+        
+    
+    
+            marker_7f24d3f02ace68f9278a2d0db6c47bf1.bindTooltip(
+                `<div>
+                     Levi's Factory Outlet Shonan H - 4.9⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7f24d3f02ace68f9278a2d0db6c47bf1.setIcon(icon_5eddd1fd8998c77c701bd56cfa089082);
+            
+    
+            var poly_line_1030f537dc99fec2ff493413a806e666 = L.polyline(
+                [[34.66216, 135.503129], [34.662051, 135.50315], [34.661916, 135.503169], [34.661792, 135.503178], [34.66167, 135.503178], [34.661261, 135.50317], [34.661229, 135.50317], [34.661195, 135.503215], [34.661158, 135.503271], [34.661072, 135.503251], [34.660506, 135.503123], [34.660327, 135.503074], [34.66034, 135.503002], [34.660408, 135.502612], [34.660417, 135.502548], [34.660428, 135.502453], [34.660435, 135.502375], [34.660441, 135.502295], [34.660444, 135.502191], [34.660446, 135.50162], [34.660448, 135.501509], [34.660451, 135.501401], [34.660454, 135.501313], [34.660481, 135.50088], [34.660487, 135.500792], [34.660493, 135.500699], [34.660563, 135.500709], [34.661165, 135.50078], [34.661374, 135.50081], [34.661654, 135.50085], [34.661832, 135.500891], [34.662054, 135.500949], [34.662238, 135.501002], [34.662262, 135.501009], [34.662291, 135.501018], [34.662317, 135.501025], [34.6625, 135.501077], [34.662634, 135.501098], [34.662805, 135.501108], [34.662925, 135.501085], [34.663003, 135.501063], [34.663, 135.500897], [34.662991, 135.500792], [34.66293, 135.500101], [34.662921, 135.499986], [34.66291, 135.499853], [34.662863, 135.49936], [34.662807, 135.498738], [34.662775, 135.49832], [34.662758, 135.498116], [34.662752, 135.49791], [34.662916, 135.497923], [34.663447, 135.497931], [34.663829, 135.497935], [34.663928, 135.497933], [34.664025, 135.497933], [34.664371, 135.497929], [34.664565, 135.497926], [34.665194, 135.497907], [34.665341, 135.497888], [34.665458, 135.497842], [34.665986, 135.49762], [34.666133, 135.497612], [34.666264, 135.497585], [34.667112, 135.497226], [34.667326, 135.497154], [34.66755, 135.49705], [34.668356, 135.496694], [34.668681, 135.496574], [34.668758, 135.496549], [34.66886, 135.496529], [34.669338, 135.496442], [34.669355, 135.49644], [34.669436, 135.496429], [34.669539, 135.496416], [34.669842, 135.496386], [34.670282, 135.496394], [34.670352, 135.496398], [34.670468, 135.496406], [34.670918, 135.496429], [34.670983, 135.496432], [34.6711, 135.496444], [34.671095, 135.496565], [34.671077, 135.497023], [34.671111, 135.497108], [34.671124, 135.497394], [34.671105, 135.497674], [34.671103, 135.49815], [34.671109, 135.499207], [34.671101, 135.499264], [34.671102, 135.499352], [34.671109, 135.499398], [34.671132, 135.499399], [34.671888, 135.499399], [34.671927, 135.499404], [34.671972, 135.499409], [34.67211, 135.499409]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            poly_line_1030f537dc99fec2ff493413a806e666.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 1.45 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_9c743979cd6df195ed841999d4297c36 = L.polyline(
+                [[34.66216, 135.503129], [34.662051, 135.50315], [34.661916, 135.503169], [34.661792, 135.503178], [34.66167, 135.503178], [34.661261, 135.50317], [34.661229, 135.50317], [34.661195, 135.503215], [34.661158, 135.503271], [34.661138, 135.503351], [34.660977, 135.504028], [34.660771, 135.504895], [34.660614, 135.504888], [34.660493, 135.504847], [34.66021, 135.504723], [34.659758, 135.504535], [34.659453, 135.504411], [34.659207, 135.50431], [34.659145, 135.504287], [34.659081, 135.504268], [34.658875, 135.50423], [34.658835, 135.504223], [34.658217, 135.504122], [34.657457, 135.504016], [34.657371, 135.504004], [34.657304, 135.503995], [34.657074, 135.504014], [34.656709, 135.50406], [34.656376, 135.50408], [34.656326, 135.504079], [34.656243, 135.504071], [34.65607, 135.50406], [34.655701, 135.504012], [34.655655, 135.504007], [34.655614, 135.504001], [34.655581, 135.503997], [34.655342, 135.503964], [34.654876, 135.503905], [34.654802, 135.503895], [34.654685, 135.503892], [34.654696, 135.504007], [34.65471, 135.504166], [34.654705, 135.504323], [34.654643, 135.504605], [34.654575, 135.504935], [34.654531, 135.505198], [34.654486, 135.505469], [34.65444, 135.505707], [34.654378, 135.506096], [34.654372, 135.506187], [34.654361, 135.506249], [34.654343, 135.506347], [34.654314, 135.506407], [34.654282, 135.506566], [34.654236, 135.506765], [34.654221, 135.506857], [34.654198, 135.506965], [34.654105, 135.507402], [34.654019, 135.507837], [34.653991, 135.508002], [34.653974, 135.508121], [34.653968, 135.508163], [34.65395, 135.508288], [34.653933, 135.508426], [34.653889, 135.508799], [34.653783, 135.50976], [34.653633, 135.511132], [34.653627, 135.511257], [34.65364, 135.51159], [34.653651, 135.511734], [34.653671, 135.512042], [34.653677, 135.512272], [34.653684, 135.512379], [34.653698, 135.512692], [34.65371, 135.512992], [34.653712, 135.513047], [34.653726, 135.513402], [34.65372, 135.513563], [34.6537, 135.513744], [34.653511, 135.513744], [34.652992, 135.51375], [34.652752, 135.513739], [34.652609, 135.513734], [34.652276, 135.513736], [34.65148, 135.513837], [34.651187, 135.513872], [34.651101, 135.51387], [34.651006, 135.513859], [34.65053, 135.513745], [34.650182, 135.513655], [34.649946, 135.513605], [34.649858, 135.513593], [34.649786, 135.513582], [34.649521, 135.513544], [34.649218, 135.513497], [34.648795, 135.513431], [34.648593, 135.5134], [34.648515, 135.513388], [34.647885, 135.513299], [34.6478, 135.513292], [34.647607, 135.513275], [34.647248, 135.513213], [34.646721, 135.513108], [34.646601, 135.513074], [34.646461, 135.513033], [34.646193, 135.512954], [34.645682, 135.512834], [34.645592, 135.512806], [34.644886, 135.512635], [34.644816, 135.512617], [34.644831, 135.512536], [34.644838, 135.512493], [34.644852, 135.512415], [34.644919, 135.512435], [34.645073, 135.512484], [34.645236, 135.512525], [34.645624, 135.512622], [34.645918, 135.512695], [34.645937, 135.512586], [34.646062, 135.511849]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            poly_line_9c743979cd6df195ed841999d4297c36.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 1.92 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_22761d82899b2c618f33031c26f48ce3 = L.polyline(
+                [[34.70384, 135.496598], [34.70384, 135.496598], [34.704028, 135.496967], [34.704072, 135.497055], [34.704112, 135.497176], [34.704134, 135.497304], [34.704023, 135.497434], [34.703593, 135.497607], [34.703165, 135.497774], [34.702953, 135.497867], [34.702635, 135.49798], [34.702144, 135.498189], [34.70206, 135.498238], [34.701989, 135.498287], [34.701909, 135.498351], [34.701851, 135.498417], [34.701801, 135.498481], [34.701664, 135.49871], [34.701529, 135.498912], [34.701283, 135.499232], [34.70121, 135.499319], [34.701113, 135.499418], [34.700997, 135.499494], [34.700791, 135.499611], [34.700728, 135.499637], [34.699624, 135.500064], [34.699581, 135.500081], [34.699529, 135.5001], [34.699465, 135.500126], [34.69903, 135.5003], [34.69887, 135.500365], [34.698692, 135.500435], [34.698557, 135.500489], [34.698509, 135.500508], [34.698311, 135.500592], [34.69815, 135.500585], [34.697912, 135.500676], [34.697476, 135.500848], [34.697168, 135.500966], [34.696902, 135.501072], [34.696858, 135.501089], [34.696687, 135.501156], [34.696373, 135.501273], [34.696151, 135.501307], [34.695694, 135.501275], [34.695481, 135.501258], [34.695375, 135.501252], [34.695325, 135.501249], [34.695241, 135.501223], [34.695137, 135.501193], [34.69512, 135.501191], [34.694452, 135.501128], [34.694397, 135.501122], [34.694371, 135.50112], [34.69427, 135.501114], [34.694103, 135.501102], [34.693945, 135.501089], [34.693872, 135.501083], [34.693765, 135.501074], [34.693637, 135.501059], [34.693468, 135.501038], [34.693412, 135.501033], [34.69333, 135.501024], [34.693259, 135.501012], [34.693183, 135.501002], [34.692792, 135.500974], [34.692752, 135.50097], [34.692528, 135.500961], [34.692343, 135.50095], [34.691567, 135.500945], [34.691515, 135.500944], [34.691442, 135.500944], [34.690816, 135.500932], [34.69072, 135.500933], [34.690657, 135.500934], [34.690325, 135.500915], [34.690016, 135.500908], [34.689939, 135.500906], [34.689861, 135.500906], [34.689279, 135.50091], [34.689194, 135.500904], [34.689111, 135.500897], [34.688553, 135.500869], [34.688496, 135.500861], [34.688433, 135.500856], [34.687852, 135.500828], [34.687729, 135.500822], [34.687617, 135.50083], [34.687, 135.500796], [34.686922, 135.500792], [34.686849, 135.500788], [34.686181, 135.500749], [34.686087, 135.500742], [34.686012, 135.500739], [34.685357, 135.50072], [34.685282, 135.500717], [34.685193, 135.500711], [34.684424, 135.500674], [34.683776, 135.500635], [34.683598, 135.500631], [34.683416, 135.500625], [34.682775, 135.500605], [34.682395, 135.500597], [34.682368, 135.500596], [34.682348, 135.500595], [34.682165, 135.500586], [34.68207, 135.500583], [34.682049, 135.500582], [34.681911, 135.500575], [34.681769, 135.500568], [34.681752, 135.500567], [34.681674, 135.500562], [34.681559, 135.500559], [34.681534, 135.500558], [34.680748, 135.500534], [34.680143, 135.500508], [34.680095, 135.500506], [34.680084, 135.500505], [34.68001, 135.500502], [34.679958, 135.5005], [34.679942, 135.500499], [34.679364, 135.500476], [34.679315, 135.500474], [34.6793, 135.500473], [34.679204, 135.50047], [34.679092, 135.500466], [34.679076, 135.500466], [34.67855, 135.50045], [34.678529, 135.500449], [34.678515, 135.500449], [34.678435, 135.500446], [34.678352, 135.500443], [34.678334, 135.500441], [34.67769, 135.500413], [34.677668, 135.500412], [34.67765, 135.500411], [34.677592, 135.500408], [34.677537, 135.500406], [34.677519, 135.500405], [34.676856, 135.500377], [34.676753, 135.500372], [34.675952, 135.500345], [34.675328, 135.500341], [34.675207, 135.500341], [34.675105, 135.500344], [34.675002, 135.500347], [34.674864, 135.500349], [34.674719, 135.500349], [34.674352, 135.500349], [34.674307, 135.50035], [34.674259, 135.50035], [34.673587, 135.500346], [34.67353, 135.500346], [34.673471, 135.500346], [34.672855, 135.500345], [34.672823, 135.500345], [34.672804, 135.500344], [34.672734, 135.500343], [34.672676, 135.500343], [34.672656, 135.500343], [34.67208, 135.500344], [34.672057, 135.500344], [34.67203, 135.500344], [34.671943, 135.500343], [34.671866, 135.500341], [34.671839, 135.500341], [34.671231, 135.500336], [34.671196, 135.500335], [34.671181, 135.500335], [34.671114, 135.500335], [34.67105, 135.500334], [34.67103, 135.500334], [34.670464, 135.500334], [34.670437, 135.500333], [34.67042, 135.500334], [34.670366, 135.500334], [34.670311, 135.500334], [34.670293, 135.500335], [34.669963, 135.500337], [34.669808, 135.500338], [34.669541, 135.500336], [34.669511, 135.500336], [34.669494, 135.500336], [34.669411, 135.500334], [34.66936, 135.500334], [34.669342, 135.500333], [34.66921, 135.500339], [34.668871, 135.500338], [34.668788, 135.500337], [34.668712, 135.500335], [34.668654, 135.500335], [34.668147, 135.500343], [34.667841, 135.500354], [34.667445, 135.500333], [34.667423, 135.500333], [34.667383, 135.500334], [34.667237, 135.500368], [34.667037, 135.500365], [34.666909, 135.500353], [34.666733, 135.500346], [34.666637, 135.500318], [34.666305, 135.500328], [34.666223, 135.500328], [34.666156, 135.500329], [34.665979, 135.500323], [34.665782, 135.500327], [34.665703, 135.500327], [34.665608, 135.500328], [34.665427, 135.500317], [34.665203, 135.500301], [34.665093, 135.500274], [34.665047, 135.500251], [34.665, 135.500222], [34.664933, 135.500173], [34.664869, 135.500113], [34.664794, 135.499987], [34.664611, 135.500013], [34.664516, 135.500063], [34.663708, 135.500612], [34.663312, 135.500889], [34.663287, 135.500904], [34.663117, 135.501003], [34.663003, 135.501063], [34.663, 135.50123], [34.662947, 135.501809], [34.662943, 135.501924], [34.66294, 135.502024], [34.662957, 135.502291], [34.663103, 135.502827], [34.663123, 135.502922], [34.663151, 135.503017], [34.663015, 135.503033], [34.662841, 135.503082], [34.662544, 135.503155], [34.662493, 135.503168], [34.662337, 135.503224], [34.662144, 135.503268], [34.661916, 135.503313], [34.66167, 135.5033], [34.661438, 135.503298], [34.661277, 135.503282], [34.661158, 135.503271], [34.661195, 135.503215], [34.661229, 135.50317], [34.661261, 135.50317], [34.66167, 135.503178], [34.661792, 135.503178], [34.661916, 135.503169], [34.662051, 135.50315], [34.66216, 135.503129]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            poly_line_22761d82899b2c618f33031c26f48ce3.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 3.29 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_91261f04b919206fa148c8b53826f4d6 = L.polyline(
+                [[33.587626, 130.397196], [33.587603, 130.397104], [33.587595, 130.397078], [33.587578, 130.397027], [33.587511, 130.397049], [33.587008, 130.39724], [33.586939, 130.397267], [33.586561, 130.397414], [33.586538, 130.397423], [33.586453, 130.39746], [33.586496, 130.397601], [33.58655, 130.397775], [33.586861, 130.398801], [33.587016, 130.399209], [33.587391, 130.400185], [33.587593, 130.400561], [33.587706, 130.400776], [33.587815, 130.40099], [33.587903, 130.401159], [33.587989, 130.401315], [33.58786, 130.401419], [33.587776, 130.401494], [33.587599, 130.401654], [33.587374, 130.401862], [33.587288, 130.401935], [33.587257, 130.40197], [33.586732, 130.402434], [33.586707, 130.402457], [33.586582, 130.402563], [33.586431, 130.4027], [33.586085, 130.403012], [33.585874, 130.403199], [33.585813, 130.403258], [33.585111, 130.403896], [33.584911, 130.404078], [33.584829, 130.404153], [33.584754, 130.404218], [33.584396, 130.404535], [33.584133, 130.404769], [33.584083, 130.404814], [33.58373, 130.405135], [33.583577, 130.405263], [33.583369, 130.405465], [33.582951, 130.405837], [33.582809, 130.405959], [33.582726, 130.406017], [33.582521, 130.406159], [33.582235, 130.406403], [33.581625, 130.406944], [33.581016, 130.407473], [33.580603, 130.407835], [33.580547, 130.407882], [33.580133, 130.408241], [33.579643, 130.408664], [33.579001, 130.409221], [33.578496, 130.40965], [33.578402, 130.409734], [33.577867, 130.410209], [33.577554, 130.410472], [33.576933, 130.411011], [33.576322, 130.411542], [33.576161, 130.411678], [33.576009, 130.41181], [33.575833, 130.411962], [33.575869, 130.412096], [33.576091, 130.41315], [33.576167, 130.413536], [33.576261, 130.413949], [33.576416, 130.414644], [33.576489, 130.414965], [33.57653, 130.415147], [33.576553, 130.415226], [33.576886, 130.415927], [33.576916, 130.41599], [33.576966, 130.416092], [33.577234, 130.41664], [33.577308, 130.416791], [33.577524, 130.417232], [33.577713, 130.417632], [33.577973, 130.41816], [33.578018, 130.418251], [33.577936, 130.418327], [33.577605, 130.418638], [33.577067, 130.419145], [33.576795, 130.4194], [33.576304, 130.41986], [33.576075, 130.420077], [33.575892, 130.420306], [33.575726, 130.42058], [33.57566, 130.420668], [33.575315, 130.421157], [33.575304, 130.421252], [33.575311, 130.4213], [33.575381, 130.421415], [33.575049, 130.421735], [33.574986, 130.421791], [33.57494, 130.421819], [33.574927, 130.421945], [33.574925, 130.421983], [33.57492, 130.422072], [33.574819, 130.422398], [33.574772, 130.422555], [33.574764, 130.422713], [33.574632, 130.423527], [33.574527, 130.424029], [33.574375, 130.424438], [33.574297, 130.424619], [33.574214, 130.424811], [33.573977, 130.425224], [33.573791, 130.425492], [33.573291, 130.426128], [33.572911, 130.426528], [33.572622, 130.426732], [33.572653, 130.426839], [33.57261, 130.426939], [33.572552, 130.427077], [33.572485, 130.42747], [33.572452, 130.427664], [33.57245, 130.427718], [33.572444, 130.42778], [33.572436, 130.427837], [33.572429, 130.427891], [33.572413, 130.428098], [33.572356, 130.428392], [33.572326, 130.428623], [33.57232, 130.428708], [33.572342, 130.428813], [33.572415, 130.428951], [33.57256, 130.429189], [33.572352, 130.429332], [33.570543, 130.430839], [33.570524, 130.430846], [33.570409, 130.430879], [33.570296, 130.430894], [33.569799, 130.430995], [33.569703, 130.431019], [33.5694, 130.431266], [33.568805, 130.431869], [33.568497, 130.432166], [33.56839, 130.432237], [33.568066, 130.432555], [33.567707, 130.43293], [33.567265, 130.433476], [33.566997, 130.433825], [33.566881, 130.433976], [33.566728, 130.434156], [33.566357, 130.434638], [33.566278, 130.434749], [33.566189, 130.434887], [33.566136, 130.434968], [33.564824, 130.436954], [33.564176, 130.43794], [33.564063, 130.438105], [33.563825, 130.438504], [33.563522, 130.43897], [33.563792, 130.439688], [33.563928, 130.440049], [33.563989, 130.44021], [33.563991, 130.440215]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            poly_line_91261f04b919206fa148c8b53826f4d6.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 3.51 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_50daf2259cffa996135727f4c0813957 = L.polyline(
+                [[33.589031, 130.41126], [33.58925, 130.411824], [33.589277, 130.411859], [33.5895, 130.411937], [33.589837, 130.412076], [33.589856, 130.412024], [33.589946, 130.411727], [33.590058, 130.411416], [33.590127, 130.411302], [33.590266, 130.4112], [33.590189, 130.411324], [33.590153, 130.411384], [33.590111, 130.411471], [33.59006, 130.411581], [33.589917, 130.412046], [33.589732, 130.41251], [33.589707, 130.41256], [33.58965, 130.412644], [33.589594, 130.412818], [33.589474, 130.412926], [33.589297, 130.413009], [33.589192, 130.413052], [33.588929, 130.413145], [33.588686, 130.413236], [33.588355, 130.413365], [33.588224, 130.413425], [33.587946, 130.413574], [33.587826, 130.413636], [33.587523, 130.413835], [33.58749, 130.413859], [33.58747, 130.413873], [33.587415, 130.413912], [33.587249, 130.414044], [33.587026, 130.414228], [33.586703, 130.414523], [33.586624, 130.414599], [33.586552, 130.414667], [33.586197, 130.414998], [33.585793, 130.415379], [33.585712, 130.415455], [33.58562, 130.41554], [33.585537, 130.415618], [33.585296, 130.41584], [33.585242, 130.415889], [33.585106, 130.416027], [33.584934, 130.416178], [33.584306, 130.416764], [33.583738, 130.417302], [33.58334, 130.417668], [33.582929, 130.418047], [33.582411, 130.41852], [33.582204, 130.418715], [33.581649, 130.419237], [33.581415, 130.41942], [33.581155, 130.419576], [33.58083, 130.419718], [33.580521, 130.419784], [33.580033, 130.419799], [33.579152, 130.419793], [33.578779, 130.419804], [33.577699, 130.419818], [33.577487, 130.419865], [33.577262, 130.419931], [33.577047, 130.420019], [33.576842, 130.420118], [33.576621, 130.420268], [33.576424, 130.420431], [33.575622, 130.421178], [33.575444, 130.421354], [33.575381, 130.421415], [33.575049, 130.421735], [33.574986, 130.421791], [33.57494, 130.421819], [33.574927, 130.421945], [33.574925, 130.421983], [33.57492, 130.422072], [33.574819, 130.422398], [33.574772, 130.422555], [33.574764, 130.422713], [33.574632, 130.423527], [33.574527, 130.424029], [33.574375, 130.424438], [33.574297, 130.424619], [33.574214, 130.424811], [33.573977, 130.425224], [33.573791, 130.425492], [33.573291, 130.426128], [33.572911, 130.426528], [33.572622, 130.426732], [33.572653, 130.426839], [33.57261, 130.426939], [33.572552, 130.427077], [33.572485, 130.42747], [33.572452, 130.427664], [33.57245, 130.427718], [33.572444, 130.42778], [33.572436, 130.427837], [33.572429, 130.427891], [33.572413, 130.428098], [33.572356, 130.428392], [33.572326, 130.428623], [33.57232, 130.428708], [33.572342, 130.428813], [33.572415, 130.428951], [33.57256, 130.429189], [33.572352, 130.429332], [33.570543, 130.430839], [33.570524, 130.430846], [33.570409, 130.430879], [33.570296, 130.430894], [33.569799, 130.430995], [33.569703, 130.431019], [33.5694, 130.431266], [33.568805, 130.431869], [33.568497, 130.432166], [33.56839, 130.432237], [33.568066, 130.432555], [33.567707, 130.43293], [33.567265, 130.433476], [33.566997, 130.433825], [33.566881, 130.433976], [33.566728, 130.434156], [33.566357, 130.434638], [33.566278, 130.434749], [33.566189, 130.434887], [33.566136, 130.434968], [33.564824, 130.436954], [33.564176, 130.43794], [33.564063, 130.438105], [33.563825, 130.438504], [33.563522, 130.43897], [33.563792, 130.439688], [33.563928, 130.440049], [33.563989, 130.44021], [33.563991, 130.440215]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            poly_line_50daf2259cffa996135727f4c0813957.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 2.84 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_5bd5f19faeeaae22c7e00f5205232806 = L.polyline(
+                [[34.70384, 135.496598], [34.70384, 135.496598], [34.704028, 135.496967], [34.704072, 135.497055], [34.704112, 135.497176], [34.704134, 135.497304], [34.704023, 135.497434], [34.703593, 135.497607], [34.703165, 135.497774], [34.702953, 135.497867], [34.702635, 135.49798], [34.702144, 135.498189], [34.70206, 135.498238], [34.701989, 135.498287], [34.701909, 135.498351], [34.701851, 135.498417], [34.701801, 135.498481], [34.701664, 135.49871], [34.701529, 135.498912], [34.701283, 135.499232], [34.70121, 135.499319], [34.701113, 135.499418], [34.700997, 135.499494], [34.700791, 135.499611], [34.700728, 135.499637], [34.699624, 135.500064], [34.699581, 135.500081], [34.699529, 135.5001], [34.699465, 135.500126], [34.69903, 135.5003], [34.69887, 135.500365], [34.698692, 135.500435], [34.698557, 135.500489], [34.698509, 135.500508], [34.698311, 135.500592], [34.69815, 135.500585], [34.697912, 135.500676], [34.697476, 135.500848], [34.697168, 135.500966], [34.696902, 135.501072], [34.696858, 135.501089], [34.696687, 135.501156], [34.696373, 135.501273], [34.696151, 135.501307], [34.695694, 135.501275], [34.695481, 135.501258], [34.695375, 135.501252], [34.695325, 135.501249], [34.695241, 135.501223], [34.695137, 135.501193], [34.69512, 135.501191], [34.694452, 135.501128], [34.694397, 135.501122], [34.694371, 135.50112], [34.69427, 135.501114], [34.694103, 135.501102], [34.693945, 135.501089], [34.693872, 135.501083], [34.693765, 135.501074], [34.693637, 135.501059], [34.693468, 135.501038], [34.693412, 135.501033], [34.69333, 135.501024], [34.693259, 135.501012], [34.693183, 135.501002], [34.692792, 135.500974], [34.692752, 135.50097], [34.692528, 135.500961], [34.692343, 135.50095], [34.691567, 135.500945], [34.691515, 135.500944], [34.691442, 135.500944], [34.690816, 135.500932], [34.69072, 135.500933], [34.690657, 135.500934], [34.690325, 135.500915], [34.690016, 135.500908], [34.689939, 135.500906], [34.689861, 135.500906], [34.689279, 135.50091], [34.689194, 135.500904], [34.689111, 135.500897], [34.688553, 135.500869], [34.688496, 135.500861], [34.688433, 135.500856], [34.687852, 135.500828], [34.687729, 135.500822], [34.687617, 135.50083], [34.687, 135.500796], [34.686922, 135.500792], [34.686849, 135.500788], [34.686181, 135.500749], [34.686087, 135.500742], [34.686012, 135.500739], [34.685357, 135.50072], [34.685282, 135.500717], [34.685193, 135.500711], [34.684424, 135.500674], [34.683776, 135.500635], [34.683598, 135.500631], [34.683416, 135.500625], [34.682775, 135.500605], [34.682395, 135.500597], [34.682368, 135.500596], [34.682348, 135.500595], [34.682165, 135.500586], [34.68207, 135.500583], [34.682049, 135.500582], [34.681911, 135.500575], [34.681769, 135.500568], [34.681752, 135.500567], [34.681674, 135.500562], [34.681559, 135.500559], [34.681534, 135.500558], [34.680748, 135.500534], [34.680143, 135.500508], [34.680095, 135.500506], [34.680084, 135.500505], [34.68001, 135.500502], [34.679958, 135.5005], [34.679942, 135.500499], [34.679364, 135.500476], [34.679315, 135.500474], [34.6793, 135.500473], [34.679204, 135.50047], [34.679092, 135.500466], [34.679076, 135.500466], [34.67855, 135.50045], [34.678529, 135.500449], [34.678515, 135.500449], [34.678435, 135.500446], [34.678352, 135.500443], [34.678334, 135.500441], [34.67769, 135.500413], [34.677668, 135.500412], [34.67765, 135.500411], [34.677592, 135.500408], [34.677537, 135.500406], [34.677519, 135.500405], [34.676856, 135.500377], [34.676753, 135.500372], [34.675952, 135.500345], [34.675328, 135.500341], [34.675207, 135.500341], [34.675105, 135.500344], [34.675002, 135.500347], [34.674864, 135.500349], [34.674719, 135.500349], [34.674352, 135.500349], [34.674307, 135.50035], [34.674259, 135.50035], [34.673587, 135.500346], [34.67353, 135.500346], [34.673471, 135.500346], [34.672855, 135.500345], [34.672823, 135.500345], [34.672804, 135.500344], [34.672734, 135.500343], [34.672676, 135.500343], [34.672656, 135.500343], [34.67208, 135.500344], [34.672057, 135.500344], [34.67203, 135.500344], [34.671943, 135.500343], [34.671866, 135.500341], [34.671839, 135.500341], [34.671231, 135.500336], [34.671196, 135.500335], [34.671181, 135.500335], [34.671114, 135.500335], [34.67105, 135.500334], [34.67103, 135.500334], [34.670464, 135.500334], [34.670437, 135.500333], [34.67042, 135.500334], [34.670366, 135.500334], [34.670311, 135.500334], [34.670293, 135.500335], [34.669963, 135.500337], [34.669808, 135.500338], [34.669541, 135.500336], [34.669511, 135.500336], [34.669494, 135.500336], [34.669411, 135.500334], [34.66936, 135.500334], [34.669342, 135.500333], [34.66921, 135.500339], [34.668871, 135.500338], [34.668788, 135.500337], [34.668712, 135.500335], [34.668654, 135.500335], [34.668147, 135.500343], [34.667841, 135.500354], [34.667445, 135.500333], [34.667423, 135.500333], [34.667383, 135.500334], [34.667237, 135.500368], [34.667037, 135.500365], [34.666909, 135.500353], [34.666733, 135.500346], [34.666637, 135.500318], [34.666305, 135.500328], [34.666223, 135.500328], [34.666156, 135.500329], [34.665979, 135.500323], [34.665782, 135.500327], [34.665703, 135.500327], [34.665608, 135.500328], [34.665427, 135.500317], [34.665203, 135.500301], [34.665093, 135.500274], [34.665047, 135.500251], [34.665, 135.500222], [34.664933, 135.500173], [34.664869, 135.500113], [34.664794, 135.499987], [34.664611, 135.500013], [34.664516, 135.500063], [34.663708, 135.500612], [34.663312, 135.500889], [34.663287, 135.500904], [34.663117, 135.501003], [34.663003, 135.501063], [34.663, 135.50123], [34.662947, 135.501809], [34.662943, 135.501924], [34.66294, 135.502024], [34.662957, 135.502291], [34.663103, 135.502827], [34.663123, 135.502922], [34.663151, 135.503017], [34.663015, 135.503033], [34.662841, 135.503082], [34.662544, 135.503155], [34.662493, 135.503168], [34.662337, 135.503224], [34.662144, 135.503268], [34.661916, 135.503313], [34.66167, 135.5033], [34.661438, 135.503298], [34.661277, 135.503282], [34.661158, 135.503271], [34.661195, 135.503215], [34.661229, 135.50317], [34.661261, 135.50317], [34.66167, 135.503178], [34.661792, 135.503178], [34.661916, 135.503169], [34.662051, 135.50315], [34.66216, 135.503129]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            poly_line_5bd5f19faeeaae22c7e00f5205232806.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 3.29 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_91056bff26fad9f333ad5612ae4cb27a = L.polyline(
+                [[34.70384, 135.496598], [34.70384, 135.496598], [34.704028, 135.496967], [34.704072, 135.497055], [34.704112, 135.497176], [34.704134, 135.497304], [34.704023, 135.497434], [34.703593, 135.497607], [34.703165, 135.497774], [34.702953, 135.497867], [34.702635, 135.49798], [34.702144, 135.498189], [34.70206, 135.498238], [34.701989, 135.498287], [34.701909, 135.498351], [34.701851, 135.498417], [34.701801, 135.498481], [34.701664, 135.49871], [34.701529, 135.498912], [34.701283, 135.499232], [34.70121, 135.499319], [34.701113, 135.499418], [34.700997, 135.499494], [34.700791, 135.499611], [34.700728, 135.499637], [34.699624, 135.500064], [34.699581, 135.500081], [34.699529, 135.5001], [34.699465, 135.500126], [34.69903, 135.5003], [34.69887, 135.500365], [34.698692, 135.500435], [34.698557, 135.500489], [34.698509, 135.500508], [34.698311, 135.500592], [34.69815, 135.500585], [34.697912, 135.500676], [34.697476, 135.500848], [34.697168, 135.500966], [34.696902, 135.501072], [34.696858, 135.501089], [34.696687, 135.501156], [34.696373, 135.501273], [34.696151, 135.501307], [34.695694, 135.501275], [34.695481, 135.501258], [34.695375, 135.501252], [34.695325, 135.501249], [34.695241, 135.501223], [34.695137, 135.501193], [34.69512, 135.501191], [34.694452, 135.501128], [34.694397, 135.501122], [34.694371, 135.50112], [34.69427, 135.501114], [34.694103, 135.501102], [34.693945, 135.501089], [34.693872, 135.501083], [34.693765, 135.501074], [34.693637, 135.501059], [34.693468, 135.501038], [34.693412, 135.501033], [34.69333, 135.501024], [34.693259, 135.501012], [34.693183, 135.501002], [34.692792, 135.500974], [34.692752, 135.50097], [34.692528, 135.500961], [34.692343, 135.50095], [34.691567, 135.500945], [34.691515, 135.500944], [34.691442, 135.500944], [34.690816, 135.500932], [34.69072, 135.500933], [34.690657, 135.500934], [34.690325, 135.500915], [34.690016, 135.500908], [34.689939, 135.500906], [34.689861, 135.500906], [34.689279, 135.50091], [34.689194, 135.500904], [34.689111, 135.500897], [34.688553, 135.500869], [34.688496, 135.500861], [34.688433, 135.500856], [34.687852, 135.500828], [34.687729, 135.500822], [34.687617, 135.50083], [34.687, 135.500796], [34.686922, 135.500792], [34.686849, 135.500788], [34.686181, 135.500749], [34.686087, 135.500742], [34.686012, 135.500739], [34.685357, 135.50072], [34.685282, 135.500717], [34.685193, 135.500711], [34.684424, 135.500674], [34.683776, 135.500635], [34.683598, 135.500631], [34.683416, 135.500625], [34.682775, 135.500605], [34.682395, 135.500597], [34.682368, 135.500596], [34.682348, 135.500595], [34.682165, 135.500586], [34.68207, 135.500583], [34.682049, 135.500582], [34.681911, 135.500575], [34.681769, 135.500568], [34.681752, 135.500567], [34.681674, 135.500562], [34.681559, 135.500559], [34.681534, 135.500558], [34.680748, 135.500534], [34.680143, 135.500508], [34.680095, 135.500506], [34.680084, 135.500505], [34.68001, 135.500502], [34.679958, 135.5005], [34.679942, 135.500499], [34.679364, 135.500476], [34.679315, 135.500474], [34.6793, 135.500473], [34.679204, 135.50047], [34.679092, 135.500466], [34.679076, 135.500466], [34.67855, 135.50045], [34.678529, 135.500449], [34.678515, 135.500449], [34.678435, 135.500446], [34.678352, 135.500443], [34.678334, 135.500441], [34.67769, 135.500413], [34.677668, 135.500412], [34.67765, 135.500411], [34.677592, 135.500408], [34.677537, 135.500406], [34.677519, 135.500405], [34.676856, 135.500377], [34.676753, 135.500372], [34.675952, 135.500345], [34.675328, 135.500341], [34.675207, 135.500341], [34.675105, 135.500344], [34.675002, 135.500347], [34.674864, 135.500349], [34.674719, 135.500349], [34.674352, 135.500349], [34.674307, 135.50035], [34.674259, 135.50035], [34.673587, 135.500346], [34.67353, 135.500346], [34.673471, 135.500346], [34.672855, 135.500345], [34.672823, 135.500345], [34.672804, 135.500344], [34.672734, 135.500343], [34.672676, 135.500343], [34.672656, 135.500343], [34.67208, 135.500344], [34.672057, 135.500344], [34.67203, 135.500344], [34.671943, 135.500343], [34.671942, 135.500492], [34.671943, 135.500343], [34.671944, 135.500198], [34.67194, 135.500134], [34.671939, 135.50012], [34.671927, 135.499404], [34.671972, 135.499409], [34.67211, 135.499409]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+    
+            poly_line_91056bff26fad9f333ad5612ae4cb27a.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 2.41 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_b5939e9baffaf91970bdc20b4bc2e307);
+        
+</script>
+</html>

@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_aeadaf3ae1b91eba025a3c902aa70135 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+</head>
+<body>
+    
+    
+    <div style="position: fixed; top: 10px; right: 10px; width: 280px;
+         background-color: white; border: 3px solid #333; z-index: 9999;
+         font-size: 13px; padding: 15px; border-radius: 8px;
+         box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+        <h3 style="margin: 0 0 12px 0; border-bottom: 2px solid #333; padding-bottom: 8px;">
+            🎯 Closure Candidate Map
+        </h3>
+        
+        <div style="margin: 10px 0;">
+            <i class="fa fa-times" style="color: red; font-size: 16px;"></i>
+            <b style="color: red;">RED MARKERS</b> = Closure Candidates<br>
+            <span style="font-size: 11px; color: #666;">Rating < 4.2 + Multiple Conflicts</span>
+        </div>
+        
+        <div style="margin: 10px 0;">
+            <i class="fa fa-shopping-cart" style="color: blue; font-size: 16px;"></i>
+            <b>COLORED MARKERS</b> = Keep (Anchors)<br>
+            <span style="font-size: 11px; color: #666;">One color per city cluster</span>
+        </div>
+        
+        <hr style="margin: 10px 0;">
+        
+        <p style="margin: 5px 0; font-size: 12px;">
+            <b>🚫 Closure Candidates:</b> 2
+        </p>
+        <p style="margin: 5px 0; font-size: 12px;">
+            <b>📊 Total Conflicts:</b> 5
+        </p>
+        <p style="margin: 5px 0; font-size: 12px;">
+            <b>🏙️ Cities Affected:</b> 2
+        </p>
+        
+        <hr style="margin: 10px 0;">
+        
+        <p style="font-size: 11px; color: #666; margin: 5px 0;">
+            <b>Red lines</b> = Cannibalization conflicts<br>
+            Click markers for store details
+        </p>
+    </div>
+    
+    
+            <div class="folium-map" id="map_aeadaf3ae1b91eba025a3c902aa70135" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_aeadaf3ae1b91eba025a3c902aa70135 = L.map(
+                "map_aeadaf3ae1b91eba025a3c902aa70135",
+                {
+                    center: [36.28101813928571, -86.67032978571429],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 6,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_5dfb71e370814a22e6e0cb444ef0a3d3 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_5dfb71e370814a22e6e0cb444ef0a3d3.addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var rectangle_3820f969d63037084092e3e403079088 = L.rectangle(
+                [[28.3403328, -81.5257297], [28.4857945, -81.44129389999999]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            rectangle_3820f969d63037084092e3e403079088.bindTooltip(
+                `<div>
+                     Cluster: Orlando
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_411ddfc6f8f1b1bbbd4ac4b985721625 = L.rectangle(
+                [[34.029105300000005, -118.26692580000001], [34.054609199999994, -118.24341609999999]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            rectangle_411ddfc6f8f1b1bbbd4ac4b985721625.bindTooltip(
+                `<div>
+                     Cluster: Los Angeles
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_2ff86db8b65d83af23826779ea56c588 = L.rectangle(
+                [[40.7121939, -74.011055], [40.7683707, -73.97566739999999]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            rectangle_2ff86db8b65d83af23826779ea56c588.bindTooltip(
+                `<div>
+                     Cluster: New York
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_3be849ab77b9cd740877355570bcdc45 = L.rectangle(
+                [[36.1091071, -115.1877063], [36.1745965, -115.1472337]],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            rectangle_3be849ab77b9cd740877355570bcdc45.bindTooltip(
+                `<div>
+                     Cluster: Las Vegas
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_e011538d44a8cf68ec27a2b7ed0118fb = L.rectangle(
+                [[37.775245600000005, -122.4161345], [37.8118517, -122.39191]],
+                {"bubblingMouseEvents": true, "color": "cadetblue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "cadetblue", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            rectangle_e011538d44a8cf68ec27a2b7ed0118fb.bindTooltip(
+                `<div>
+                     Cluster: San Francisco
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_f22929860f3e756b149b808ff5598eab = L.rectangle(
+                [[41.8829221, -87.68656320000001], [41.9196217, -87.61451799999999]],
+                {"bubblingMouseEvents": true, "color": "darkgreen", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "darkgreen", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            rectangle_f22929860f3e756b149b808ff5598eab.bindTooltip(
+                `<div>
+                     Cluster: Chicago
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_7acacdffa36c0db56df9464f1c92086d = L.marker(
+                [28.3867778, -81.4912632],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_797a3a03c01d9af2f9f7b4057695b12b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_512019073911443ba2e1c8ec6bc286c8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_373cc1ddb107778e87f866fb6635102c = $(`<div id="html_373cc1ddb107778e87f866fb6635102c" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi’s Outlet Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>8200 Vineland Ave #1589, Orlando, FL 32821</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 1101<br>                     <b>📍 City:</b> Orlando, Florida                 </div>             </div>             </div>`)[0];
+                popup_512019073911443ba2e1c8ec6bc286c8.setContent(html_373cc1ddb107778e87f866fb6635102c);
+            
+        
+
+        marker_7acacdffa36c0db56df9464f1c92086d.bindPopup(popup_512019073911443ba2e1c8ec6bc286c8)
+        ;
+
+        
+    
+    
+            marker_7acacdffa36c0db56df9464f1c92086d.bindTooltip(
+                `<div>
+                     Levi’s Outlet Store - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7acacdffa36c0db56df9464f1c92086d.setIcon(icon_797a3a03c01d9af2f9f7b4057695b12b);
+            
+    
+            var marker_5c8ddc7986cff5f4d9f69a7274e75a02 = L.marker(
+                [28.3503328, -81.488489],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_a72241adab8a98b4701ac112249a12da = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3e70b3c049bb320fa425c5bd6239a775 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7c66dfc867ea1f5f717aedf70a749742 = $(`<div id="html_7c66dfc867ea1f5f717aedf70a749742" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi’s Outlet Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>15537 Kissimmee Vineland Rd, Orlando, FL 32821</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.4/5.0<br>                     <b>💬 Reviews:</b> 278<br>                     <b>📍 City:</b> Orlando, Florida                 </div>             </div>             </div>`)[0];
+                popup_3e70b3c049bb320fa425c5bd6239a775.setContent(html_7c66dfc867ea1f5f717aedf70a749742);
+            
+        
+
+        marker_5c8ddc7986cff5f4d9f69a7274e75a02.bindPopup(popup_3e70b3c049bb320fa425c5bd6239a775)
+        ;
+
+        
+    
+    
+            marker_5c8ddc7986cff5f4d9f69a7274e75a02.bindTooltip(
+                `<div>
+                     Levi’s Outlet Store - 4.4⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5c8ddc7986cff5f4d9f69a7274e75a02.setIcon(icon_a72241adab8a98b4701ac112249a12da);
+            
+    
+            var marker_404cbadb736e313cfea3a0dc2fb712ff = L.marker(
+                [28.3707664, -81.5157297],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_ef3647d995c3c98ea10217035d3cbacf = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "times",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1391ea9d2ebd94966d4f7ab5510c5c5a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f3000b8ff02536a37e1b7171847bace2 = $(`<div id="html_f3000b8ff02536a37e1b7171847bace2" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: red;                       border-bottom: 2px solid red; padding-bottom: 5px;'>                     🚫 CLOSURE CANDIDATE Levi’s Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>1536 E Buena Vista Dr #1B, Orlando, FL 32869</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.8/5.0<br>                     <b>💬 Reviews:</b> 106<br>                     <b>📍 City:</b> Orlando, Florida                 </div>             </div>             </div>`)[0];
+                popup_1391ea9d2ebd94966d4f7ab5510c5c5a.setContent(html_f3000b8ff02536a37e1b7171847bace2);
+            
+        
+
+        marker_404cbadb736e313cfea3a0dc2fb712ff.bindPopup(popup_1391ea9d2ebd94966d4f7ab5510c5c5a)
+        ;
+
+        
+    
+    
+            marker_404cbadb736e313cfea3a0dc2fb712ff.bindTooltip(
+                `<div>
+                     Levi’s Store - 3.8⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_404cbadb736e313cfea3a0dc2fb712ff.setIcon(icon_ef3647d995c3c98ea10217035d3cbacf);
+            
+    
+            var marker_9dfa3a91dbf7b8faafa14e0a68c8976b = L.marker(
+                [28.4687726, -81.4518026],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_fa3243a17930ddec8278183f4e251662 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_43546b73bbea79b4c6bed5f79af8d48a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e23e04186c66c3330ea685f38323aab7 = $(`<div id="html_e23e04186c66c3330ea685f38323aab7" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi’s Outlet Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>5221 International Dr Suite F3, Orlando, FL 32819</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.4/5.0<br>                     <b>💬 Reviews:</b> 622<br>                     <b>📍 City:</b> Orlando, Florida                 </div>             </div>             </div>`)[0];
+                popup_43546b73bbea79b4c6bed5f79af8d48a.setContent(html_e23e04186c66c3330ea685f38323aab7);
+            
+        
+
+        marker_9dfa3a91dbf7b8faafa14e0a68c8976b.bindPopup(popup_43546b73bbea79b4c6bed5f79af8d48a)
+        ;
+
+        
+    
+    
+            marker_9dfa3a91dbf7b8faafa14e0a68c8976b.bindTooltip(
+                `<div>
+                     Levi’s Outlet Store - 4.4⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9dfa3a91dbf7b8faafa14e0a68c8976b.setIcon(icon_fa3243a17930ddec8278183f4e251662);
+            
+    
+            var marker_fb6b25f671606b8a9120cafc9fc22d41 = L.marker(
+                [28.4757945, -81.4512939],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_778214807bd1847fae91d16e35f287a4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_611068670cb6878bcc73b35ab3360845 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ff97f6e537288262e10ad4771bfc80de = $(`<div id="html_ff97f6e537288262e10ad4771bfc80de" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: blue;                       border-bottom: 2px solid blue; padding-bottom: 5px;'>                     🛒 Levi’s Outlet Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>4967 International Dr Space 3A - 09, Orlando, FL 32819</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.4/5.0<br>                     <b>💬 Reviews:</b> 840<br>                     <b>📍 City:</b> Orlando, Florida                 </div>             </div>             </div>`)[0];
+                popup_611068670cb6878bcc73b35ab3360845.setContent(html_ff97f6e537288262e10ad4771bfc80de);
+            
+        
+
+        marker_fb6b25f671606b8a9120cafc9fc22d41.bindPopup(popup_611068670cb6878bcc73b35ab3360845)
+        ;
+
+        
+    
+    
+            marker_fb6b25f671606b8a9120cafc9fc22d41.bindTooltip(
+                `<div>
+                     Levi’s Outlet Store - 4.4⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_fb6b25f671606b8a9120cafc9fc22d41.setIcon(icon_778214807bd1847fae91d16e35f287a4);
+            
+    
+            var marker_961ce98533f2977788c72c7af693b6c3 = L.marker(
+                [34.0391053, -118.2569258],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_3f229434d9068fc673fc9a1b37a2c5b5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2cd187e0cbd5a9e7bbcb70e4010bf136 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_32fb92b0639caea0b74fa5908104b1a8 = $(`<div id="html_32fb92b0639caea0b74fa5908104b1a8" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 Levi's Jeans                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>1031 S Los Angeles St, Los Angeles, CA 90015</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.7/5.0<br>                     <b>💬 Reviews:</b> 169<br>                     <b>📍 City:</b> Los Angeles, California                 </div>             </div>             </div>`)[0];
+                popup_2cd187e0cbd5a9e7bbcb70e4010bf136.setContent(html_32fb92b0639caea0b74fa5908104b1a8);
+            
+        
+
+        marker_961ce98533f2977788c72c7af693b6c3.bindPopup(popup_2cd187e0cbd5a9e7bbcb70e4010bf136)
+        ;
+
+        
+    
+    
+            marker_961ce98533f2977788c72c7af693b6c3.bindTooltip(
+                `<div>
+                     Levi's Jeans - 4.7⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_961ce98533f2977788c72c7af693b6c3.setIcon(icon_3f229434d9068fc673fc9a1b37a2c5b5);
+            
+    
+            var marker_3724e3cf7b9131a00df71ec69b7587b1 = L.marker(
+                [34.0446092, -118.2534161],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_5b3e3e39f9d650af8ca65c892f084606 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d59d461e6ec11be252ebb7336dd2810f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_dbf30cec46535af79d9ad43f70bafcd1 = $(`<div id="html_dbf30cec46535af79d9ad43f70bafcd1" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: green;                       border-bottom: 2px solid green; padding-bottom: 5px;'>                     🛒 levi’s @ runway fashion                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>712 1/2 S Broadway, Los Angeles, CA 90014</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.9/5.0<br>                     <b>💬 Reviews:</b> 41<br>                     <b>📍 City:</b> Los Angeles, California                 </div>             </div>             </div>`)[0];
+                popup_d59d461e6ec11be252ebb7336dd2810f.setContent(html_dbf30cec46535af79d9ad43f70bafcd1);
+            
+        
+
+        marker_3724e3cf7b9131a00df71ec69b7587b1.bindPopup(popup_d59d461e6ec11be252ebb7336dd2810f)
+        ;
+
+        
+    
+    
+            marker_3724e3cf7b9131a00df71ec69b7587b1.bindTooltip(
+                `<div>
+                     levi’s @ runway fashion - 4.9⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3724e3cf7b9131a00df71ec69b7587b1.setIcon(icon_5b3e3e39f9d650af8ca65c892f084606);
+            
+    
+            var marker_9d314c16232ca7bcfe2e3ba828e32f60 = L.marker(
+                [40.749751, -73.9869115],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_3b9cc1c5376519a274a4044cbfe9f8a5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d9ed0f99d5cdb834e5ecc98cd1ef2a62 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_691fc4946658fed45654c6e96f62de20 = $(`<div id="html_691fc4946658fed45654c6e96f62de20" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 Levi’s Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>45 W 34th St., New York, NY 10001</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 742<br>                     <b>📍 City:</b> New York, New York                 </div>             </div>             </div>`)[0];
+                popup_d9ed0f99d5cdb834e5ecc98cd1ef2a62.setContent(html_691fc4946658fed45654c6e96f62de20);
+            
+        
+
+        marker_9d314c16232ca7bcfe2e3ba828e32f60.bindPopup(popup_d9ed0f99d5cdb834e5ecc98cd1ef2a62)
+        ;
+
+        
+    
+    
+            marker_9d314c16232ca7bcfe2e3ba828e32f60.bindTooltip(
+                `<div>
+                     Levi’s Store - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9d314c16232ca7bcfe2e3ba828e32f60.setIcon(icon_3b9cc1c5376519a274a4044cbfe9f8a5);
+            
+    
+            var marker_dd39e2eb1f6030d1f236c34d94a086df = L.marker(
+                [40.7533936, -74.001055],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_ca4eeae901b91a9b4c86b01359abada4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4866bef379f358fd38fbb24113893dd7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5e1e35ac3b10f15d6957aa3a42b7f1bf = $(`<div id="html_5e1e35ac3b10f15d6957aa3a42b7f1bf" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 Levi’s Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>20 Hudson Yards RU224A, New York, NY 10001</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.2/5.0<br>                     <b>💬 Reviews:</b> 113<br>                     <b>📍 City:</b> New York, New York                 </div>             </div>             </div>`)[0];
+                popup_4866bef379f358fd38fbb24113893dd7.setContent(html_5e1e35ac3b10f15d6957aa3a42b7f1bf);
+            
+        
+
+        marker_dd39e2eb1f6030d1f236c34d94a086df.bindPopup(popup_4866bef379f358fd38fbb24113893dd7)
+        ;
+
+        
+    
+    
+            marker_dd39e2eb1f6030d1f236c34d94a086df.bindTooltip(
+                `<div>
+                     Levi’s Store - 4.2⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_dd39e2eb1f6030d1f236c34d94a086df.setIcon(icon_ca4eeae901b91a9b4c86b01359abada4);
+            
+    
+            var marker_2cdd0bfe18dfc3ed07855d31ec2b43d4 = L.marker(
+                [40.7221939, -73.9999548],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_a0d4c6d89f1bfaee66d19a22e51a598e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "times",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ff9abd149a47730b1f4f33bb6fdd74ab = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_cfe8b4946811665da88c5d560f01b5dc = $(`<div id="html_cfe8b4946811665da88c5d560f01b5dc" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: red;                       border-bottom: 2px solid red; padding-bottom: 5px;'>                     🚫 CLOSURE CANDIDATE Levi’s Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>495 Broadway, New York, NY 10012</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.1/5.0<br>                     <b>💬 Reviews:</b> 763<br>                     <b>📍 City:</b> New York, New York                 </div>             </div>             </div>`)[0];
+                popup_ff9abd149a47730b1f4f33bb6fdd74ab.setContent(html_cfe8b4946811665da88c5d560f01b5dc);
+            
+        
+
+        marker_2cdd0bfe18dfc3ed07855d31ec2b43d4.bindPopup(popup_ff9abd149a47730b1f4f33bb6fdd74ab)
+        ;
+
+        
+    
+    
+            marker_2cdd0bfe18dfc3ed07855d31ec2b43d4.bindTooltip(
+                `<div>
+                     Levi’s Store - 4.1⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2cdd0bfe18dfc3ed07855d31ec2b43d4.setIcon(icon_a0d4c6d89f1bfaee66d19a22e51a598e);
+            
+    
+            var marker_ec9383e48933e6a18f870a7d5e3fb69a = L.marker(
+                [40.7583707, -73.9856674],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_05938d8a9423c926164cbbf3e9d3ccc4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3c8ddbed453671d667a2a1096faa7d60 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_6533bf0648b56b244e6ff850255dd1ed = $(`<div id="html_6533bf0648b56b244e6ff850255dd1ed" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: purple;                       border-bottom: 2px solid purple; padding-bottom: 5px;'>                     🛒 Levi’s Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>1535 Broadway, New York, NY 10036</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.2/5.0<br>                     <b>💬 Reviews:</b> 1218<br>                     <b>📍 City:</b> New York, New York                 </div>             </div>             </div>`)[0];
+                popup_3c8ddbed453671d667a2a1096faa7d60.setContent(html_6533bf0648b56b244e6ff850255dd1ed);
+            
+        
+
+        marker_ec9383e48933e6a18f870a7d5e3fb69a.bindPopup(popup_3c8ddbed453671d667a2a1096faa7d60)
+        ;
+
+        
+    
+    
+            marker_ec9383e48933e6a18f870a7d5e3fb69a.bindTooltip(
+                `<div>
+                     Levi’s Store - 4.2⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ec9383e48933e6a18f870a7d5e3fb69a.setIcon(icon_05938d8a9423c926164cbbf3e9d3ccc4);
+            
+    
+            var marker_51b83f648208326cda8099b020fba9d7 = L.marker(
+                [36.1191071, -115.1777063],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_18786adea777a1e761805e26568e8508 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c6aeaae0eacc35e30ff7a4a2d1247b7d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_fa05d36af9cf1003dcff08dbbaccbdb6 = $(`<div id="html_fa05d36af9cf1003dcff08dbbaccbdb6" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: orange;                       border-bottom: 2px solid orange; padding-bottom: 5px;'>                     🛒 Levi’s Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>3500 S Las Vegas Blvd N-11, Las Vegas, NV 89109</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.6/5.0<br>                     <b>💬 Reviews:</b> 65<br>                     <b>📍 City:</b> Las Vegas, Nevada                 </div>             </div>             </div>`)[0];
+                popup_c6aeaae0eacc35e30ff7a4a2d1247b7d.setContent(html_fa05d36af9cf1003dcff08dbbaccbdb6);
+            
+        
+
+        marker_51b83f648208326cda8099b020fba9d7.bindPopup(popup_c6aeaae0eacc35e30ff7a4a2d1247b7d)
+        ;
+
+        
+    
+    
+            marker_51b83f648208326cda8099b020fba9d7.bindTooltip(
+                `<div>
+                     Levi’s Store - 4.6⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_51b83f648208326cda8099b020fba9d7.setIcon(icon_18786adea777a1e761805e26568e8508);
+            
+    
+            var marker_c899b643b9d123a568809d54c92dfb78 = L.marker(
+                [36.1645965, -115.1572337],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_cdec3fde37e85a2d2512fabac75a328a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f008c4256e59351e91b2e85b9831489e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_78331348d3d5f3d08b37801fcd930410 = $(`<div id="html_78331348d3d5f3d08b37801fcd930410" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: orange;                       border-bottom: 2px solid orange; padding-bottom: 5px;'>                     🛒 Levi’s Outlet Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>755 S Grand Central Pkwy Suite 1423, Las Vegas, NV 89106</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.4/5.0<br>                     <b>💬 Reviews:</b> 974<br>                     <b>📍 City:</b> Las Vegas, Nevada                 </div>             </div>             </div>`)[0];
+                popup_f008c4256e59351e91b2e85b9831489e.setContent(html_78331348d3d5f3d08b37801fcd930410);
+            
+        
+
+        marker_c899b643b9d123a568809d54c92dfb78.bindPopup(popup_f008c4256e59351e91b2e85b9831489e)
+        ;
+
+        
+    
+    
+            marker_c899b643b9d123a568809d54c92dfb78.bindTooltip(
+                `<div>
+                     Levi’s Outlet Store - 4.4⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c899b643b9d123a568809d54c92dfb78.setIcon(icon_cdec3fde37e85a2d2512fabac75a328a);
+            
+    
+            var marker_1c6403d338e83b8a959cc51532106237 = L.marker(
+                [37.8018517, -122.40191],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_23840189bd70c735e5c69e6a3cb3c555 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "cadetblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_df92bff93d6849be21ff698b4b8c953e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_95e3ffbb3d10313a82710ba6d92cad73 = $(`<div id="html_95e3ffbb3d10313a82710ba6d92cad73" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: cadetblue;                       border-bottom: 2px solid cadetblue; padding-bottom: 5px;'>                     🛒 Levi's Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>1155 Battery St, San Francisco, CA 94111</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.6/5.0<br>                     <b>💬 Reviews:</b> 17<br>                     <b>📍 City:</b> San Francisco, California                 </div>             </div>             </div>`)[0];
+                popup_df92bff93d6849be21ff698b4b8c953e.setContent(html_95e3ffbb3d10313a82710ba6d92cad73);
+            
+        
+
+        marker_1c6403d338e83b8a959cc51532106237.bindPopup(popup_df92bff93d6849be21ff698b4b8c953e)
+        ;
+
+        
+    
+    
+            marker_1c6403d338e83b8a959cc51532106237.bindTooltip(
+                `<div>
+                     Levi's Store - 3.6⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1c6403d338e83b8a959cc51532106237.setIcon(icon_23840189bd70c735e5c69e6a3cb3c555);
+            
+    
+            var marker_b86b14f96317ecb459fba002df42f964 = L.marker(
+                [37.7852456, -122.4061345],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_da2849587313fd46817d9922aeaa1ac2 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "cadetblue",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7afc0fd32373f49dbe17953aadb048fb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d5b1d0396181732a80963c1b5150d010 = $(`<div id="html_d5b1d0396181732a80963c1b5150d010" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: cadetblue;                       border-bottom: 2px solid cadetblue; padding-bottom: 5px;'>                     🛒 Levi's® Market Street                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>815 Market St, San Francisco, CA 94103</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 3.2/5.0<br>                     <b>💬 Reviews:</b> 10<br>                     <b>📍 City:</b> San Francisco, California                 </div>             </div>             </div>`)[0];
+                popup_7afc0fd32373f49dbe17953aadb048fb.setContent(html_d5b1d0396181732a80963c1b5150d010);
+            
+        
+
+        marker_b86b14f96317ecb459fba002df42f964.bindPopup(popup_7afc0fd32373f49dbe17953aadb048fb)
+        ;
+
+        
+    
+    
+            marker_b86b14f96317ecb459fba002df42f964.bindTooltip(
+                `<div>
+                     Levi's® Market Street - 3.2⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b86b14f96317ecb459fba002df42f964.setIcon(icon_da2849587313fd46817d9922aeaa1ac2);
+            
+    
+            var marker_1693224b14075a05ad9e95b19a7680eb = L.marker(
+                [41.9096217, -87.6765632],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_94da75ceda8fbdf229a0e39c12bc9600 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkgreen",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a134a03f8fa5c4d539d250fc78fed4f5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_28b6b9a10e52e4a28c94c6cc95d8c002 = $(`<div id="html_28b6b9a10e52e4a28c94c6cc95d8c002" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: darkgreen;                       border-bottom: 2px solid darkgreen; padding-bottom: 5px;'>                     🛒 Levi’s Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>1552 N Milwaukee Ave, Chicago, IL 60622</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.3/5.0<br>                     <b>💬 Reviews:</b> 170<br>                     <b>📍 City:</b> Chicago, Illinois                 </div>             </div>             </div>`)[0];
+                popup_a134a03f8fa5c4d539d250fc78fed4f5.setContent(html_28b6b9a10e52e4a28c94c6cc95d8c002);
+            
+        
+
+        marker_1693224b14075a05ad9e95b19a7680eb.bindPopup(popup_a134a03f8fa5c4d539d250fc78fed4f5)
+        ;
+
+        
+    
+    
+            marker_1693224b14075a05ad9e95b19a7680eb.bindTooltip(
+                `<div>
+                     Levi’s Store - 4.3⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1693224b14075a05ad9e95b19a7680eb.setIcon(icon_94da75ceda8fbdf229a0e39c12bc9600);
+            
+    
+            var marker_e4f7fcd4dc0e00a66b3eb0fcb971fed2 = L.marker(
+                [41.8929221, -87.624518],
+                {
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            var icon_f6f774ed95e0ec1cdcda6781dbcc5e02 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkgreen",
+  "iconColor": "white",
+  "icon": "shopping-cart",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d6577821e91ea4c352165b26a78efe3a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0e7b05d0ff5460b6776345a81f7cb40b = $(`<div id="html_0e7b05d0ff5460b6776345a81f7cb40b" style="width: 100.0%; height: 100.0%;">             <div style='width: 280px; font-family: Arial;'>                 <h4 style='margin: 0; color: darkgreen;                       border-bottom: 2px solid darkgreen; padding-bottom: 5px;'>                     🛒 Levi’s Store                 </h4>                 <p style='margin: 8px 0; font-size: 11px;'><i>600 N Michigan Ave Suite B, Chicago, IL 60611</i></p>                 <div style='background: #f5f5f5; padding: 8px; border-radius: 4px;'>                     <b>⭐ Rating:</b> 4.0/5.0<br>                     <b>💬 Reviews:</b> 330<br>                     <b>📍 City:</b> Chicago, Illinois                 </div>             </div>             </div>`)[0];
+                popup_d6577821e91ea4c352165b26a78efe3a.setContent(html_0e7b05d0ff5460b6776345a81f7cb40b);
+            
+        
+
+        marker_e4f7fcd4dc0e00a66b3eb0fcb971fed2.bindPopup(popup_d6577821e91ea4c352165b26a78efe3a)
+        ;
+
+        
+    
+    
+            marker_e4f7fcd4dc0e00a66b3eb0fcb971fed2.bindTooltip(
+                `<div>
+                     Levi’s Store - 4.0⭐
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e4f7fcd4dc0e00a66b3eb0fcb971fed2.setIcon(icon_f6f774ed95e0ec1cdcda6781dbcc5e02);
+            
+    
+            var poly_line_72a267ca7406eb7021fee11f8e0f0475 = L.polyline(
+                [[40.722043, -73.999647], [40.721905, -73.999765], [40.721857, -73.999807], [40.721794, -73.999862], [40.721842, -73.999953], [40.721856, -73.999981], [40.72214, -74.000553], [40.722167, -74.000608], [40.722195, -74.000665], [40.722221, -74.000718], [40.722515, -74.001316], [40.722535, -74.001357], [40.722566, -74.00142], [40.722595, -74.001477], [40.722884, -74.002065], [40.722907, -74.002112], [40.72294, -74.002179], [40.722965, -74.00223], [40.723263, -74.002835], [40.723284, -74.00288], [40.723293, -74.002902], [40.723303, -74.002932], [40.723311, -74.002961], [40.723317, -74.002995], [40.723384, -74.00306], [40.723397, -74.003076], [40.72365, -74.003572], [40.723687, -74.003645], [40.723713, -74.003696], [40.72403, -74.004329], [40.724055, -74.00438], [40.724098, -74.00445], [40.724173, -74.004575], [40.724264, -74.004539], [40.724485, -74.004449], [40.72487, -74.004293], [40.725448, -74.004059], [40.725513, -74.004031], [40.725593, -74.004], [40.725714, -74.003949], [40.726193, -74.003753], [40.72625, -74.00373], [40.726316, -74.003703], [40.726887, -74.003474], [40.726958, -74.003445], [40.72703, -74.003416], [40.727153, -74.003365], [40.727334, -74.003291], [40.727606, -74.003179], [40.727664, -74.003155], [40.727735, -74.003125], [40.727807, -74.003096], [40.728144, -74.002958], [40.728227, -74.002919], [40.728264, -74.002901], [40.728303, -74.002883], [40.728374, -74.002849], [40.72847, -74.002802], [40.728536, -74.002768], [40.728695, -74.002691], [40.728913, -74.002583], [40.729563, -74.002263], [40.729606, -74.002241], [40.729695, -74.002193], [40.729753, -74.002162], [40.729874, -74.002107], [40.730468, -74.001753], [40.73055, -74.0017], [40.730589, -74.001679], [40.730827, -74.001546], [40.731012, -74.001443], [40.731063, -74.001411], [40.73113, -74.001365], [40.73134, -74.001216], [40.731645, -74.000997], [40.731706, -74.000954], [40.731769, -74.000909], [40.731855, -74.000846], [40.732265, -74.000547], [40.732315, -74.000511], [40.732373, -74.000469], [40.732876, -74.000105], [40.732929, -74.000066], [40.732989, -74.000022], [40.733169, -73.999889], [40.733237, -73.999838], [40.73358, -73.999585], [40.733663, -73.999523], [40.733762, -73.999452], [40.734079, -73.999226], [40.734146, -73.999182], [40.734219, -73.999129], [40.734716, -73.998763], [40.734787, -73.998713], [40.734852, -73.998666], [40.734989, -73.998569], [40.735107, -73.998483], [40.73534, -73.998311], [40.735391, -73.998274], [40.73545, -73.998231], [40.735978, -73.997845], [40.736032, -73.997805], [40.736089, -73.997764], [40.736294, -73.997614], [40.736405, -73.997533], [40.736614, -73.997381], [40.736668, -73.997341], [40.736732, -73.997295], [40.736895, -73.997183], [40.737109, -73.997022], [40.737275, -73.996902], [40.737342, -73.996854], [40.737361, -73.99684], [40.737371, -73.996833], [40.737462, -73.996766], [40.73771, -73.996583], [40.737893, -73.996449], [40.737934, -73.996418], [40.737996, -73.996373], [40.738044, -73.996337], [40.738111, -73.996289], [40.738634, -73.995912], [40.738686, -73.995874], [40.738748, -73.995829], [40.738977, -73.995662], [40.739223, -73.995482], [40.739272, -73.995446], [40.739332, -73.995403], [40.73981, -73.995054], [40.73986, -73.995018], [40.73992, -73.994974], [40.740292, -73.994703], [40.740394, -73.994628], [40.740442, -73.994593], [40.740502, -73.99455], [40.740939, -73.994233], [40.74098, -73.994203], [40.741031, -73.994167], [40.74109, -73.994124], [40.741461, -73.993854], [40.741528, -73.993805], [40.741562, -73.99378], [40.741629, -73.993732], [40.74168, -73.993694], [40.742181, -73.993329], [40.742233, -73.993292], [40.742301, -73.993242], [40.742553, -73.993059], [40.742804, -73.992876], [40.74291, -73.992798], [40.743001, -73.992732], [40.743512, -73.992359], [40.743568, -73.992318], [40.743642, -73.992267], [40.744039, -73.991978], [40.744137, -73.991907], [40.744186, -73.991871], [40.744253, -73.991822], [40.744753, -73.991456], [40.744819, -73.991409], [40.744871, -73.991369], [40.745233, -73.991108], [40.745363, -73.99101], [40.745421, -73.990968], [40.745483, -73.990923], [40.745847, -73.990657], [40.745979, -73.990561], [40.746038, -73.990518], [40.746099, -73.990474], [40.746228, -73.99038], [40.746438, -73.990237], [40.746608, -73.990109], [40.746623, -73.990098], [40.746666, -73.990068], [40.746721, -73.990027], [40.747218, -73.989661], [40.747277, -73.989617], [40.747338, -73.989572], [40.747695, -73.989305], [40.747833, -73.989204], [40.747896, -73.989157], [40.747951, -73.989116], [40.748102, -73.989005], [40.748456, -73.988734], [40.748508, -73.988695], [40.74856, -73.988656], [40.749063, -73.988279], [40.749122, -73.988235], [40.749176, -73.988196], [40.749563, -73.987913], [40.749715, -73.987802], [40.749801, -73.987746], [40.749882, -73.987699], [40.750283, -73.987414], [40.750406, -73.987326], [40.750457, -73.987287], [40.750515, -73.987245], [40.750799, -73.987037], [40.751028, -73.986868], [40.751082, -73.986828], [40.751131, -73.986794], [40.751647, -73.986436], [40.7517, -73.986399], [40.751765, -73.986352], [40.752259, -73.98599], [40.752317, -73.985947], [40.752373, -73.985905], [40.752877, -73.98553], [40.752944, -73.985484], [40.752993, -73.985446], [40.7535, -73.985082], [40.753559, -73.98504], [40.753619, -73.984996], [40.753691, -73.984945], [40.754119, -73.984637], [40.754177, -73.984596], [40.754236, -73.984554], [40.754407, -73.984432], [40.754757, -73.984179], [40.754842, -73.984118], [40.754938, -73.984047], [40.75496, -73.984031], [40.755455, -73.983669], [40.755516, -73.983624], [40.755574, -73.983581], [40.756085, -73.983208], [40.756142, -73.983167], [40.756205, -73.983122], [40.756713, -73.982754], [40.756771, -73.982712], [40.756832, -73.982667], [40.757322, -73.982304], [40.75739, -73.982254], [40.757454, -73.982207], [40.757963, -73.981836], [40.758016, -73.981798], [40.758075, -73.981936], [40.758314, -73.982503], [40.759175, -73.984509], [40.759223, -73.984619], [40.759148, -73.984676], [40.758668, -73.985027], [40.758597, -73.98508], [40.758524, -73.985132], [40.758367, -73.985244], [40.758235, -73.985339]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            poly_line_72a267ca7406eb7021fee11f8e0f0475.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 3.20 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_8b69cb62506453b437c4988fb9686245 = L.polyline(
+                [[40.74952, -73.987082], [40.748619, -73.984947], [40.748508, -73.984679], [40.748454, -73.984546], [40.748352, -73.984618], [40.747833, -73.984995], [40.747774, -73.985038], [40.747711, -73.985084], [40.747495, -73.985241], [40.747209, -73.985449], [40.747152, -73.98549], [40.747096, -73.985531], [40.746589, -73.985901], [40.746531, -73.985943], [40.746477, -73.985984], [40.74604, -73.986305], [40.745973, -73.986354], [40.745922, -73.986392], [40.745861, -73.986436], [40.745657, -73.986586], [40.745358, -73.986804], [40.745301, -73.986846], [40.745264, -73.986873], [40.745244, -73.986888], [40.744742, -73.987254], [40.744678, -73.987301], [40.74463, -73.987336], [40.744121, -73.987707], [40.744067, -73.987745], [40.744005, -73.98779], [40.743782, -73.987952], [40.743561, -73.988114], [40.743509, -73.988151], [40.743457, -73.988191], [40.743393, -73.988237], [40.743275, -73.988325], [40.74313, -73.988389], [40.743064, -73.988418], [40.74301, -73.988442], [40.742858, -73.988534], [40.742797, -73.988577], [40.742768, -73.988597], [40.742735, -73.98862], [40.742321, -73.988915], [40.742299, -73.98893], [40.742274, -73.988942], [40.742251, -73.988948], [40.742222, -73.988953], [40.7422, -73.988955], [40.74218, -73.988954], [40.742161, -73.988951], [40.742123, -73.988941], [40.742089, -73.988938], [40.742055, -73.988939], [40.742018, -73.988942], [40.741898, -73.988968], [40.74178, -73.988997], [40.741486, -73.989085], [40.741364, -73.989138], [40.741334, -73.989065], [40.741217, -73.988782], [40.741166, -73.988659], [40.741159, -73.988642], [40.741147, -73.988614], [40.741102, -73.988507], [40.741039, -73.988358], [40.740924, -73.988086], [40.740881, -73.987985], [40.740838, -73.987883], [40.740444, -73.986953], [40.740408, -73.986868], [40.740281, -73.986568], [40.740255, -73.986504], [40.740215, -73.98641], [40.740117, -73.986485], [40.739639, -73.986833], [40.739603, -73.986859], [40.739545, -73.9869], [40.739493, -73.986936], [40.739478, -73.986947], [40.739026, -73.987277], [40.738984, -73.987307], [40.738934, -73.987343], [40.738875, -73.987387], [40.738443, -73.987702], [40.738399, -73.987734], [40.738338, -73.987778], [40.738286, -73.987816], [40.737854, -73.988131], [40.737812, -73.988161], [40.737753, -73.988205], [40.737705, -73.988242], [40.737269, -73.988557], [40.737227, -73.988587], [40.737173, -73.988628], [40.737117, -73.988667], [40.736677, -73.988988], [40.736639, -73.989016], [40.736572, -73.989065], [40.73653, -73.989096], [40.736398, -73.989206], [40.736133, -73.989399], [40.736072, -73.989446], [40.736003, -73.989496], [40.735944, -73.98954], [40.735489, -73.989876], [40.735458, -73.989899], [40.735426, -73.989923], [40.735359, -73.989972], [40.735312, -73.990007], [40.735261, -73.990051], [40.735228, -73.990079], [40.735197, -73.99011], [40.735169, -73.990142], [40.735136, -73.990179], [40.735105, -73.990222], [40.735073, -73.990269], [40.735035, -73.990327], [40.735004, -73.990386], [40.734973, -73.990447], [40.73491, -73.990565], [40.734893, -73.990598], [40.734863, -73.990652], [40.734838, -73.990688], [40.734814, -73.990713], [40.734788, -73.990741], [40.734769, -73.99076], [40.734747, -73.990777], [40.734728, -73.990791], [40.734704, -73.990801], [40.734674, -73.990809], [40.734602, -73.990826], [40.734441, -73.990859], [40.734051, -73.990949], [40.733981, -73.990953], [40.733916, -73.990959], [40.733273, -73.991099], [40.733214, -73.991114], [40.733152, -73.991128], [40.732971, -73.99117], [40.732518, -73.991273], [40.732449, -73.991289], [40.732398, -73.9913], [40.732169, -73.991354], [40.731859, -73.991424], [40.731808, -73.991438], [40.731784, -73.991447], [40.731765, -73.991455], [40.731744, -73.991464], [40.731724, -73.991476], [40.731704, -73.991488], [40.731683, -73.991505], [40.731287, -73.991838], [40.731259, -73.991861], [40.731232, -73.991884], [40.731183, -73.991925], [40.731125, -73.991974], [40.730698, -73.992332], [40.73065, -73.992371], [40.730601, -73.992414], [40.730551, -73.99246], [40.73018, -73.992756], [40.73008, -73.992841], [40.730015, -73.992896], [40.729706, -73.993156], [40.729635, -73.993217], [40.729581, -73.993262], [40.729528, -73.993307], [40.729323, -73.993481], [40.729072, -73.993694], [40.729009, -73.993747], [40.728954, -73.993794], [40.728469, -73.994204], [40.728413, -73.994252], [40.728366, -73.994292], [40.72791, -73.99468], [40.727876, -73.994708], [40.727828, -73.99475], [40.727766, -73.994802], [40.727433, -73.995085], [40.727271, -73.995221], [40.727212, -73.99527], [40.727157, -73.995316], [40.726582, -73.995802], [40.726547, -73.995832], [40.726528, -73.995847], [40.726477, -73.99589], [40.726244, -73.996087], [40.726233, -73.996096], [40.726092, -73.996215], [40.725908, -73.996371], [40.725571, -73.996655], [40.725501, -73.996715], [40.725384, -73.996813], [40.725316, -73.996871], [40.725092, -73.997061], [40.72428, -73.997747], [40.724235, -73.997785], [40.724199, -73.997816], [40.723973, -73.998007], [40.723068, -73.998772], [40.723021, -73.998812], [40.72298, -73.998846], [40.722735, -73.999054], [40.722043, -73.999647]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            poly_line_8b69cb62506453b437c4988fb9686245.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 2.32 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_5b507744cfc5ef8abd2cff2b2de40890 = L.polyline(
+                [[40.753726, -74.001738], [40.753781, -74.001691], [40.754442, -74.00113], [40.754465, -74.00111], [40.754517, -74.001066], [40.754552, -74.001142], [40.754568, -74.001178], [40.754766, -74.001629], [40.755021, -74.002238], [40.755066, -74.002343], [40.755125, -74.00248], [40.755072, -74.002517], [40.754521, -74.002922], [40.753932, -74.003353], [40.753634, -74.003561], [40.753321, -74.003788], [40.753277, -74.00382], [40.75321, -74.003868], [40.752778, -74.004185], [40.752754, -74.004203], [40.752713, -74.004233], [40.752665, -74.004269], [40.752591, -74.004323], [40.75209, -74.00468], [40.752031, -74.004722], [40.751962, -74.004772], [40.751468, -74.005131], [40.751404, -74.005177], [40.751347, -74.005219], [40.750897, -74.005552], [40.750856, -74.005581], [40.750808, -74.005622], [40.750736, -74.005679], [40.750253, -74.006018], [40.750178, -74.006071], [40.750104, -74.006123], [40.749967, -74.006283], [40.749671, -74.006506], [40.749633, -74.006534], [40.749531, -74.006576], [40.749471, -74.006599], [40.749429, -74.006631], [40.749238, -74.00677], [40.749043, -74.006911], [40.748991, -74.006947], [40.748961, -74.006967], [40.748941, -74.006979], [40.748891, -74.007003], [40.748808, -74.007104], [40.748777, -74.007139], [40.748744, -74.007157], [40.748706, -74.007178], [40.748665, -74.007202], [40.74862, -74.007231], [40.748582, -74.007257], [40.748524, -74.007304], [40.748464, -74.007355], [40.748413, -74.007403], [40.748333, -74.007492], [40.748198, -74.007638], [40.747999, -74.007842], [40.747082, -74.008015], [40.746928, -74.008044], [40.746902, -74.008049], [40.745954, -74.008222], [40.745846, -74.008242], [40.745741, -74.008261], [40.745464, -74.008305], [40.745275, -74.008345], [40.74503, -74.00839], [40.744885, -74.008416], [40.744758, -74.008439], [40.744611, -74.008466], [40.744433, -74.008498], [40.744333, -74.008516], [40.744127, -74.008553], [40.744116, -74.008555], [40.744078, -74.00853], [40.744048, -74.008504], [40.744027, -74.008481], [40.744007, -74.008455], [40.743994, -74.008433], [40.743977, -74.008394], [40.743937, -74.008299], [40.743565, -74.007432], [40.743532, -74.00737], [40.74347, -74.007238], [40.743431, -74.007145], [40.743323, -74.006887], [40.742829, -74.0057], [40.742585, -74.005132], [40.742332, -74.004535], [40.742289, -74.004433], [40.742244, -74.004466], [40.742201, -74.004498], [40.742125, -74.004554], [40.742027, -74.004586], [40.741894, -74.004668], [40.741693, -74.00479], [40.741642, -74.004821], [40.741576, -74.004867], [40.741528, -74.004901], [40.741319, -74.005038], [40.741223, -74.005058], [40.740945, -74.00511], [40.740849, -74.005136], [40.740755, -74.005157], [40.740518, -74.005235], [40.740417, -74.005249], [40.740098, -74.005295], [40.74003, -74.005304], [40.739962, -74.005316], [40.739487, -74.005395], [40.739413, -74.005407], [40.739344, -74.005419], [40.739046, -74.005469], [40.738813, -74.005503], [40.738764, -74.00551], [40.73871, -74.005519], [40.738197, -74.005601], [40.73814, -74.00561], [40.738091, -74.005618], [40.737849, -74.005656], [40.737684, -74.005685], [40.737614, -74.005698], [40.737553, -74.005709], [40.737488, -74.00572], [40.73722, -74.005768], [40.73717, -74.005757], [40.737125, -74.005749], [40.737062, -74.005723], [40.737004, -74.005675], [40.736972, -74.005636], [40.736945, -74.005604], [40.736883, -74.005527], [40.736838, -74.005476], [40.736788, -74.005423], [40.736743, -74.005378], [40.736704, -74.005352], [40.736611, -74.005314], [40.736335, -74.005234], [40.736021, -74.005143], [40.735971, -74.005129], [40.735914, -74.005112], [40.735358, -74.004948], [40.735297, -74.00493], [40.735262, -74.00492], [40.734712, -74.004763], [40.734652, -74.004746], [40.73461, -74.004734], [40.734062, -74.004576], [40.73401, -74.004561], [40.733962, -74.004541], [40.733798, -74.004475], [40.733449, -74.00428], [40.733399, -74.004251], [40.733349, -74.004221], [40.732971, -74.004003], [40.732925, -74.003976], [40.732873, -74.003945], [40.732389, -74.003661], [40.732254, -74.003583], [40.732179, -74.003539], [40.732121, -74.003506], [40.731747, -74.00329], [40.731705, -74.003265], [40.731509, -74.003153], [40.731468, -74.003129], [40.73118, -74.002963], [40.731138, -74.002938], [40.731102, -74.002919], [40.730922, -74.002818], [40.730883, -74.002795], [40.730399, -74.002514], [40.730337, -74.002476], [40.730268, -74.002437], [40.729962, -74.002265], [40.729897, -74.002229], [40.729856, -74.002206], [40.729753, -74.002162], [40.729622, -74.002106], [40.729604, -74.002072], [40.729513, -74.001886], [40.729203, -74.001256], [40.72917, -74.001188], [40.729144, -74.001134], [40.728828, -74.000487], [40.728801, -74.000431], [40.728775, -74.000379], [40.728454, -73.999731], [40.728425, -73.999672], [40.728401, -73.999623], [40.728115, -73.999045], [40.72807, -73.998954], [40.728032, -73.998879], [40.727684, -73.998175], [40.727296, -73.997402], [40.726968, -73.996737], [40.726932, -73.996663], [40.726901, -73.996601], [40.726778, -73.996352], [40.726576, -73.995946], [40.726528, -73.995847], [40.726477, -73.99589], [40.726244, -73.996087], [40.726233, -73.996096], [40.726092, -73.996215], [40.725908, -73.996371], [40.725571, -73.996655], [40.725501, -73.996715], [40.725384, -73.996813], [40.725316, -73.996871], [40.725092, -73.997061], [40.72428, -73.997747], [40.724235, -73.997785], [40.724199, -73.997816], [40.723973, -73.998007], [40.723068, -73.998772], [40.723021, -73.998812], [40.72298, -73.998846], [40.722735, -73.999054], [40.722043, -73.999647]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            poly_line_5b507744cfc5ef8abd2cff2b2de40890.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 2.92 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_c6d1efb4c0570ccd1b9ed7363084c2fc = L.polyline(
+                [[28.386516, -81.490871], [28.386526, -81.490862], [28.386665, -81.490747], [28.3868, -81.490634], [28.386941, -81.490517], [28.387075, -81.490405], [28.387218, -81.490286], [28.387353, -81.490182], [28.3874, -81.490146], [28.387491, -81.490102], [28.387515, -81.490092], [28.387589, -81.490062], [28.387704, -81.490016], [28.387827, -81.489966], [28.387869, -81.489957], [28.387952, -81.489938], [28.388024, -81.489944], [28.388098, -81.48997], [28.388224, -81.490071], [28.388268, -81.490098], [28.388317, -81.490117], [28.388354, -81.490116], [28.38837, -81.490122], [28.388717, -81.489798], [28.388768, -81.489747], [28.388872, -81.489644], [28.388938, -81.489743], [28.389028, -81.489888], [28.389099, -81.490004], [28.389259, -81.490336], [28.389386, -81.490648], [28.389493, -81.491008], [28.389543, -81.491282], [28.389574, -81.491473], [28.389581, -81.491542], [28.389592, -81.491646], [28.389599, -81.491784], [28.389602, -81.491919], [28.389596, -81.49213], [28.389575, -81.492338], [28.38953, -81.492578], [28.389423, -81.492903], [28.389352, -81.493059], [28.389247, -81.493263], [28.389026, -81.493577], [28.388768, -81.493831], [28.387613, -81.494868], [28.386956, -81.495444], [28.386871, -81.495526], [28.386021, -81.496298], [28.385643, -81.496634], [28.385487, -81.496756], [28.384583, -81.497494], [28.383941, -81.498069], [28.38385, -81.498152], [28.383497, -81.498467], [28.383274, -81.498666], [28.38311, -81.498813], [28.382632, -81.49924], [28.382331, -81.499509], [28.381807, -81.499967], [28.381625, -81.50013], [28.380864, -81.500819], [28.380744, -81.500917], [28.380622, -81.50101], [28.380493, -81.501091], [28.380369, -81.501155], [28.380205, -81.501222], [28.380036, -81.501278], [28.379883, -81.501316], [28.379715, -81.501341], [28.379551, -81.501354], [28.379516, -81.501353], [28.379387, -81.501348], [28.379248, -81.501335], [28.379106, -81.501308], [28.378962, -81.50127], [28.378819, -81.501219], [28.378427, -81.501065], [28.377962, -81.500914], [28.377686, -81.50081], [28.37755, -81.500756], [28.377157, -81.500635], [28.376908, -81.500603], [28.376552, -81.500598], [28.376286, -81.500649], [28.375984, -81.500751], [28.375819, -81.50084], [28.375681, -81.500915], [28.375518, -81.501032], [28.375449, -81.501092], [28.375412, -81.501128], [28.375334, -81.501198], [28.375221, -81.501317], [28.375105, -81.50146], [28.374997, -81.501615], [28.374966, -81.501665], [28.374912, -81.501754], [28.374816, -81.50195], [28.374771, -81.502054], [28.374708, -81.502233], [28.37466, -81.502397], [28.374628, -81.502545], [28.374602, -81.502703], [28.374581, -81.50286], [28.374553, -81.503211], [28.374539, -81.50335], [28.374504, -81.503582], [28.374501, -81.503642], [28.374506, -81.5037], [28.374526, -81.503762], [28.374563, -81.503814], [28.374615, -81.503858], [28.374673, -81.503899], [28.374747, -81.503936], [28.375017, -81.503985], [28.37602, -81.504161], [28.377034, -81.50438], [28.377071, -81.504388], [28.377919, -81.504563], [28.378316, -81.504648], [28.378799, -81.504744], [28.379375, -81.50486], [28.379556, -81.504887], [28.379728, -81.504908], [28.379984, -81.504938], [28.380189, -81.504967], [28.380212, -81.504971], [28.380308, -81.504987], [28.380427, -81.505008], [28.380556, -81.505035], [28.380779, -81.505082], [28.381167, -81.505161], [28.381715, -81.505274], [28.381847, -81.505302], [28.381995, -81.505333], [28.381973, -81.505532], [28.381957, -81.505682], [28.381933, -81.505839], [28.381906, -81.506], [28.381875, -81.506146], [28.381836, -81.506282], [28.381782, -81.506436], [28.381717, -81.506585], [28.381641, -81.506725], [28.381562, -81.506853], [28.38147, -81.506976], [28.38138, -81.507085], [28.381286, -81.507179], [28.381172, -81.507282], [28.381055, -81.507372], [28.380936, -81.507447], [28.380828, -81.507505], [28.380714, -81.507556], [28.380597, -81.507602], [28.380472, -81.507639], [28.380341, -81.507668], [28.380219, -81.507682], [28.380098, -81.507687], [28.379983, -81.507684], [28.379454, -81.507639], [28.379385, -81.507634], [28.37932, -81.507629], [28.37837, -81.507561], [28.378273, -81.507557], [28.378178, -81.507554], [28.37806, -81.507559], [28.377956, -81.507566], [28.377844, -81.507579], [28.377742, -81.507599], [28.377626, -81.507627], [28.377545, -81.507652], [28.377452, -81.507683], [28.377356, -81.507718], [28.377267, -81.507756], [28.377172, -81.507803], [28.377074, -81.507854], [28.376989, -81.507904], [28.376899, -81.507963], [28.376809, -81.508026], [28.37672, -81.508098], [28.376623, -81.50818], [28.375962, -81.508775], [28.375673, -81.509028], [28.375607, -81.509094], [28.375544, -81.509163], [28.375434, -81.50928], [28.375334, -81.509403], [28.375283, -81.509478], [28.375215, -81.509577], [28.37515, -81.509684], [28.375092, -81.509783], [28.375038, -81.50989], [28.374986, -81.509999], [28.374933, -81.510114], [28.374882, -81.51022], [28.37483, -81.510328], [28.374778, -81.510436], [28.374765, -81.510462], [28.374724, -81.510545], [28.374669, -81.510652], [28.374613, -81.510757], [28.374555, -81.510863], [28.374495, -81.510972], [28.374435, -81.511074], [28.374374, -81.511174], [28.374311, -81.511276], [28.374178, -81.511492], [28.374123, -81.51158], [28.374061, -81.511684], [28.374006, -81.511792], [28.373956, -81.511901], [28.373911, -81.512016], [28.373872, -81.512132], [28.373835, -81.51225], [28.373794, -81.512364], [28.37375, -81.512477], [28.373704, -81.51259], [28.373649, -81.512703], [28.373613, -81.512763], [28.373545, -81.512862], [28.373471, -81.512949], [28.373401, -81.51302], [28.373309, -81.513094], [28.373528, -81.513535], [28.37359, -81.513652], [28.373649, -81.51375], [28.373713, -81.513848], [28.373781, -81.513948], [28.373902, -81.514128], [28.373932, -81.514173], [28.374086, -81.514402], [28.374267, -81.514668], [28.37434, -81.514773], [28.374658, -81.51523], [28.37517, -81.515956], [28.37548, -81.516395], [28.375838, -81.516912], [28.376009, -81.517146], [28.376117, -81.517287], [28.376232, -81.517418], [28.37634, -81.517531], [28.376354, -81.517547], [28.376491, -81.517675], [28.376625, -81.517789], [28.376776, -81.517902], [28.376653, -81.51812], [28.376506, -81.517998], [28.376369, -81.517861], [28.376248, -81.517712], [28.375892, -81.517208], [28.375384, -81.51649], [28.374561, -81.515319], [28.37446, -81.515172], [28.37442, -81.515115], [28.374334, -81.514992], [28.37431, -81.514958], [28.374146, -81.514728], [28.374067, -81.514813], [28.374009, -81.514875], [28.373984, -81.514908], [28.373907, -81.514797], [28.373432, -81.514102], [28.373398, -81.514081], [28.373365, -81.513994], [28.373345, -81.513949], [28.373336, -81.513913], [28.373321, -81.513861], [28.373299, -81.513801], [28.373275, -81.513748], [28.37324, -81.513697], [28.373196, -81.513644], [28.373162, -81.513611], [28.37311, -81.513571], [28.373061, -81.513546], [28.373017, -81.513529], [28.372963, -81.513514], [28.372911, -81.513508], [28.372867, -81.51351], [28.372819, -81.513515], [28.372778, -81.513524], [28.372734, -81.513541], [28.372692, -81.513561], [28.372653, -81.513588], [28.372579, -81.513683], [28.372557, -81.513706], [28.372527, -81.513732], [28.372474, -81.513772], [28.372394, -81.513812], [28.372364, -81.513822], [28.372297, -81.513825], [28.372181, -81.513888], [28.372096, -81.513947], [28.372026, -81.513996], [28.372, -81.51401], [28.371969, -81.51402], [28.371615, -81.514075], [28.371569, -81.514086], [28.371533, -81.514098], [28.371495, -81.514118], [28.371451, -81.514153], [28.371402, -81.514207], [28.371327, -81.514321], [28.371297, -81.51436], [28.371263, -81.514391], [28.371233, -81.51441], [28.371202, -81.514421], [28.371156, -81.514426], [28.371107, -81.514417]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            poly_line_c6d1efb4c0570ccd1b9ed7363084c2fc.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 4.05 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_b622f9879055be2e538f95b67afefeef = L.polyline(
+                [[28.350113, -81.488495], [28.35011, -81.488381], [28.350106, -81.488203], [28.350106, -81.488057], [28.350105, -81.487923], [28.350553, -81.487911], [28.35089, -81.487908], [28.350923, -81.487902], [28.350955, -81.487894], [28.351019, -81.487866], [28.351105, -81.487806], [28.35115, -81.487733], [28.351235, -81.487651], [28.351316, -81.48761], [28.351397, -81.487591], [28.351541, -81.48761], [28.351616, -81.487648], [28.351685, -81.487708], [28.351742, -81.487787], [28.351769, -81.487847], [28.351793, -81.487942], [28.351797, -81.488049], [28.351764, -81.488187], [28.351732, -81.48825], [28.351641, -81.488354], [28.351565, -81.488401], [28.351438, -81.488431], [28.351357, -81.488498], [28.351317, -81.488566], [28.351309, -81.48858], [28.351194, -81.488784], [28.350294, -81.490078], [28.350219, -81.490149], [28.350126, -81.490245], [28.351488, -81.491408], [28.351748, -81.491636], [28.351998, -81.491863], [28.352256, -81.492109], [28.352498, -81.49235], [28.352679, -81.492533], [28.352968, -81.492843], [28.353458, -81.493381], [28.353516, -81.493444], [28.353778, -81.493725], [28.354004, -81.493959], [28.354229, -81.494186], [28.35431, -81.494267], [28.354395, -81.494352], [28.354594, -81.494544], [28.354707, -81.494648], [28.35476, -81.494698], [28.354941, -81.49486], [28.355173, -81.495064], [28.356011, -81.495782], [28.356281, -81.496014], [28.356464, -81.49617], [28.356551, -81.496245], [28.356845, -81.496496], [28.357264, -81.496858], [28.357371, -81.49695], [28.35754, -81.497094], [28.358115, -81.497577], [28.360485, -81.499609], [28.360639, -81.499741], [28.360772, -81.499855], [28.361039, -81.500082], [28.361378, -81.500355], [28.361639, -81.500544], [28.361941, -81.50075], [28.362234, -81.500933], [28.362549, -81.501118], [28.36284, -81.501275], [28.363025, -81.501367], [28.363201, -81.501455], [28.363325, -81.50151], [28.363533, -81.501603], [28.363656, -81.501655], [28.363905, -81.501747], [28.364022, -81.50179], [28.364354, -81.501905], [28.364698, -81.502007], [28.364988, -81.502078], [28.36503, -81.502089], [28.365298, -81.502147], [28.365364, -81.502162], [28.365664, -81.502221], [28.366394, -81.502368], [28.366537, -81.502392], [28.366901, -81.502467], [28.367726, -81.502635], [28.367922, -81.502675], [28.368057, -81.502702], [28.368342, -81.502761], [28.368642, -81.502823], [28.368715, -81.502838], [28.369272, -81.502952], [28.370069, -81.503112], [28.370339, -81.503167], [28.370491, -81.503198], [28.370549, -81.503208], [28.370581, -81.503213], [28.370681, -81.503235], [28.370769, -81.503252], [28.37122, -81.503341], [28.371258, -81.503348], [28.37164, -81.503418], [28.371852, -81.503454], [28.371912, -81.503464], [28.372135, -81.503499], [28.372286, -81.503523], [28.372587, -81.50357], [28.372907, -81.50362], [28.373069, -81.503647], [28.37336, -81.503695], [28.373469, -81.503713], [28.373924, -81.503788], [28.37409, -81.503816], [28.374747, -81.503936], [28.375017, -81.503985], [28.37602, -81.504161], [28.377034, -81.50438], [28.377071, -81.504388], [28.377919, -81.504563], [28.378316, -81.504648], [28.378799, -81.504744], [28.379375, -81.50486], [28.379556, -81.504887], [28.379728, -81.504908], [28.379984, -81.504938], [28.380189, -81.504967], [28.380212, -81.504971], [28.380308, -81.504987], [28.380427, -81.505008], [28.380556, -81.505035], [28.380779, -81.505082], [28.381167, -81.505161], [28.381715, -81.505274], [28.381847, -81.505302], [28.381995, -81.505333], [28.381973, -81.505532], [28.381957, -81.505682], [28.381933, -81.505839], [28.381906, -81.506], [28.381875, -81.506146], [28.381836, -81.506282], [28.381782, -81.506436], [28.381717, -81.506585], [28.381641, -81.506725], [28.381562, -81.506853], [28.38147, -81.506976], [28.38138, -81.507085], [28.381286, -81.507179], [28.381172, -81.507282], [28.381055, -81.507372], [28.380936, -81.507447], [28.380828, -81.507505], [28.380714, -81.507556], [28.380597, -81.507602], [28.380472, -81.507639], [28.380341, -81.507668], [28.380219, -81.507682], [28.380098, -81.507687], [28.379983, -81.507684], [28.379454, -81.507639], [28.379385, -81.507634], [28.37932, -81.507629], [28.37837, -81.507561], [28.378273, -81.507557], [28.378178, -81.507554], [28.37806, -81.507559], [28.377956, -81.507566], [28.377844, -81.507579], [28.377742, -81.507599], [28.377626, -81.507627], [28.377545, -81.507652], [28.377452, -81.507683], [28.377356, -81.507718], [28.377267, -81.507756], [28.377172, -81.507803], [28.377074, -81.507854], [28.376989, -81.507904], [28.376899, -81.507963], [28.376809, -81.508026], [28.37672, -81.508098], [28.376623, -81.50818], [28.375962, -81.508775], [28.375673, -81.509028], [28.375607, -81.509094], [28.375544, -81.509163], [28.375434, -81.50928], [28.375334, -81.509403], [28.375283, -81.509478], [28.375215, -81.509577], [28.37515, -81.509684], [28.375092, -81.509783], [28.375038, -81.50989], [28.374986, -81.509999], [28.374933, -81.510114], [28.374882, -81.51022], [28.37483, -81.510328], [28.374778, -81.510436], [28.374765, -81.510462], [28.374724, -81.510545], [28.374669, -81.510652], [28.374613, -81.510757], [28.374555, -81.510863], [28.374495, -81.510972], [28.374435, -81.511074], [28.374374, -81.511174], [28.374311, -81.511276], [28.374178, -81.511492], [28.374123, -81.51158], [28.374061, -81.511684], [28.374006, -81.511792], [28.373956, -81.511901], [28.373911, -81.512016], [28.373872, -81.512132], [28.373835, -81.51225], [28.373794, -81.512364], [28.37375, -81.512477], [28.373704, -81.51259], [28.373649, -81.512703], [28.373613, -81.512763], [28.373545, -81.512862], [28.373471, -81.512949], [28.373401, -81.51302], [28.373309, -81.513094], [28.373528, -81.513535], [28.37359, -81.513652], [28.373649, -81.51375], [28.373713, -81.513848], [28.373781, -81.513948], [28.373902, -81.514128], [28.373932, -81.514173], [28.374086, -81.514402], [28.374267, -81.514668], [28.37434, -81.514773], [28.374658, -81.51523], [28.37517, -81.515956], [28.37548, -81.516395], [28.375838, -81.516912], [28.376009, -81.517146], [28.376117, -81.517287], [28.376232, -81.517418], [28.37634, -81.517531], [28.376354, -81.517547], [28.376491, -81.517675], [28.376625, -81.517789], [28.376776, -81.517902], [28.376653, -81.51812], [28.376506, -81.517998], [28.376369, -81.517861], [28.376248, -81.517712], [28.375892, -81.517208], [28.375384, -81.51649], [28.374561, -81.515319], [28.37446, -81.515172], [28.37442, -81.515115], [28.374334, -81.514992], [28.37431, -81.514958], [28.374146, -81.514728], [28.374067, -81.514813], [28.374009, -81.514875], [28.373984, -81.514908], [28.373907, -81.514797], [28.373432, -81.514102], [28.373398, -81.514081], [28.373365, -81.513994], [28.373345, -81.513949], [28.373336, -81.513913], [28.373321, -81.513861], [28.373299, -81.513801], [28.373275, -81.513748], [28.37324, -81.513697], [28.373196, -81.513644], [28.373162, -81.513611], [28.37311, -81.513571], [28.373061, -81.513546], [28.373017, -81.513529], [28.372963, -81.513514], [28.372911, -81.513508], [28.372867, -81.51351], [28.372819, -81.513515], [28.372778, -81.513524], [28.372734, -81.513541], [28.372692, -81.513561], [28.372653, -81.513588], [28.372579, -81.513683], [28.372557, -81.513706], [28.372527, -81.513732], [28.372474, -81.513772], [28.372394, -81.513812], [28.372364, -81.513822], [28.372297, -81.513825], [28.372181, -81.513888], [28.372096, -81.513947], [28.372026, -81.513996], [28.372, -81.51401], [28.371969, -81.51402], [28.371615, -81.514075], [28.371569, -81.514086], [28.371533, -81.514098], [28.371495, -81.514118], [28.371451, -81.514153], [28.371402, -81.514207], [28.371327, -81.514321], [28.371297, -81.51436], [28.371263, -81.514391], [28.371233, -81.51441], [28.371202, -81.514421], [28.371156, -81.514426], [28.371107, -81.514417]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+    
+            poly_line_b622f9879055be2e538f95b67afefeef.bindTooltip(
+                `<div>
+                     🚫 CONFLICT: 4.59 mi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_aeadaf3ae1b91eba025a3c902aa70135);
+        
+</script>
+</html>
