@@ -1,4 +1,4 @@
-# Levi Strauss & Co. — Portfolio Rationalization Study
+# Levi Strauss & Co. - Portfolio Rationalization Study
 
 
 <p align="center">
