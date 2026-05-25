@@ -319,14 +319,14 @@ Interactive maps of every closure candidate are available in the [`Countries Map
 
 <table>
   <tr>
-    <td align="center"><img src="assets/brazil_sao_paulo_map.png" width="100%"/><br/><sub>Brazil — São Paulo cluster</sub></td>
-    <td align="center"><img src="assets/us_newyork_map.png" width="100%"/><br/><sub>United States — New York cluster</sub></td>
-    <td align="center"><img src="assets/japan_osaka_map.png" width="100%"/><br/><sub>Japan — Osaka cluster</sub></td>
+    <td align="center"><img src="assets/brazil_sao_paulo_map.png" width="100%"/><br/><sub></sub></td>
+    <td align="center"><img src="assets/us_newyork_map.png" width="100%"/><br/><sub></sub></td>
+    <td align="center"><img src="assets/japan_osaka_map.png" width="100%"/><br/><sub></sub></td>
   </tr>
   <tr>
-    <td align="center"><img src="assets/mexico_city_map1.png" width="100%"/><br/><sub>Mexico — Mexico City cluster</sub></td>
-    <td align="center"><img src="assets/india_ahmedabad_map.png" width="100%"/><br/><sub>India — Ahmedabad cluster</sub></td>
-    <td align="center"><img src="assets/germany_hamburg_map.png" width="100%"/><br/><sub>Germany — Hamburg cluster</sub></td>
+    <td align="center"><img src="assets/mexico_city_map1.png" width="100%"/><br/><sub></sub></td>
+    <td align="center"><img src="assets/india_ahmedabad_map.png" width="100%"/><br/><sub></sub></td>
+    <td align="center"><img src="assets/germany_hamburg_map.png" width="100%"/><br/><sub></sub></td>
   </tr>
 </table>
 
@@ -525,21 +525,6 @@ The notebook performs the following steps in order:
 
 After execution, the maps can be viewed by opening any of the HTML files in a browser. Closure candidates appear as red markers; survivor flagships appear as green markers.
 
----
-
-## Team
-
-This project was completed for BUAN 6390.S01, the Analytics Practicum course, in Spring 2026 at the Naveen Jindal School of Management, The University of Texas at Dallas.
-
-| Name | Net ID |
-| --- | --- |
-| Spoorthy Sheri | SXS240062 |
-| Sri Harshanadh Reddy Chinthala | SXC230019 |
-| Jahnavi Chennamsetty | JXC240005 |
-| Priyanka Kodidela | PXK230097 |
-| Nivas Verelli | NXV24004 |
-
----
 
 ## References
 
